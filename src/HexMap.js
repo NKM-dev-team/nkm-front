@@ -1,0 +1,19 @@
+import React from 'react';
+import { HexGrid, Layout, Hexagon } from 'react-hexgrid';
+import './HexMap.sass';
+
+function HexMap({cells}) {
+    cells.forEach(c => c.coordinates.y = - c.coordinates.x - c.coordinates.z);
+    const originX = - cells.map(c => c.coordinates.x).reduce((a,b) => a+b, 0) / cells.length;
+    const originY = - cells.map(c => c.coordinates.y).reduce((a,b) => a+b, 0) / cells.length;
+    return (
+        <HexGrid width={800} height={800} viewBox="-50 -50 100 100">
+            <Layout size={{ x: 1, y: 1 }} flat={true} spacing={1} origin={{ x: originX, y: originY }}>
+                {console.log(cells)}
+                {cells.map((c, i) => <Hexagon className={'hex-' + c.cellType.toLowerCase()} key={i} q={c.coordinates.x} r={c.coordinates.y} s={c.coordinates.z}/>)}
+            </Layout>
+        </HexGrid>
+    );
+}
+
+export default HexMap;
