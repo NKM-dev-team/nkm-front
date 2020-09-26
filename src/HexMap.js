@@ -1,5 +1,5 @@
 import React from 'react';
-import { HexGrid, Layout, Hexagon } from 'react-hexgrid';
+import { HexGrid, Layout, Hexagon } from './react-hexgrid';
 import './HexMap.sass';
 
 function HexMap({cells}) {

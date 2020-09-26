@@ -2975,7 +2975,7 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
-classnames@^2.2.5:
+classnames@^2.2.6:
   version "2.2.6"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
   integrity sha512-JR/iSQOSt+LQIWwrwEzJ9uk0xfN3mTVYMwt1Ir5mUcSN6pU+V4zQFFaJsclJbPuAUQH+yfWef6tm7l1quW3C8Q==
@@ -8924,13 +8924,6 @@ react-error-overlay@^6.0.7:
   version "6.0.7"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.7.tgz#1dcfb459ab671d53f660a991513cb2f0a0553108"
   integrity sha512-TAv1KJFh3RhqxNvhzxj6LeT5NWklP6rDr2a0jaTfsZ5wSZWHOGeqQyejUp3xxLfPt2UpyJEcVQB/zyPcmonNFA==
-
-react-hexgrid@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/react-hexgrid/-/react-hexgrid-1.0.3.tgz#fe0749eaa61d159805c913c8fb78502ce71e247a"
-  integrity sha512-+rXia1Q/tGtEWrRRNGku9dZx+3yVcotr4cs3IF0PddJaaddpxUEMgZDqSway0QGNTT43eVbclR5UScwHBgnx2A==
-  dependencies:
-    classnames "^2.2.5"
 
 react-hook-form@^6.8.6:
   version "6.8.6"
