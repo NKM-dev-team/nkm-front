@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.sass';
 import HexMap from './HexMap';
+import LoginForm from './LoginForm';
 
 function App() {
   const [maps, setMaps] = useState([])
@@ -14,6 +15,7 @@ function App() {
   }, []);
   return (
     <div>
+      <LoginForm />
       {maps.map((m, i) => <HexMap key={i} name={m.name} cells={m.cells}/>)}
     </div>
   );

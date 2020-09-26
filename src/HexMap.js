@@ -9,7 +9,6 @@ function HexMap({cells}) {
     return (
         <HexGrid width={800} height={800} viewBox="-50 -50 100 100">
             <Layout size={{ x: 1, y: 1 }} flat={true} spacing={1} origin={{ x: originX, y: originY }}>
-                {console.log(cells)}
                 {cells.map((c, i) => <Hexagon className={'hex-' + c.cellType.toLowerCase()} key={i} q={c.coordinates.x} r={c.coordinates.y} s={c.coordinates.z}/>)}
             </Layout>
         </HexGrid>
