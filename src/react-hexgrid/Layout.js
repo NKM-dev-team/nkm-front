@@ -52,11 +52,11 @@ class Layout extends Component {
     const center = new Point(0, 0);
     const { size } = this.props;
 
-    Array.from(new Array(6), (x, i) => {
+    for(let i = 0; i < 6; i++) {
       const offset = this.getPointOffset(i, orientation, size);
       const point = new Point(center.x + offset.x, center.y + offset.y);
       corners.push(point);
-    });
+    }
 
     return corners;
   }

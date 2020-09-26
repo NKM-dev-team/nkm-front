@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import HexUtils from './HexUtils';
 import Point from './models/Point';
 
 const Pattern = props => {

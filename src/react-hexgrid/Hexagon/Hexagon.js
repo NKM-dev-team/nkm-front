@@ -103,7 +103,7 @@ class Hexagon extends Component {
   render() {
     const { fill, cellStyle, className } = this.props;
     const { points } = this.context;
-    const { hex, pixel } = this.state;
+    const { pixel } = this.state;
     const fillId = (fill) ? `url(#${fill})` : null;
     return (
       <g
