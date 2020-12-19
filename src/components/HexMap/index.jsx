@@ -1,6 +1,6 @@
 import React from 'react';
-import { HexGrid, Layout, Hexagon } from './react-hexgrid';
-import './HexMap.sass';
+import './index.sass';
+import {Hexagon, HexGrid, Layout} from "../../react-hexgrid";
 
 function HexMap({cells}) {
     cells.forEach(c => c.coordinates.y = - c.coordinates.x - c.coordinates.z);

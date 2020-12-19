@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './App.sass';
-import HexMap from './HexMap';
-import LoginForm from './LoginForm';
-import AuthService from "./services/auth.service";
+import LoginForm from '../LoginForm';
+import AuthService from "../../services/auth.service";
+import HexMap from "../HexMap";
 
 function App() {
   const [maps, setMaps] = useState([])
