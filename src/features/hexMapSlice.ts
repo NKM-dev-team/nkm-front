@@ -2,9 +2,20 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { AppThunk } from "../app/store";
 
+interface HexCoordinates {
+  x: number;
+  y: number;
+  z: number;
+}
+
+export interface HexCell {
+  cellType: string;
+  coordinates: HexCoordinates;
+  effects: object[];
+}
 export interface HexMap {
   name: string;
-  cells: object[];
+  cells: HexCell[];
 }
 
 interface HexMapState {
@@ -33,9 +44,14 @@ export const getMailsAll = (): AppThunk => async (dispatch) => {
   try {
     const result = await axios.get(MAPS_API_URL);
     if (Array.isArray(result.data)) {
-      let mails = result.data;
-      dispatch(setHexMapList(mails));
-      console.log(mails);
+      let hexMaps = result.data;
+      hexMaps.forEach((h) =>
+        h.cells.forEach(
+          (c: HexCell) => (c.coordinates.y = -c.coordinates.x - c.coordinates.z)
+        )
+      );
+      dispatch(setHexMapList(hexMaps));
+      console.log(hexMaps);
     } else {
       console.warn(result.data);
     }

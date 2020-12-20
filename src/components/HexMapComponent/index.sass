@@ -1,0 +1,37 @@
+$color1: #1f1212
+
+.grid
+  border: 1px solid yellow
+  & > g
+    transform: rotate(30deg)
+  g
+    fill: $color1
+    fill-opacity: 0.6
+    &:hover
+      fill: black
+      fill-opacity: 1
+      text
+        fill-opacity: 1
+    polygon
+      stroke: $color1
+      stroke-width: 0.06
+      transition: fill-opacity .2s
+    text
+      font-size: 0.3em
+      fill: #FFFFFF
+      fill-opacity: 0.4
+      transition: fill-opacity .2s
+  path
+    fill: none
+    stroke: hsl(60, 20%, 70%)
+    stroke-width: 0.4em
+    stroke-opacity: 0.3
+    stroke-linecap: round
+    stroke-linejoin: round
+.hex-wall g
+  fill: black
+.hex-normal g
+  fill: white
+.hex-spawnpoint g
+  fill: green
+
