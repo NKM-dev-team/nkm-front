@@ -5,6 +5,21 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getMailsAll } from "../../features/hexMapSlice";
 import HexMapsView from "../HexMapsView";
+import { Container } from "@material-ui/core";
+
+interface MyProps {
+  children?: React.ReactNode;
+}
+function MainView({ children }: MyProps) {
+  return (
+    <>
+      <Navbar />
+      <Container>
+        <>{children}</>
+      </Container>
+    </>
+  );
+}
 
 function App() {
   const dispatch = useDispatch();
@@ -21,16 +36,17 @@ function App() {
         <Switch>
           <Route path="/login">
             {/*{userData?.loggedIn ? <Redirect to="/" /> : <LoginForm />}*/}
-            <Navbar />
-            <LoginForm />
+            <MainView>
+              <LoginForm />
+            </MainView>
           </Route>
           <Route path="/hexmaps">
-            <Navbar />
-            <HexMapsView />
+            <MainView>
+              <HexMapsView />
+            </MainView>
           </Route>
           <Route path="/">
-            <Navbar />
-            test
+            <MainView>test</MainView>
             {/*{userData?.loggedIn ? <LoggedInView /> : <About />}*/}
           </Route>
         </Switch>
