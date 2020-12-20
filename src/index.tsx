@@ -4,7 +4,11 @@ import App from "./components/App";
 import { store } from "./app/store";
 import { Provider } from "react-redux";
 import * as serviceWorker from "./serviceWorker";
-import { createMuiTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
+import {
+  unstable_createMuiStrictModeTheme as createMuiTheme, // https://stackoverflow.com/a/64135466/7136056
+  CssBaseline,
+  ThemeProvider,
+} from "@material-ui/core";
 
 const theme = createMuiTheme({
   palette: {

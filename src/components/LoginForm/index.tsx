@@ -1,20 +1,12 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  Backdrop,
-  Box,
-  Button,
-  CircularProgress,
-  Grid,
-  Paper,
-  TextField,
-} from "@material-ui/core";
+// import { useDispatch } from "react-redux";
+import { Box, Button, Grid, Paper, TextField } from "@material-ui/core";
 // import { checkLogin, LOGIN_REQUEST_STATES } from "../../redux/slices/userSlice";
 
 function LoginForm() {
   const { register, handleSubmit, errors } = useForm();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   // const userData = useSelector((state) => state.userData);
 
   type onSubmitProps = { login: string; password: string };
