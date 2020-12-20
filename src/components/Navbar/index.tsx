@@ -6,8 +6,9 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
-import { Link as RouterLink, useLocation } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import { Link } from "@material-ui/core";
+import LeftDrawer from "../LeftDrawer";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 export default function Navbar() {
   const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
 
   return (
     <div className={classes.root}>
@@ -31,6 +33,7 @@ export default function Navbar() {
             edge="start"
             className={classes.menuButton}
             color="inherit"
+            onClick={() => setOpen(true)}
             aria-label="menu"
           >
             <MenuIcon />
@@ -43,6 +46,7 @@ export default function Navbar() {
           </Link>
         </Toolbar>
       </AppBar>
+      <LeftDrawer open={open} setOpen={setOpen} />
     </div>
   );
 }
