@@ -1,17 +1,17 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-// import { useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Box, Button, Grid, Paper, TextField } from "@material-ui/core";
-// import { checkLogin, LOGIN_REQUEST_STATES } from "../../redux/slices/userSlice";
+import { Login } from "../../types/login";
+import { authenticate } from "../../features/authSlice";
 
 function LoginForm() {
   const { register, handleSubmit, errors } = useForm();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   // const userData = useSelector((state) => state.userData);
 
-  type onSubmitProps = { login: string; password: string };
-  const onSubmit = ({ login, password }: onSubmitProps) => {
-    // dispatch(checkLogin(login, password));
+  const onSubmit = ({ login, password }: Login) => {
+    dispatch(authenticate({ login, password }));
   };
 
   return (

@@ -9,6 +9,8 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { Link as RouterLink } from "react-router-dom";
 import { Link } from "@material-ui/core";
 import LeftDrawer from "../LeftDrawer";
+import { useSelector } from "react-redux";
+import { RootState } from "../../app/store";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 export default function Navbar() {
   const classes = useStyles();
+  const authData = useSelector((state: RootState) => state.authData);
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -41,9 +44,13 @@ export default function Navbar() {
           <Typography variant="h6" className={classes.title}>
             {/*News*/}
           </Typography>
-          <Link color="inherit" component={RouterLink} to="/login">
-            <Button color="inherit">Login</Button>
-          </Link>
+          {authData.login ? (
+            <Typography>{authData.login}</Typography>
+          ) : (
+            <Link color="inherit" component={RouterLink} to="/login">
+              <Button color="inherit">Login</Button>
+            </Link>
+          )}
         </Toolbar>
       </AppBar>
       <LeftDrawer open={open} setOpen={setOpen} />

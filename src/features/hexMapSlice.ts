@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { AppThunk } from "../app/store";
+import { MAPS_API_URL } from "../app/consts";
 
 interface HexCoordinates {
   x: number;
@@ -38,7 +39,6 @@ export const hexMapSlice = createSlice({
 
 export const { setHexMapList } = hexMapSlice.actions;
 
-const MAPS_API_URL = "https://krzysztofruczkowski.pl:8080/api/maps";
 export const getMailsAll = (): AppThunk => async (dispatch) => {
   console.log("fetch started");
   try {

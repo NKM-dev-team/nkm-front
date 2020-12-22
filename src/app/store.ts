@@ -1,9 +1,11 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import hexMapReducer from "../features/hexMapSlice";
+import authReducer from "../features/authSlice";
 
 export const store = configureStore({
   reducer: {
     hexMapData: hexMapReducer,
+    authData: authReducer,
   },
 });
 

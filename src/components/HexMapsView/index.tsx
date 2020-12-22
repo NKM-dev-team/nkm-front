@@ -1,5 +1,5 @@
 import React from "react";
-import { List, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import { HexMap } from "../../features/hexMapSlice";
