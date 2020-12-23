@@ -39,8 +39,7 @@ export const hexMapSlice = createSlice({
 
 export const { setHexMapList } = hexMapSlice.actions;
 
-export const getMailsAll = (): AppThunk => async (dispatch) => {
-  console.log("fetch started");
+export const getMapsAll = (): AppThunk => async (dispatch) => {
   try {
     const result = await axios.get(MAPS_API_URL);
     if (Array.isArray(result.data)) {
@@ -51,7 +50,6 @@ export const getMailsAll = (): AppThunk => async (dispatch) => {
         )
       );
       dispatch(setHexMapList(hexMaps));
-      console.log(hexMaps);
     } else {
       console.warn(result.data);
     }

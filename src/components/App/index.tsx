@@ -1,11 +1,19 @@
-import React, { EffectCallback, useEffect } from "react";
+import React from "react";
 import Navbar from "../Navbar";
 import LoginForm from "../LoginForm";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { getMailsAll } from "../../features/hexMapSlice";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getMapsAll } from "../../features/hexMapSlice";
 import HexMapsView from "../HexMapsView";
 import { Container } from "@material-ui/core";
+import { RootState } from "../../app/store";
+import Profile from "../Profile";
+import { useMountEffect } from "../../app/utils";
 
 interface MyProps {
   children?: React.ReactNode;
@@ -23,11 +31,10 @@ function MainView({ children }: MyProps) {
 
 function App() {
   const dispatch = useDispatch();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const useMountEffect = (fun: EffectCallback) => useEffect(fun, []);
+  const authData = useSelector((state: RootState) => state.authData);
 
   useMountEffect(() => {
-    dispatch(getMailsAll());
+    dispatch(getMapsAll());
   });
 
   return (
@@ -35,14 +42,18 @@ function App() {
       <Router basename={process.env.PUBLIC_URL}>
         <Switch>
           <Route path="/login">
-            {/*{userData?.loggedIn ? <Redirect to="/" /> : <LoginForm />}*/}
             <MainView>
-              <LoginForm />
+              {authData.login ? <Redirect to="/user" /> : <LoginForm />}
             </MainView>
           </Route>
           <Route path="/hexmaps">
             <MainView>
               <HexMapsView />
+            </MainView>
+          </Route>
+          <Route path="/user">
+            <MainView>
+              <Profile />
             </MainView>
           </Route>
           <Route path="/">
