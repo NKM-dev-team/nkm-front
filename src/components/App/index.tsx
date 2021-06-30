@@ -14,6 +14,7 @@ import { Container } from "@material-ui/core";
 import { RootState } from "../../app/store";
 import Profile from "../Profile";
 import { useMountEffect } from "../../app/utils";
+import RegisterForm from "../RegisterForm";
 
 interface MyProps {
   children?: React.ReactNode;
@@ -41,6 +42,11 @@ function App() {
     <>
       <Router basename={process.env.PUBLIC_URL}>
         <Switch>
+          <Route path="/register">
+            <MainView>
+              {authData.login ? <Redirect to="/user" /> : <RegisterForm />}
+            </MainView>
+          </Route>
           <Route path="/login">
             <MainView>
               {authData.login ? <Redirect to="/user" /> : <LoginForm />}
@@ -53,7 +59,7 @@ function App() {
           </Route>
           <Route path="/user">
             <MainView>
-              <Profile />
+              {authData.login ? <Profile /> : <Redirect to="/login" />}
             </MainView>
           </Route>
           <Route path="/">

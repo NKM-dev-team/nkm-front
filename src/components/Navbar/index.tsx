@@ -7,10 +7,11 @@ import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import { Link as RouterLink } from "react-router-dom";
-import { Link } from "@material-ui/core";
+import { Link, Menu, MenuItem } from "@material-ui/core";
 import LeftDrawer from "../LeftDrawer";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../app/store";
+import { authLogout } from "../../features/authSlice";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,7 +27,21 @@ const useStyles = makeStyles((theme) => ({
 export default function Navbar() {
   const classes = useStyles();
   const authData = useSelector((state: RootState) => state.authData);
+  const dispatch = useDispatch();
+
   const [open, setOpen] = React.useState(false);
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseClick = () => setAnchorEl(null);
+
+  const handleLogoutClick = () => {
+    setAnchorEl(null);
+    dispatch(authLogout());
+  };
 
   return (
     <div className={classes.root}>
@@ -45,8 +60,19 @@ export default function Navbar() {
             {/*News*/}
           </Typography>
           {authData.login ? (
-            <Typography>{authData.login}</Typography>
+            <>
+              <Button onClick={handleClick}>{authData.login}</Button>
+              <Menu
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleCloseClick}
+              >
+                <MenuItem onClick={handleLogoutClick}>Wyloguj się</MenuItem>
+              </Menu>
+            </>
           ) : (
+            // <Typography>{authData.login}</Typography>
             <Link color="inherit" component={RouterLink} to="/login">
               <Button color="inherit">Login</Button>
             </Link>

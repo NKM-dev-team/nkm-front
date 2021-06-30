@@ -12,9 +12,14 @@ const mainRouteMap = [
   ["Mapy", "/hexmaps"],
 ];
 
-const notLoggedInRouteMap = [["Zaloguj się", "/login"]];
-
-const loggedInRouteMap = [["Profil", "/user"]];
+const notLoggedInRouteMap = [
+  ["Zaloguj się", "/login"],
+  ["Zarejestruj się", "/register"],
+];
+const loggedInRouteMap = [
+  ["Profil", "/user"],
+  // ["Wyloguj się", "/logout"],
+];
 
 export default function LeftDrawerContent() {
   const authData = useSelector((state: RootState) => state.authData);
