@@ -10,6 +10,7 @@ import { RootState } from "../../app/store";
 const mainRouteMap = [
   ["Strona główna", "/"],
   ["Mapy", "/hexmaps"],
+  ["Pokoje", "/lobbies"],
 ];
 
 const notLoggedInRouteMap = [

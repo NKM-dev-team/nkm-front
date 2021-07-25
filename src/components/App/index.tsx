@@ -15,6 +15,8 @@ import { RootState } from "../../app/store";
 import Profile from "../Profile";
 import { useMountEffect } from "../../app/utils";
 import RegisterForm from "../RegisterForm";
+import { getAllLobbies } from "../../features/lobbiesSlice";
+import LobbiesView from "../LobbiesView";
 
 interface MyProps {
   children?: React.ReactNode;
@@ -36,6 +38,7 @@ function App() {
 
   useMountEffect(() => {
     dispatch(getMapsAll());
+    dispatch(getAllLobbies());
   });
 
   return (
@@ -55,6 +58,11 @@ function App() {
           <Route path="/hexmaps">
             <MainView>
               <HexMapsView />
+            </MainView>
+          </Route>
+          <Route path="/lobbies">
+            <MainView>
+              <LobbiesView />
             </MainView>
           </Route>
           <Route path="/user">
