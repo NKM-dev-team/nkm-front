@@ -53,8 +53,8 @@ function Router() {
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Switch>
-        {routes.map((route, i) => (
-          <Route path={route.path}>
+        {routes.map((route) => (
+          <Route key={1} path={route.path}>
             <MainLayout>{route.component}</MainLayout>
           </Route>
         ))}

@@ -9,12 +9,12 @@ export default function LoginView() {
     <>
       <LoginForm />
       <Box p={1}>
-        <Typography align="center">
-          Nie masz jeszcze konta?{" "}
-          <RouterLink to={Routes.REGISTER}>
-            <Typography color="secondary">Zarejestruj się</Typography>
-          </RouterLink>
-        </Typography>
+        <Typography align="center">Nie masz jeszcze konta?</Typography>
+        <RouterLink to={Routes.REGISTER}>
+          <Typography align="center" color="secondary">
+            Zarejestruj się
+          </Typography>
+        </RouterLink>
       </Box>
     </>
   );
