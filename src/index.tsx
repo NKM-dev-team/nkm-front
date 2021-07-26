@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./components/App";
+import Router from "./components/Router";
 import { store } from "./app/store";
 import { Provider } from "react-redux";
 import * as serviceWorker from "./serviceWorker";
@@ -21,7 +21,7 @@ ReactDOM.render(
   <Provider store={store}>
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <App />
+      <Router />
     </ThemeProvider>
   </Provider>,
   // </React.StrictMode>,
