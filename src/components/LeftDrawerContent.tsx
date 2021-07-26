@@ -5,7 +5,7 @@ import Divider from "@material-ui/core/Divider";
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { RootState } from "../../app/store";
+import { RootState } from "../app/store";
 
 const mainRouteMap = [
   ["Strona główna", "/"],

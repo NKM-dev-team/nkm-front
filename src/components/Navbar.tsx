@@ -8,10 +8,10 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import { Link as RouterLink } from "react-router-dom";
 import { Link, Menu, MenuItem } from "@material-ui/core";
-import LeftDrawer from "../LeftDrawer";
+import LeftDrawer from "./LeftDrawer";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../app/store";
-import { authLogout } from "../../features/authSlice";
+import { RootState } from "../app/store";
+import { authLogout } from "../features/authSlice";
 
 const useStyles = makeStyles((theme) => ({
   root: {

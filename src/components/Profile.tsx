@@ -1,10 +1,10 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Paper, Typography } from "@material-ui/core";
-import { RootState } from "../../app/store";
-import { useMountEffect } from "../../app/utils";
+import { RootState } from "../app/store";
+import { useMountEffect } from "../app/utils";
 import axios from "axios";
-import { SECRET_URL } from "../../app/consts";
+import { SECRET_URL } from "../app/consts";
 
 function Profile() {
   const authData = useSelector((state: RootState) => state.authData);

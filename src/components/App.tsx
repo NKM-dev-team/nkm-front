@@ -1,6 +1,6 @@
 import React from "react";
-import Navbar from "../Navbar";
-import LoginForm from "../LoginForm";
+import Navbar from "./Navbar";
+import LoginForm from "./LoginForm";
 import {
   BrowserRouter as Router,
   Switch,
@@ -8,15 +8,15 @@ import {
   Redirect,
 } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getMapsAll } from "../../features/hexMapSlice";
-import HexMapsView from "../HexMapsView";
+import { getMapsAll } from "../features/hexMapSlice";
+import HexMapsView from "./HexMapsView";
 import { Container } from "@material-ui/core";
-import { RootState } from "../../app/store";
-import Profile from "../Profile";
-import { useMountEffect } from "../../app/utils";
-import RegisterForm from "../RegisterForm";
-import { getAllLobbies } from "../../features/lobbiesSlice";
-import LobbiesView from "../LobbiesView";
+import { RootState } from "../app/store";
+import Profile from "./Profile";
+import { useMountEffect } from "../app/utils";
+import RegisterForm from "./RegisterForm";
+import { getAllLobbies } from "../features/lobbiesSlice";
+import LobbiesView from "./LobbiesView";
 
 interface MyProps {
   children?: React.ReactNode;

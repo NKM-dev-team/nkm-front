@@ -8,10 +8,10 @@ import {
   Typography,
 } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../app/store";
-import { createLobby, LobbyState } from "../../features/lobbiesSlice";
+import { RootState } from "../app/store";
+import { createLobby, LobbyState } from "../features/lobbiesSlice";
 import { useForm } from "react-hook-form";
-import { LobbyCreationRequest } from "../../types/lobby";
+import { LobbyCreationRequest } from "../types/lobby";
 
 export default function LobbiesView() {
   const lobbiesData = useSelector((state: RootState) => state.lobbiesData);
