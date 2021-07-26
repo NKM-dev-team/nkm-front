@@ -1,5 +1,4 @@
 import React from "react";
-import LoginForm from "./LoginForm";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getMapsAll } from "../features/hexMapSlice";
@@ -13,6 +12,7 @@ import LobbiesView from "../views/LobbiesView";
 import { Routes } from "../types/Routes";
 import MainLayout from "./MainLayout";
 import HomeView from "../views/HomeView";
+import LoginView from "../views/LoginView";
 
 function Router() {
   const dispatch = useDispatch();
@@ -25,7 +25,7 @@ function Router() {
     },
     {
       path: Routes.LOGIN,
-      component: authData.login ? <Redirect to="/user" /> : <LoginForm />,
+      component: authData.login ? <Redirect to="/user" /> : <LoginView />,
     },
     {
       path: Routes.HEXMAPS,
