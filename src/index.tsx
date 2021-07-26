@@ -15,6 +15,13 @@ import persistStore from "redux-persist/es/persistStore";
 const theme = createMuiTheme({
   palette: {
     type: "dark",
+    primary: {
+      main: "#1a71b8",
+    },
+    background: {
+      paper: "#181818",
+      default: "#0e0b0b",
+    },
   },
 });
 const persistor = persistStore(store);
