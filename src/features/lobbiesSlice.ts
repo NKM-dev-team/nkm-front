@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { AppThunk } from "../app/store";
-import { GET_LOBBIES_URL } from "../app/consts";
+import { CREATE_LOBBY_URL, GET_LOBBIES_URL } from "../app/consts";
+import { LobbyCreationRequest } from "../types/lobby";
 
 export interface LobbyState {
   id: string;
@@ -39,6 +40,24 @@ export const getAllLobbies = (): AppThunk => async (dispatch) => {
       dispatch(setLobbyList(lobbies));
     } else {
       console.warn(result.data);
+    }
+  } catch (error) {
+    console.warn(error);
+  }
+};
+
+export const createLobby = (request: LobbyCreationRequest): AppThunk => async (
+  dispatch,
+  getState
+) => {
+  try {
+    const result = await axios.post(CREATE_LOBBY_URL, request, {
+      headers: {
+        Authorization: "Bearer " + getState().authData.token, // TODO: get from state
+      },
+    });
+    if (result.status === 201) {
+      dispatch(getAllLobbies());
     }
   } catch (error) {
     console.warn(error);
