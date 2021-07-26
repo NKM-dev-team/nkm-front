@@ -3,16 +3,16 @@ import LoginForm from "./LoginForm";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getMapsAll } from "../features/hexMapSlice";
-import HexMapsView from "./HexMapsView";
+import HexMapsView from "../views/HexMapsView";
 import { RootState } from "../app/store";
-import Profile from "./Profile";
+import Profile from "../views/Profile";
 import { useMountEffect } from "../app/utils";
 import RegisterForm from "./RegisterForm";
 import { getAllLobbies } from "../features/lobbiesSlice";
-import LobbiesView from "./LobbiesView";
+import LobbiesView from "../views/LobbiesView";
 import { Routes } from "../types/Routes";
-import { Layout } from "../react-hexgrid";
 import MainLayout from "./MainLayout";
+import HomeView from "../views/HomeView";
 
 function Router() {
   const dispatch = useDispatch();
@@ -41,7 +41,7 @@ function Router() {
     },
     {
       path: Routes.HOME,
-      component: "test",
+      component: <HomeView />,
     },
   ];
 
