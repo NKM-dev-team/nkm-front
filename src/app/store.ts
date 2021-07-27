@@ -7,6 +7,7 @@ import {
 import hexMapReducer from "../features/hexMapSlice";
 import authReducer from "../features/authSlice";
 import lobbiesReducer from "../features/lobbiesSlice";
+import notificationReducer from "../features/notificationSlice";
 import storage from "redux-persist/lib/storage";
 import persistCombineReducers from "redux-persist/es/persistCombineReducers";
 import {
@@ -23,10 +24,12 @@ const persistConfig = {
   version: 1,
   storage: storage,
 };
+
 const persistedRootReducer = persistCombineReducers(persistConfig, {
   hexMapData: hexMapReducer,
   authData: authReducer,
   lobbiesData: lobbiesReducer,
+  notificationData: notificationReducer,
 });
 
 export const store = configureStore({
@@ -35,6 +38,7 @@ export const store = configureStore({
     serializableCheck: {
       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER], // https://redux-toolkit.js.org/usage/usage-guide#use-with-redux-persist
     },
+    immutableCheck: false, // as it slows performance
   }),
 });
 

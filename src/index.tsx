@@ -11,6 +11,8 @@ import {
 } from "@material-ui/core";
 import { PersistGate } from "redux-persist/integration/react";
 import persistStore from "redux-persist/es/persistStore";
+import Notifier from "./components/Notifier";
+import { SnackbarProvider } from "notistack";
 
 const theme = createMuiTheme({
   palette: {
@@ -31,6 +33,9 @@ ReactDOM.render(
   <Provider store={store}>
     <PersistGate persistor={persistor}>
       <ThemeProvider theme={theme}>
+        <SnackbarProvider maxSnack={3}>
+          <Notifier />
+        </SnackbarProvider>
         <CssBaseline />
         <Router />
       </ThemeProvider>
