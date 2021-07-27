@@ -13,6 +13,7 @@ import { Routes } from "../types/Routes";
 import MainLayout from "./MainLayout";
 import HomeView from "../views/HomeView";
 import LoginView from "../views/LoginView";
+import LobbyView from "../views/LobbyView";
 
 function Router() {
   const dispatch = useDispatch();
@@ -34,6 +35,10 @@ function Router() {
     {
       path: Routes.LOBBIES,
       component: <LobbiesView />,
+    },
+    {
+      path: Routes.LOBBY,
+      component: <LobbyView />,
     },
     {
       path: Routes.USER,

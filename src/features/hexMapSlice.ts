@@ -5,7 +5,6 @@ import { MAPS_API_URL } from "../app/consts";
 import {
   enqueueNotificationError,
   enqueueNotificationInfo,
-  enqueueNotificationSuccess,
 } from "./notificationSlice";
 
 interface HexCoordinates {
@@ -57,7 +56,9 @@ export const getMapsAll = (): AppThunk => async (dispatch) => {
       dispatch(setHexMapList(hexMaps));
       dispatch(enqueueNotificationInfo("Hex maps downloaded"));
     } else {
-      throw "data is not an array";
+      dispatch(
+        enqueueNotificationError("Internal error with hex maps download")
+      );
     }
   } catch (error) {
     dispatch(enqueueNotificationError("Unable to download hex maps"));

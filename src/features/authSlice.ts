@@ -7,7 +7,6 @@ import { AuthState } from "../types/authState";
 import {
   enqueueNotificationError,
   enqueueNotificationSuccess,
-  notificationSlice,
 } from "./notificationSlice";
 
 const initialState: AuthState = {

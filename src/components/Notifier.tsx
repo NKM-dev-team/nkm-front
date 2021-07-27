@@ -20,8 +20,6 @@ export default function Notifier() {
           key,
           ...options,
           onExited: (event, snackbarKey) => {
-            console.log("exited");
-            console.log(snackbarKey);
             dispatch(dequeueNotification(snackbarKey));
           },
         });

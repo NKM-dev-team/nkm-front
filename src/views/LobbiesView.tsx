@@ -64,9 +64,9 @@ export default function LobbiesView() {
       <Box m={3}>
         <Grid container spacing={3}>
           {lobbiesData.lobbyList.map((lobbyState: LobbyState) => (
-            <Grid item>
+            <Grid item key={lobbyState.id}>
               <RouterLink to={"/lobby/" + lobbyState.id}>
-                <Card key={lobbyState.id} variant="outlined">
+                <Card variant="outlined">
                   <CardContent>
                     <Typography variant="h5" component="h2" gutterBottom>
                       {lobbyState.name}

@@ -5,7 +5,6 @@ import { CREATE_LOBBY_URL, GET_LOBBIES_URL } from "../app/consts";
 import { LobbyCreationRequest } from "../types/lobby";
 import {
   enqueueNotificationError,
-  enqueueNotificationInfo,
   enqueueNotificationSuccess,
 } from "./notificationSlice";
 
