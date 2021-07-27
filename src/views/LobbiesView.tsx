@@ -2,6 +2,8 @@ import React from "react";
 import {
   Box,
   Button,
+  Card,
+  CardContent,
   Grid,
   Paper,
   TextField,
@@ -12,6 +14,7 @@ import { RootState } from "../app/store";
 import { createLobby, LobbyState } from "../features/lobbiesSlice";
 import { useForm } from "react-hook-form";
 import { LobbyCreationRequest } from "../types/lobby";
+import { Link as RouterLink } from "react-router-dom";
 
 export default function LobbiesView() {
   const lobbiesData = useSelector((state: RootState) => state.lobbiesData);
@@ -58,15 +61,30 @@ export default function LobbiesView() {
       ) : (
         ""
       )}
-      {lobbiesData.lobbyList.map((lobbyState: LobbyState) => (
-        <div key={lobbyState.id}>
-          <Typography>{lobbyState.id}</Typography>
-          <Typography>{lobbyState.name}</Typography>
-          <Typography>{lobbyState.hostUserId}</Typography>
-          <Typography>{lobbyState.creationDate}</Typography>
-          <Typography>{lobbyState.userIds.join(" ")}</Typography>
-        </div>
-      ))}
+      <Box m={3}>
+        <Grid container spacing={3}>
+          {lobbiesData.lobbyList.map((lobbyState: LobbyState) => (
+            <Grid item>
+              <RouterLink to={"/lobby/" + lobbyState.id}>
+                <Card key={lobbyState.id} variant="outlined">
+                  <CardContent>
+                    <Typography variant="h5" component="h2" gutterBottom>
+                      {lobbyState.name}
+                    </Typography>
+                    <Typography>{lobbyState.hostUserId}</Typography>
+                    <Typography color="textSecondary">
+                      {lobbyState.creationDate}
+                    </Typography>
+                    <Typography color="secondary">
+                      {lobbyState.userIds.join(" ") || "Empty lobby"}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </RouterLink>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
     </>
   );
 }
