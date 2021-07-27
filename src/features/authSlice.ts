@@ -4,6 +4,11 @@ import { AppThunk } from "../app/store";
 import { LOGIN_URL, REGISTER_URL } from "../app/consts";
 import { Login, RegisterRequest } from "../types/login";
 import { AuthState } from "../types/authState";
+import {
+  enqueueNotificationError,
+  enqueueNotificationSuccess,
+  notificationSlice,
+} from "./notificationSlice";
 
 const initialState: AuthState = {
   token: null,
@@ -38,9 +43,15 @@ export const authenticate = ({ login, password }: Login): AppThunk => async (
     if (result.status === 200) {
       const token = result.data;
       dispatch(authLogin({ token, login }));
+      dispatch(enqueueNotificationSuccess("Logged in successfully"));
     }
   } catch (error) {
     console.warn(error);
+    dispatch(
+      enqueueNotificationError(
+        "Unable to log in. Please check credentials and internet connection."
+      )
+    );
   }
 };
 
@@ -56,15 +67,22 @@ export const registerUser = (
 
     const result = await axios.post(REGISTER_URL, registerRequest);
     if (result.status === 201) {
-      //   const token = result.data;
-      // dispatch(authLogin({ token, login }));
       console.log("Registered");
+      dispatch(enqueueNotificationSuccess("Registered successfully"));
     } else {
       console.log("Not registered");
       console.log(result.status);
+      enqueueNotificationError(
+        "Unable to register. Failed with status code " + result.status
+      );
     }
   } catch (error) {
     console.warn(error);
+    dispatch(
+      enqueueNotificationError(
+        "Unable to register. Please check credentials and internet connection."
+      )
+    );
   }
 };
 

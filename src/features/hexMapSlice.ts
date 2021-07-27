@@ -2,6 +2,11 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { AppThunk } from "../app/store";
 import { MAPS_API_URL } from "../app/consts";
+import {
+  enqueueNotificationError,
+  enqueueNotificationInfo,
+  enqueueNotificationSuccess,
+} from "./notificationSlice";
 
 interface HexCoordinates {
   x: number;
@@ -50,10 +55,12 @@ export const getMapsAll = (): AppThunk => async (dispatch) => {
         )
       );
       dispatch(setHexMapList(hexMaps));
+      dispatch(enqueueNotificationInfo("Hex maps downloaded"));
     } else {
-      console.warn(result.data);
+      throw "data is not an array";
     }
   } catch (error) {
+    dispatch(enqueueNotificationError("Unable to download hex maps"));
     console.warn(error);
     // dispatch(
     //   enqueueSnackbarError("Nie udało się pobrać maili ze skrzynki " + inbox)

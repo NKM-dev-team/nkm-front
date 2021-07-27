@@ -3,6 +3,11 @@ import axios from "axios";
 import { AppThunk } from "../app/store";
 import { CREATE_LOBBY_URL, GET_LOBBIES_URL } from "../app/consts";
 import { LobbyCreationRequest } from "../types/lobby";
+import {
+  enqueueNotificationError,
+  enqueueNotificationInfo,
+  enqueueNotificationSuccess,
+} from "./notificationSlice";
 
 export interface LobbyState {
   id: string;
@@ -58,9 +63,11 @@ export const createLobby = (request: LobbyCreationRequest): AppThunk => async (
     });
     if (result.status === 201) {
       dispatch(getAllLobbies());
+      dispatch(enqueueNotificationSuccess("Lobby created."));
     }
   } catch (error) {
     console.warn(error);
+    dispatch(enqueueNotificationError("Unable to create a lobby."));
   }
 };
 
