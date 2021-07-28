@@ -1,10 +1,19 @@
 import React from "react";
-import { Box, Button, Paper, Typography } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  Chip,
+  List,
+  ListItem,
+  Paper,
+  Typography,
+} from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../app/store";
 import { useParams } from "react-router-dom";
 import { enqueueNotificationSuccess } from "../features/notificationSlice";
 import { joinLobby, leaveLobby } from "../features/lobbiesSlice";
+import Star from "@material-ui/icons/Star";
 
 export default function LobbyView() {
   const dispatch = useDispatch();
@@ -28,9 +37,14 @@ export default function LobbyView() {
             <Typography color="textSecondary">
               {lobbyState.creationDate}
             </Typography>
-            <Typography color="secondary">
-              {lobbyState.userIds.join(" ") || "Empty lobby"}
-            </Typography>
+            <List>
+              {lobbyState.userIds.map((id, index) => (
+                <ListItem key={index}>
+                  <Chip label={id} />
+                  {id === lobbyState.hostUserId && <Star color="secondary" />}
+                </ListItem>
+              ))}
+            </List>
             {authData.login && (
               <>
                 {(lobbyState.userIds.includes(authData.login) && (
