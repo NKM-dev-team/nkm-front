@@ -12,8 +12,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../app/store";
 import { useParams } from "react-router-dom";
 import { enqueueNotificationSuccess } from "../features/notificationSlice";
-import { joinLobby, leaveLobby } from "../features/lobbiesSlice";
+import { getLobby, joinLobby, leaveLobby } from "../features/lobbiesSlice";
 import Star from "@material-ui/icons/Star";
+import { useMountEffect } from "../app/utils";
 
 export default function LobbyView() {
   const dispatch = useDispatch();
@@ -22,6 +23,12 @@ export default function LobbyView() {
   const { id } = useParams<{ id: string }>();
   const lobbyState = lobbiesData.lobbyList.find((l) => l.id === id);
   const isHost = lobbyState?.hostUserId === authData.login || false;
+
+  const checkTimeout = 1000;
+  useMountEffect(() => {
+    const timer = setInterval(() => dispatch(getLobby(id)), checkTimeout);
+    return () => clearTimeout(timer);
+  });
 
   return (
     <>

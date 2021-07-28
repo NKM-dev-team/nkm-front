@@ -27,10 +27,12 @@ export interface LobbyState {
 }
 
 interface LobbiesState {
+  initialized: boolean;
   lobbyList: LobbyState[];
 }
 
 const initialState: LobbiesState = {
+  initialized: false,
   lobbyList: [],
 };
 
@@ -39,6 +41,7 @@ export const lobbiesSlice = createSlice({
   initialState,
   reducers: {
     setLobbyList: (state, action: PayloadAction<LobbyState[]>) => {
+      state.initialized = true;
       state.lobbyList = action.payload;
     },
   },

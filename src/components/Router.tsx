@@ -1,13 +1,10 @@
 import React from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { getMapsAll } from "../features/hexMapSlice";
+import { useSelector } from "react-redux";
 import HexMapsView from "../views/HexMapsView";
 import { RootState } from "../app/store";
 import Profile from "../views/Profile";
-import { useMountEffect } from "../app/utils";
 import RegisterForm from "./RegisterForm";
-import { getAllLobbies } from "../features/lobbiesSlice";
 import LobbiesView from "../views/LobbiesView";
 import { Routes } from "../types/Routes";
 import MainLayout from "./MainLayout";
@@ -16,7 +13,6 @@ import LoginView from "../views/LoginView";
 import LobbyView from "../views/LobbyView";
 
 function Router() {
-  const dispatch = useDispatch();
   const authData = useSelector((state: RootState) => state.authData);
 
   const routes = [
@@ -49,11 +45,6 @@ function Router() {
       component: <HomeView />,
     },
   ];
-
-  useMountEffect(() => {
-    dispatch(getMapsAll());
-    dispatch(getAllLobbies());
-  });
 
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>

@@ -24,10 +24,12 @@ export interface HexMap {
 }
 
 interface HexMapState {
+  initialized: boolean;
   hexMapList: HexMap[];
 }
 
 const initialState: HexMapState = {
+  initialized: false,
   hexMapList: [],
 };
 
@@ -36,6 +38,7 @@ export const hexMapSlice = createSlice({
   initialState,
   reducers: {
     setHexMapList: (state, action: PayloadAction<HexMap[]>) => {
+      state.initialized = true;
       state.hexMapList = action.payload;
     },
   },

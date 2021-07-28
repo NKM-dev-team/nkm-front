@@ -11,10 +11,15 @@ import {
 } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../app/store";
-import { createLobby, LobbyState } from "../features/lobbiesSlice";
+import {
+  createLobby,
+  getAllLobbies,
+  LobbyState,
+} from "../features/lobbiesSlice";
 import { useForm } from "react-hook-form";
 import { LobbyCreationRequest } from "../types/lobby";
 import { Link as RouterLink } from "react-router-dom";
+import { useMountEffect } from "../app/utils";
 
 export default function LobbiesView() {
   const lobbiesData = useSelector((state: RootState) => state.lobbiesData);
@@ -23,6 +28,13 @@ export default function LobbiesView() {
   const onSubmit = (request: LobbyCreationRequest) => {
     dispatch(createLobby(request));
   };
+
+  const checkTimeout = 1000;
+  useMountEffect(() => {
+    const timer = setInterval(() => dispatch(getAllLobbies()), checkTimeout);
+    return () => clearTimeout(timer);
+  });
+
   return (
     <>
       <Grid container justify="center">
