@@ -74,7 +74,7 @@ export default function LobbiesView() {
         ""
       )}
       <Box m={3}>
-        <Grid container spacing={3}>
+        <Grid container justify="space-between" spacing={3}>
           {lobbiesData.lobbyList.map((lobbyState: LobbyState) => (
             <Grid item key={lobbyState.id}>
               <RouterLink to={"/lobby/" + lobbyState.id}>
