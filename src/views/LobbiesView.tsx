@@ -67,7 +67,6 @@ export default function LobbiesView() {
           </Box>
         </Paper>
       </Grid>
-      {/*<Button onClick={() => createLobby()}>*/}
       {lobbiesData.lobbyList.length === 0 ? (
         <Typography>No lobbies created yet</Typography>
       ) : (
