@@ -45,6 +45,7 @@ export default function LobbyView() {
 
   useEffect(() => {
     if (chosenHexMapName == null) return;
+    if (lobbyState?.chosenHexMapName === chosenHexMapName) return;
     dispatch(setHexMapName({ hexMapName: chosenHexMapName, lobbyId: id }));
   }, [chosenHexMapName, dispatch, id]);
 
