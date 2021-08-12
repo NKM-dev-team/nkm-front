@@ -7,23 +7,30 @@ import {
   GET_LOBBY_URL,
   JOIN_LOBBY_URL,
   LEAVE_LOBBY_URL,
+  SET_HEXMAP_URL,
 } from "../app/consts";
 import {
   LobbyCreationRequest,
   LobbyJoinRequest,
   LobbyLeaveRequest,
+  SetHexMapNameRequest,
 } from "../types/lobby";
 import {
   enqueueNotificationError,
   enqueueNotificationSuccess,
 } from "./notificationSlice";
+import { PickType } from "../types/PickType";
 
 export interface LobbyState {
   id: string;
   name: string | null;
   hostUserId: string | null;
   creationDate: Date | null;
+  chosenHexMapName: string | null;
   userIds: string[];
+  pickType: PickType;
+  numberOfCharactersPerPlayer: number;
+  numberOfBans: number;
 }
 
 interface LobbiesState {
@@ -139,5 +146,24 @@ export const leaveLobby = (request: LobbyLeaveRequest): AppThunk => async (
   } catch (error) {
     console.warn(error);
     dispatch(enqueueNotificationError("Unable to leave from a lobby."));
+  }
+};
+
+export const setHexMapName = (
+  request: SetHexMapNameRequest
+): AppThunk => async (dispatch, getState) => {
+  try {
+    const result = await axios.post(SET_HEXMAP_URL, request, {
+      headers: {
+        Authorization: "Bearer " + getState().authData.token,
+      },
+    });
+    if (result.status === 200) {
+      dispatch(getLobby(request.lobbyId));
+      dispatch(enqueueNotificationSuccess("HexMap set successfully."));
+    }
+  } catch (error) {
+    console.warn(error);
+    dispatch(enqueueNotificationError("Unable to set HexMap."));
   }
 };
