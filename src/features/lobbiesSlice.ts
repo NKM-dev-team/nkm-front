@@ -8,12 +8,14 @@ import {
   JOIN_LOBBY_URL,
   LEAVE_LOBBY_URL,
   SET_HEXMAP_URL,
+  SET_PICK_TYPE_URL,
 } from "../app/consts";
 import {
   LobbyCreationRequest,
   LobbyJoinRequest,
   LobbyLeaveRequest,
   SetHexMapNameRequest,
+  SetPickTypeRequest,
 } from "../types/lobby";
 import {
   enqueueNotificationError,
@@ -165,5 +167,25 @@ export const setHexMapName = (
   } catch (error) {
     console.warn(error);
     dispatch(enqueueNotificationError("Unable to set HexMap."));
+  }
+};
+
+export const setPickType = (request: SetPickTypeRequest): AppThunk => async (
+  dispatch,
+  getState
+) => {
+  try {
+    const result = await axios.post(SET_PICK_TYPE_URL, request, {
+      headers: {
+        Authorization: "Bearer " + getState().authData.token,
+      },
+    });
+    if (result.status === 200) {
+      dispatch(getLobby(request.lobbyId));
+      dispatch(enqueueNotificationSuccess("PickType set successfully."));
+    }
+  } catch (error) {
+    console.warn(error);
+    dispatch(enqueueNotificationError("Unable to set PickType."));
   }
 };

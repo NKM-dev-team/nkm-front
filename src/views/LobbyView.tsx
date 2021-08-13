@@ -18,10 +18,12 @@ import {
   joinLobby,
   leaveLobby,
   setHexMapName,
+  setPickType,
 } from "../features/lobbiesSlice";
 import Star from "@material-ui/icons/Star";
 import { useMountEffect } from "../app/utils";
 import CustomSelect from "../components/CustomSelect";
+import { PickType } from "../types/PickType";
 
 export default function LobbyView() {
   const dispatch = useDispatch();
@@ -31,8 +33,12 @@ export default function LobbyView() {
   const { id } = useParams<{ id: string }>();
   const lobbyState = lobbiesData.lobbyList.find((l) => l.id === id);
 
-  const [chosenHexMapName, setChosenHexMapName] = useState<string | null>(
+  const [chosenHexMapName, setChosenHexMapName] = useState<string>(
     lobbyState?.chosenHexMapName || hexMapData.hexMapList[0].name
+  );
+
+  const [chosenPickType, setChosenPickType] = useState<PickType>(
+    lobbyState?.pickType || PickType.AllRandom
   );
 
   const isHost = lobbyState?.hostUserId === authData.login || false;
@@ -47,7 +53,12 @@ export default function LobbyView() {
     if (chosenHexMapName == null) return;
     if (lobbyState?.chosenHexMapName === chosenHexMapName) return;
     dispatch(setHexMapName({ hexMapName: chosenHexMapName, lobbyId: id }));
-  }, [chosenHexMapName, dispatch, id]);
+  }, [chosenHexMapName, dispatch, id, lobbyState?.chosenHexMapName]);
+
+  useEffect(() => {
+    if (lobbyState?.pickType === chosenPickType) return;
+    dispatch(setPickType({ lobbyId: id, pickType: chosenPickType }));
+  }, [chosenPickType, dispatch, id, lobbyState?.pickType]);
 
   if (lobbyState === undefined)
     return <Typography variant="h2">Lobby does not exist</Typography>;
@@ -81,8 +92,22 @@ export default function LobbyView() {
                 <CustomSelect
                   label="Wybór mapy"
                   options={hexMapData.hexMapList.map((h) => h.name)}
-                  value={chosenHexMapName}
+                  value={
+                    lobbyState.chosenHexMapName || hexMapData.hexMapList[0].name
+                  }
                   onChange={(e) => setChosenHexMapName(e.target.value)}
+                  disabled={!isHost}
+                />
+                <CustomSelect
+                  label="Wybór trybu wybierania postaci"
+                  options={Object.values(PickType)}
+                  value={lobbyState.pickType}
+                  onChange={(e) =>
+                    setChosenPickType(
+                      PickType[e.target.value as keyof typeof PickType]
+                    )
+                  }
+                  disabled={!isHost}
                 />
               </Grid>
             </Grid>
