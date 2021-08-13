@@ -8,6 +8,7 @@ import {
   JOIN_LOBBY_URL,
   LEAVE_LOBBY_URL,
   SET_HEXMAP_URL,
+  SET_NUMBER_OF_CHARACTERS_URL,
   SET_PICK_TYPE_URL,
 } from "../app/consts";
 import {
@@ -15,6 +16,7 @@ import {
   LobbyJoinRequest,
   LobbyLeaveRequest,
   SetHexMapNameRequest,
+  SetNumberOfCharactersPerPlayerRequest,
   SetPickTypeRequest,
 } from "../types/lobby";
 import {
@@ -187,5 +189,26 @@ export const setPickType = (request: SetPickTypeRequest): AppThunk => async (
   } catch (error) {
     console.warn(error);
     dispatch(enqueueNotificationError("Unable to set PickType."));
+  }
+};
+
+export const setNumberOfCharactersPerPlayer = (
+  request: SetNumberOfCharactersPerPlayerRequest
+): AppThunk => async (dispatch, getState) => {
+  try {
+    const result = await axios.post(SET_NUMBER_OF_CHARACTERS_URL, request, {
+      headers: {
+        Authorization: "Bearer " + getState().authData.token,
+      },
+    });
+    if (result.status === 200) {
+      dispatch(getLobby(request.lobbyId));
+      dispatch(
+        enqueueNotificationSuccess("Characters per player set successfully.")
+      );
+    }
+  } catch (error) {
+    console.warn(error);
+    dispatch(enqueueNotificationError("Unable to set characters per player."));
   }
 };

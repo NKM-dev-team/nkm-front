@@ -18,12 +18,14 @@ import {
   joinLobby,
   leaveLobby,
   setHexMapName,
+  setNumberOfCharactersPerPlayer,
   setPickType,
 } from "../features/lobbiesSlice";
 import Star from "@material-ui/icons/Star";
 import { useMountEffect } from "../app/utils";
 import CustomSelect from "../components/CustomSelect";
 import { PickType } from "../types/PickType";
+import CustomSlider from "../components/CustomSlider";
 
 export default function LobbyView() {
   const dispatch = useDispatch();
@@ -34,12 +36,17 @@ export default function LobbyView() {
   const lobbyState = lobbiesData.lobbyList.find((l) => l.id === id);
 
   const [chosenHexMapName, setChosenHexMapName] = useState<string>(
-    lobbyState?.chosenHexMapName || hexMapData.hexMapList[0].name
+    lobbyState?.chosenHexMapName || hexMapData?.hexMapList[0].name
   );
 
   const [chosenPickType, setChosenPickType] = useState<PickType>(
     lobbyState?.pickType || PickType.AllRandom
   );
+
+  const [
+    chosenCharactersPerPlayer,
+    setChosenCharactersPerPlayer,
+  ] = useState<number>(lobbyState?.numberOfCharactersPerPlayer || 2);
 
   const isHost = lobbyState?.hostUserId === authData.login || false;
 
@@ -50,15 +57,42 @@ export default function LobbyView() {
   });
 
   useEffect(() => {
+    if (!isHost) return;
     if (chosenHexMapName == null) return;
     if (lobbyState?.chosenHexMapName === chosenHexMapName) return;
     dispatch(setHexMapName({ hexMapName: chosenHexMapName, lobbyId: id }));
-  }, [chosenHexMapName, dispatch, id, lobbyState?.chosenHexMapName]);
+  }, [chosenHexMapName, dispatch, id, lobbyState?.chosenHexMapName, isHost]);
 
   useEffect(() => {
+    if (!isHost) return;
     if (lobbyState?.pickType === chosenPickType) return;
     dispatch(setPickType({ lobbyId: id, pickType: chosenPickType }));
-  }, [chosenPickType, dispatch, id, lobbyState?.pickType]);
+  }, [chosenPickType, dispatch, id, lobbyState?.pickType, isHost]);
+
+  useEffect(() => {
+    if (!isHost) return;
+    if (lobbyState?.numberOfCharactersPerPlayer === chosenCharactersPerPlayer)
+      return;
+    dispatch(
+      setNumberOfCharactersPerPlayer({
+        charactersPerPlayer: chosenCharactersPerPlayer,
+        lobbyId: id,
+      })
+    );
+  }, [
+    chosenCharactersPerPlayer,
+    dispatch,
+    id,
+    lobbyState?.numberOfCharactersPerPlayer,
+    isHost,
+  ]);
+
+  if (hexMapData.hexMapList.length <= 0)
+    return (
+      <Typography variant="h2">
+        HexMaps not initialized. Please reload the page and try again.
+      </Typography>
+    );
 
   if (lobbyState === undefined)
     return <Typography variant="h2">Lobby does not exist</Typography>;
@@ -90,7 +124,7 @@ export default function LobbyView() {
               </Grid>
               <Grid item xs={12} md={6}>
                 <CustomSelect
-                  label="Wybór mapy"
+                  label="Mapa"
                   options={hexMapData.hexMapList.map((h) => h.name)}
                   value={
                     lobbyState.chosenHexMapName || hexMapData.hexMapList[0].name
@@ -99,7 +133,7 @@ export default function LobbyView() {
                   disabled={!isHost}
                 />
                 <CustomSelect
-                  label="Wybór trybu wybierania postaci"
+                  label="Tryb wybierania postaci"
                   options={Object.values(PickType)}
                   value={lobbyState.pickType}
                   onChange={(e) =>
@@ -107,6 +141,20 @@ export default function LobbyView() {
                       PickType[e.target.value as keyof typeof PickType]
                     )
                   }
+                  disabled={!isHost}
+                />
+                <CustomSlider
+                  label="Liczba postaci na gracza"
+                  defaultValue={chosenCharactersPerPlayer}
+                  step={1}
+                  marks
+                  onChangeCommitted={(e, v) => {
+                    setChosenCharactersPerPlayer(v as number);
+                  }}
+                  min={1}
+                  max={8}
+                  value={lobbyState.numberOfCharactersPerPlayer}
+                  valueLabelDisplay="on"
                   disabled={!isHost}
                 />
               </Grid>
