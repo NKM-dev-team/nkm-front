@@ -13,6 +13,7 @@ import {
   JOIN_LOBBY_URL,
   LEAVE_LOBBY_URL,
   SET_HEXMAP_URL,
+  SET_NUMBER_OF_BANS_URL,
   SET_NUMBER_OF_CHARACTERS_URL,
   SET_PICK_TYPE_URL,
 } from "../app/consts";
@@ -21,6 +22,7 @@ import {
   LobbyJoinRequest,
   LobbyLeaveRequest,
   SetHexMapNameRequest,
+  SetNumberOfBansRequest,
   SetNumberOfCharactersPerPlayerRequest,
   SetPickTypeRequest,
 } from "../types/lobby";
@@ -197,4 +199,12 @@ export const setNumberOfCharactersPerPlayer = (
     request,
     "Characters per player set successfully.",
     "Unable to set characters per player."
+  );
+
+export const setNumberOfBans = (request: SetNumberOfBansRequest): AppThunk =>
+  lobbyModificationRequest(
+    SET_NUMBER_OF_BANS_URL,
+    request,
+    "Number of bans set successfully.",
+    "Unable to set number of bans."
   );

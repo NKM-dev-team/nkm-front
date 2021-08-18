@@ -18,6 +18,7 @@ import {
   joinLobby,
   leaveLobby,
   setHexMapName,
+  setNumberOfBans,
   setNumberOfCharactersPerPlayer,
   setPickType,
 } from "../features/lobbiesSlice";
@@ -47,6 +48,10 @@ export default function LobbyView() {
     chosenCharactersPerPlayer,
     setChosenCharactersPerPlayer,
   ] = useState<number>(lobbyState?.numberOfCharactersPerPlayer || 2);
+
+  const [chosenBans, setChosenBans] = useState<number>(
+    lobbyState?.numberOfBans || 0
+  );
 
   const isHost = lobbyState?.hostUserId === authData.login || false;
 
@@ -86,6 +91,17 @@ export default function LobbyView() {
     lobbyState?.numberOfCharactersPerPlayer,
     isHost,
   ]);
+
+  useEffect(() => {
+    if (!isHost) return;
+    if (lobbyState?.numberOfBans === chosenBans) return;
+    dispatch(
+      setNumberOfBans({
+        numberOfBans: chosenBans,
+        lobbyId: id,
+      })
+    );
+  }, [chosenBans, dispatch, id, lobbyState?.numberOfBans, isHost]);
 
   if (hexMapData.hexMapList.length <= 0)
     return (
@@ -157,6 +173,23 @@ export default function LobbyView() {
                   valueLabelDisplay="on"
                   disabled={!isHost}
                 />
+
+                {lobbyState.pickType === PickType.DraftPick && (
+                  <CustomSlider
+                    label="Liczba banów na gracza"
+                    defaultValue={chosenBans}
+                    step={1}
+                    marks
+                    onChangeCommitted={(e, v) => {
+                      setChosenBans(v as number);
+                    }}
+                    min={0}
+                    max={5}
+                    value={lobbyState.numberOfBans}
+                    valueLabelDisplay="on"
+                    disabled={!isHost}
+                  />
+                )}
               </Grid>
             </Grid>
             {authData.login && (
