@@ -11,6 +11,7 @@ import MainLayout from "./MainLayout";
 import HomeView from "../views/HomeView";
 import LoginView from "../views/LoginView";
 import LobbyView from "../views/LobbyView";
+import CharactersView from "../views/CharacterssView";
 
 function Router() {
   const authData = useSelector((state: RootState) => state.authData);
@@ -27,6 +28,10 @@ function Router() {
     {
       path: Routes.HEXMAPS,
       component: <HexMapsView />,
+    },
+    {
+      path: Routes.CHARACTERS,
+      component: <CharactersView />,
     },
     {
       path: Routes.LOBBIES,

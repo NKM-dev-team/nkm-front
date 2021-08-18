@@ -11,6 +11,7 @@ import { Routes } from "../types/Routes";
 const mainRouteMap = [
   ["Strona główna", Routes.HOME],
   ["Mapy", Routes.HEXMAPS],
+  ["Postacie", Routes.CHARACTERS],
   ["Pokoje", Routes.LOBBIES],
 ];
 

@@ -8,6 +8,7 @@ import hexMapReducer from "../features/hexMapSlice";
 import authReducer from "../features/authSlice";
 import lobbiesReducer from "../features/lobbiesSlice";
 import notificationReducer from "../features/notificationSlice";
+import charactersReducer from "../features/charactersSlice";
 import storage from "redux-persist/lib/storage";
 import persistCombineReducers from "redux-persist/es/persistCombineReducers";
 import {
@@ -30,6 +31,7 @@ const persistedRootReducer = persistCombineReducers(persistConfig, {
   authData: authReducer,
   lobbiesData: lobbiesReducer,
   notificationData: notificationReducer,
+  charactersData: charactersReducer,
 });
 
 export const store = configureStore({

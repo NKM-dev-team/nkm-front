@@ -2,6 +2,7 @@
 
 export const API_URL = "https://localhost:8080/api";
 export const MAPS_API_URL = `${API_URL}/maps`;
+export const CHARACTERS_URL = `${API_URL}/characters`;
 export const GET_LOBBIES_URL = `${API_URL}/lobbies`;
 export const GET_LOBBY_URL = (lobbyId: string) => `${API_URL}/lobby/${lobbyId}`;
 export const CREATE_LOBBY_URL = `${API_URL}/create_lobby`;

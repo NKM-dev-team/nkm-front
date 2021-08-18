@@ -3,6 +3,7 @@ export enum Routes {
   REGISTER = "/register",
   LOGIN = "/login",
   HEXMAPS = "/hexmaps",
+  CHARACTERS = "/characters",
   LOBBIES = "/lobbies",
   USER = "/user",
   LOBBY = "/lobby/:id",
