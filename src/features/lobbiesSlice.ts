@@ -1,4 +1,9 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {
+  Action,
+  createSlice,
+  PayloadAction,
+  ThunkDispatch,
+} from "@reduxjs/toolkit";
 import axios from "axios";
 import { AppThunk } from "../app/store";
 import {
@@ -93,122 +98,103 @@ export const getLobby = (lobbyId: string): AppThunk => async (
 
 export default lobbiesSlice.reducer;
 
-export const createLobby = (request: LobbyCreationRequest): AppThunk => async (
-  dispatch,
-  getState
-) => {
-  try {
-    const result = await axios.post(CREATE_LOBBY_URL, request, {
-      headers: {
-        Authorization: "Bearer " + getState().authData.token,
-      },
-    });
-    if (result.status === 201) {
-      dispatch(getAllLobbies());
-      dispatch(enqueueNotificationSuccess("Lobby created."));
-    }
-  } catch (error) {
-    console.warn(error);
-    dispatch(enqueueNotificationError("Unable to create a lobby."));
-  }
-};
-
-export const joinLobby = (request: LobbyJoinRequest): AppThunk => async (
-  dispatch,
-  getState
-) => {
-  try {
-    const result = await axios.post(JOIN_LOBBY_URL, request, {
-      headers: {
-        Authorization: "Bearer " + getState().authData.token,
-      },
-    });
-    if (result.status === 200) {
-      dispatch(getLobby(request.lobbyId));
-      dispatch(enqueueNotificationSuccess("Joined a lobby."));
-    }
-  } catch (error) {
-    console.warn(error);
-    dispatch(enqueueNotificationError("Unable to join a lobby."));
-  }
-};
-
-export const leaveLobby = (request: LobbyLeaveRequest): AppThunk => async (
-  dispatch,
-  getState
-) => {
-  try {
-    const result = await axios.post(LEAVE_LOBBY_URL, request, {
-      headers: {
-        Authorization: "Bearer " + getState().authData.token,
-      },
-    });
-    if (result.status === 200) {
-      dispatch(getLobby(request.lobbyId));
-      dispatch(enqueueNotificationSuccess("Left from a lobby."));
-    }
-  } catch (error) {
-    console.warn(error);
-    dispatch(enqueueNotificationError("Unable to leave from a lobby."));
-  }
-};
-
-export const setHexMapName = (
-  request: SetHexMapNameRequest
+const postLoggedInData = (
+  url: string,
+  data: any,
+  successStatus: number,
+  onSuccess: (dispatch: ThunkDispatch<any, unknown, Action<string>>) => void,
+  onFailure: (
+    dispatch: ThunkDispatch<any, unknown, Action<string>>,
+    error: any
+  ) => void
 ): AppThunk => async (dispatch, getState) => {
   try {
-    const result = await axios.post(SET_HEXMAP_URL, request, {
+    const result = await axios.post(url, data, {
       headers: {
         Authorization: "Bearer " + getState().authData.token,
       },
     });
-    if (result.status === 200) {
-      dispatch(getLobby(request.lobbyId));
-      dispatch(enqueueNotificationSuccess("HexMap set successfully."));
+    if (result.status === successStatus) {
+      onSuccess(dispatch);
     }
   } catch (error) {
-    console.warn(error);
-    dispatch(enqueueNotificationError("Unable to set HexMap."));
+    onFailure(dispatch, error);
   }
 };
 
-export const setPickType = (request: SetPickTypeRequest): AppThunk => async (
-  dispatch,
-  getState
-) => {
-  try {
-    const result = await axios.post(SET_PICK_TYPE_URL, request, {
-      headers: {
-        Authorization: "Bearer " + getState().authData.token,
-      },
-    });
-    if (result.status === 200) {
-      dispatch(getLobby(request.lobbyId));
-      dispatch(enqueueNotificationSuccess("PickType set successfully."));
+export const createLobby = (request: LobbyCreationRequest): AppThunk =>
+  postLoggedInData(
+    CREATE_LOBBY_URL,
+    request,
+    201,
+    (dispatch) => {
+      dispatch(getAllLobbies());
+      dispatch(enqueueNotificationSuccess("Lobby created."));
+    },
+    (dispatch, error) => {
+      console.warn(error);
+      dispatch(enqueueNotificationError("Unable to create a lobby."));
     }
-  } catch (error) {
-    console.warn(error);
-    dispatch(enqueueNotificationError("Unable to set PickType."));
-  }
-};
+  );
+
+const lobbyModificationRequest = (
+  url: string,
+  request: any,
+  successMessage: string,
+  failureMessage: string
+): AppThunk =>
+  postLoggedInData(
+    url,
+    request,
+    200,
+    (dispatch) => {
+      dispatch(getLobby(request.lobbyId));
+      dispatch(enqueueNotificationSuccess(successMessage));
+    },
+    (dispatch, error) => {
+      console.warn(error);
+      dispatch(enqueueNotificationError(failureMessage));
+    }
+  );
+
+export const joinLobby = (request: LobbyJoinRequest): AppThunk =>
+  lobbyModificationRequest(
+    JOIN_LOBBY_URL,
+    request,
+    "Joined a lobby.",
+    "Unable to join a lobby."
+  );
+
+export const leaveLobby = (request: LobbyLeaveRequest): AppThunk =>
+  lobbyModificationRequest(
+    LEAVE_LOBBY_URL,
+    request,
+    "Left from a lobby.",
+    "Unable to leave from a lobby."
+  );
+
+export const setHexMapName = (request: SetHexMapNameRequest): AppThunk =>
+  lobbyModificationRequest(
+    SET_HEXMAP_URL,
+    request,
+    "HexMap set successfully.",
+    "Unable to set HexMap."
+  );
+
+export const setPickType = (request: SetPickTypeRequest): AppThunk =>
+  lobbyModificationRequest(
+    SET_PICK_TYPE_URL,
+    request,
+    "PickType set successfully.",
+    "Unable to set PickType."
+  );
 
 export const setNumberOfCharactersPerPlayer = (
   request: SetNumberOfCharactersPerPlayerRequest
-): AppThunk => async (dispatch, getState) => {
-  try {
-    const result = await axios.post(SET_NUMBER_OF_CHARACTERS_URL, request, {
-      headers: {
-        Authorization: "Bearer " + getState().authData.token,
-      },
-    });
-    if (result.status === 200) {
-      dispatch(getLobby(request.lobbyId));
-      dispatch(
-        enqueueNotificationSuccess("Characters per player set successfully.")
-      );
-    }
-  } catch (error) {
-    console.warn(error);
-    dispatch(enqueueNotificationError("Unable to set characters per player."));
-  }
-};
+): AppThunk =>
+  lobbyModificationRequest(
+    SET_NUMBER_OF_CHARACTERS_URL,
+    request,
+    "Characters per player set successfully.",
+    "Unable to set characters per player."
+  );
