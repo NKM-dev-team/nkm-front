@@ -16,6 +16,7 @@ import {
   SET_NUMBER_OF_BANS_URL,
   SET_NUMBER_OF_CHARACTERS_URL,
   SET_PICK_TYPE_URL,
+  START_GAME_URL,
 } from "../app/consts";
 import {
   LobbyCreationRequest,
@@ -25,6 +26,7 @@ import {
   SetNumberOfBansRequest,
   SetNumberOfCharactersPerPlayerRequest,
   SetPickTypeRequest,
+  StartGameRequest,
 } from "../types/lobby";
 import {
   enqueueNotificationError,
@@ -207,4 +209,11 @@ export const setNumberOfBans = (request: SetNumberOfBansRequest): AppThunk =>
     request,
     "Number of bans set successfully.",
     "Unable to set number of bans."
+  );
+export const startGame = (request: StartGameRequest): AppThunk =>
+  lobbyModificationRequest(
+    START_GAME_URL,
+    request,
+    "Game started successfully",
+    "Unable to start the game"
   );

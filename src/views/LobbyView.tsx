@@ -12,7 +12,6 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../app/store";
 import { useParams } from "react-router-dom";
-import { enqueueNotificationSuccess } from "../features/notificationSlice";
 import {
   getLobby,
   joinLobby,
@@ -21,6 +20,7 @@ import {
   setNumberOfBans,
   setNumberOfCharactersPerPlayer,
   setPickType,
+  startGame,
 } from "../features/lobbiesSlice";
 import Star from "@material-ui/icons/Star";
 import { useMountEffect } from "../app/utils";
@@ -215,9 +215,7 @@ export default function LobbyView() {
                   <Button
                     variant="contained"
                     color="primary"
-                    onClick={() =>
-                      dispatch(enqueueNotificationSuccess("It works!"))
-                    }
+                    onClick={() => dispatch(startGame({ lobbyId: id }))}
                   >
                     Start the game
                   </Button>
