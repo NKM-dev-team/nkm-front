@@ -27,14 +27,17 @@ import { useMountEffect } from "../app/utils";
 import CustomSelect from "../components/CustomSelect";
 import { PickType } from "../types/PickType";
 import CustomSlider from "../components/CustomSlider";
+import { GamePhase, getGameState } from "../features/gamesSlice";
 
 export default function LobbyView() {
   const dispatch = useDispatch();
   const lobbiesData = useSelector((state: RootState) => state.lobbiesData);
+  const gamesData = useSelector((state: RootState) => state.gamesData);
   const hexMapData = useSelector((state: RootState) => state.hexMapData);
   const authData = useSelector((state: RootState) => state.authData);
   const { id } = useParams<{ id: string }>();
   const lobbyState = lobbiesData.lobbyList.find((l) => l.id === id);
+  const gameState = gamesData.gameList.find((g) => g.id === id);
 
   const [chosenHexMapName, setChosenHexMapName] = useState<string>(
     lobbyState?.chosenHexMapName || hexMapData?.hexMapList[0].name
@@ -54,10 +57,15 @@ export default function LobbyView() {
   );
 
   const isHost = lobbyState?.hostUserId === authData.login || false;
+  const isGameNotStarted = gameState?.gamePhase === GamePhase.NotStarted;
+  const areInputsDisabled = !isHost || !isGameNotStarted;
 
   const checkTimeout = 1000;
   useMountEffect(() => {
-    const timer = setInterval(() => dispatch(getLobby(id)), checkTimeout);
+    const timer = setInterval(() => {
+      dispatch(getLobby(id));
+      dispatch(getGameState(id));
+    }, checkTimeout);
     return () => clearTimeout(timer);
   });
 
@@ -146,7 +154,7 @@ export default function LobbyView() {
                     lobbyState.chosenHexMapName || hexMapData.hexMapList[0].name
                   }
                   onChange={(e) => setChosenHexMapName(e.target.value)}
-                  disabled={!isHost}
+                  disabled={areInputsDisabled}
                 />
                 <CustomSelect
                   label="Tryb wybierania postaci"
@@ -157,7 +165,7 @@ export default function LobbyView() {
                       PickType[e.target.value as keyof typeof PickType]
                     )
                   }
-                  disabled={!isHost}
+                  disabled={areInputsDisabled}
                 />
                 <CustomSlider
                   label="Liczba postaci na gracza"
@@ -171,7 +179,7 @@ export default function LobbyView() {
                   max={8}
                   value={lobbyState.numberOfCharactersPerPlayer}
                   valueLabelDisplay="on"
-                  disabled={!isHost}
+                  disabled={areInputsDisabled}
                 />
 
                 {lobbyState.pickType === PickType.DraftPick && (
@@ -187,7 +195,7 @@ export default function LobbyView() {
                     max={5}
                     value={lobbyState.numberOfBans}
                     valueLabelDisplay="on"
-                    disabled={!isHost}
+                    disabled={areInputsDisabled}
                   />
                 )}
               </Grid>
@@ -211,7 +219,7 @@ export default function LobbyView() {
                     Join lobby
                   </Button>
                 )}
-                {isHost && (
+                {isHost && isGameNotStarted && (
                   <Button
                     variant="contained"
                     color="primary"
