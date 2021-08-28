@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../app/store";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import {
   getLobby,
   joinLobby,
@@ -31,6 +31,7 @@ import { GamePhase, getGameState } from "../features/gamesSlice";
 
 export default function LobbyView() {
   const dispatch = useDispatch();
+  const history = useHistory();
   const lobbiesData = useSelector((state: RootState) => state.lobbiesData);
   const gamesData = useSelector((state: RootState) => state.gamesData);
   const hexMapData = useSelector((state: RootState) => state.hexMapData);
@@ -226,6 +227,15 @@ export default function LobbyView() {
                     onClick={() => dispatch(startGame({ lobbyId: id }))}
                   >
                     Start the game
+                  </Button>
+                )}
+                {!isGameNotStarted && (
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => history.push(`/game/${id}`)}
+                  >
+                    Go to the game
                   </Button>
                 )}
               </>

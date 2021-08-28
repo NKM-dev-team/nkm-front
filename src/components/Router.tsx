@@ -12,6 +12,7 @@ import HomeView from "../views/HomeView";
 import LoginView from "../views/LoginView";
 import LobbyView from "../views/LobbyView";
 import CharactersView from "../views/CharactersView";
+import GameView from "../views/GameView";
 
 function Router() {
   const authData = useSelector((state: RootState) => state.authData);
@@ -40,6 +41,10 @@ function Router() {
     {
       path: Routes.LOBBY,
       component: <LobbyView />,
+    },
+    {
+      path: Routes.GAME,
+      component: <GameView />,
     },
     {
       path: Routes.USER,

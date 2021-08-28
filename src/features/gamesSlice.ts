@@ -13,15 +13,31 @@ export interface Turn {
   number: number;
 }
 
+export interface NKMCharacter {
+  id: string;
+  metadataId: string;
+  state: NKMCharacterState;
+}
+
+export interface NKMCharacterState {
+  name: string;
+  healthPoints: number;
+  attackPoints: number;
+  basicAttackRange: number;
+  speed: number;
+  psychicalDefense: number;
+  magicalDefense: number;
+}
+
 export interface Player {
   name: String;
-  // characters: NKMCharacter[];
-  characters: string[]; // TODO
+  characters: NKMCharacter[];
 }
 
 export enum GamePhase {
   NotStarted = "NotStarted",
   CharacterPick = "CharacterPick",
+  CharacterPlacing = "CharacterPlacing",
   Running = "Running",
   Finished = "Finished",
 }

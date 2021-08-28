@@ -7,4 +7,5 @@ export enum Routes {
   LOBBIES = "/lobbies",
   USER = "/user",
   LOBBY = "/lobby/:id",
+  GAME = "/game/:id",
 }

@@ -4,6 +4,9 @@ import React from "react";
 import Orientation from "../types/Orientation";
 import Point from "../types/Point";
 
+// TODO: move to HexCell class / interface
+const cellY = (c: HexCell) => -c.coordinates.x - c.coordinates.z;
+
 function HexMapComponent({
   scale = 1,
   hexMap,
@@ -17,9 +20,7 @@ function HexMapComponent({
   const originX =
     -cells.map((c: HexCell) => c.coordinates.x).reduce((a, b) => a + b, 0) /
     cells.length;
-  const originY =
-    -cells.map((c: HexCell) => c.coordinates.y).reduce((a, b) => a + b, 0) /
-    cells.length;
+  const originY = -cells.map(cellY).reduce((a, b) => a + b, 0) / cells.length;
 
   function cellToPixel(hexCell: HexCell, originX: number, originY: number) {
     const spacing = 1;
@@ -34,8 +35,8 @@ function HexMapComponent({
       Math.sqrt(3.0) / 3.0,
       0.0
     );
-    let x = M.f0 * hexCell.coordinates.x + M.f1 * hexCell.coordinates.y;
-    let y = M.f2 * hexCell.coordinates.x + M.f3 * hexCell.coordinates.y;
+    let x = M.f0 * hexCell.coordinates.x + M.f1 * cellY(hexCell);
+    let y = M.f2 * hexCell.coordinates.x + M.f3 * cellY(hexCell);
     // Apply spacing
     x = x * spacing;
     y = y * spacing;
@@ -57,7 +58,7 @@ function HexMapComponent({
     const point = cellToPixel(c, originX, originY);
     return (
       <polygon
-        key={c.coordinates.x + " " + c.coordinates.y}
+        key={c.coordinates.x + " " + c.coordinates.z}
         transform={`translate(${point.x}, ${point.y})`}
         fill={cellTypeToColor(c.cellType)}
         stroke="#1f1212"

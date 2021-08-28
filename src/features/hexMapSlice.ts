@@ -9,7 +9,6 @@ import {
 
 interface HexCoordinates {
   x: number;
-  y: number;
   z: number;
 }
 
@@ -51,11 +50,11 @@ export const getMapsAll = (): AppThunk => async (dispatch) => {
     const result = await axios.get(MAPS_API_URL);
     if (Array.isArray(result.data)) {
       let hexMaps = result.data;
-      hexMaps.forEach((h) =>
-        h.cells.forEach(
-          (c: HexCell) => (c.coordinates.y = -c.coordinates.x - c.coordinates.z)
-        )
-      );
+      // hexMaps.forEach((h) =>
+      //   h.cells.forEach(
+      //     (c: HexCell) => (c.coordinates.y = -c.coordinates.x - c.coordinates.z)
+      //   )
+      // );
       dispatch(setHexMapList(hexMaps));
       dispatch(enqueueNotificationInfo("Hex maps downloaded"));
     } else {
