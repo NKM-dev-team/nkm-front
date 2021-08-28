@@ -14,7 +14,7 @@ function HexMapComponent({
 }: {
   scale?: number;
   hexMap: HexMap;
-  onHexagonClick?: any;
+  onHexagonClick?: (c: HexCell) => void;
 }) {
   const cells = hexMap.cells;
   const originX =

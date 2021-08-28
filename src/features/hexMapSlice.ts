@@ -16,6 +16,8 @@ export interface HexCell {
   cellType: string;
   coordinates: HexCoordinates;
   effects: object[];
+  characterId: string | null;
+  spawnNumber: number | null;
 }
 export interface HexMap {
   name: string;
