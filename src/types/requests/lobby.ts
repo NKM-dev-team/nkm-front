@@ -1,4 +1,4 @@
-import { PickType } from "./PickType";
+import { PickType } from "../PickType";
 
 export interface LobbyCreationRequest {
   name: string;

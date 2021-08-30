@@ -27,12 +27,13 @@ import {
   SetNumberOfCharactersPerPlayerRequest,
   SetPickTypeRequest,
   StartGameRequest,
-} from "../types/lobby";
+} from "../types/requests/lobby";
 import {
   enqueueNotificationError,
   enqueueNotificationSuccess,
 } from "./notificationSlice";
 import { PickType } from "../types/PickType";
+import { postLoggedInData } from "./helper";
 
 export interface LobbyState {
   id: string;
@@ -101,30 +102,6 @@ export const getLobby = (lobbyId: string): AppThunk => async (
 };
 
 export default lobbiesSlice.reducer;
-
-const postLoggedInData = (
-  url: string,
-  data: any,
-  successStatus: number,
-  onSuccess: (dispatch: ThunkDispatch<any, unknown, Action<string>>) => void,
-  onFailure: (
-    dispatch: ThunkDispatch<any, unknown, Action<string>>,
-    error: any
-  ) => void
-): AppThunk => async (dispatch, getState) => {
-  try {
-    const result = await axios.post(url, data, {
-      headers: {
-        Authorization: "Bearer " + getState().authData.token,
-      },
-    });
-    if (result.status === successStatus) {
-      onSuccess(dispatch);
-    }
-  } catch (error) {
-    onFailure(dispatch, error);
-  }
-};
 
 export const createLobby = (request: LobbyCreationRequest): AppThunk =>
   postLoggedInData(

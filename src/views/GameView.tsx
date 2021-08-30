@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../app/store";
 import { useParams } from "react-router-dom";
 import { useMountEffect } from "../app/utils";
-import { getGameState } from "../features/gamesSlice";
+import { getGameState, placeCharacter } from "../features/gamesSlice";
 import { MemoizedHexMapComponent } from "../components/HexMapComponent";
 import DraggableCharacterHexagon from "../components/DraggableCharacterHexagon";
 
@@ -49,6 +49,16 @@ export default function GameView() {
                 scale={1.3}
                 hexMap={gameState.hexMap}
                 onHexagonClick={(c) => console.log(c.coordinates)}
+                onHexagonCharacterDrop={(c, characterId) => {
+                  dispatch(
+                    placeCharacter({
+                      characterId: characterId,
+                      gameId: id,
+                      hexCoordinates: c.coordinates,
+                    })
+                  );
+                  console.log("Dropped " + JSON.stringify(c.coordinates));
+                }}
               />
             )}
           </Grid>
@@ -66,6 +76,7 @@ export default function GameView() {
                               <DraggableCharacterHexagon
                                 name={character.metadataId}
                                 width={20}
+                                characterId={character.id}
                               />
                             </IconButton>
                           </Tooltip>

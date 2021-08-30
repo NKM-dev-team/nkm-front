@@ -4,6 +4,8 @@ import React from "react";
 import Orientation from "../types/Orientation";
 import Point from "../types/Point";
 import HexCellComponent from "./HexCellComponent";
+import { useDispatch } from "react-redux";
+import { placeCharacter } from "../features/gamesSlice";
 
 // TODO: move to HexCell class / interface
 const cellY = (c: HexCell) => -c.coordinates.x - c.coordinates.z;
@@ -12,11 +14,15 @@ function HexMapComponent({
   scale = 1,
   hexMap,
   onHexagonClick,
+  onHexagonCharacterDrop,
 }: {
   scale?: number;
   hexMap: HexMap;
   onHexagonClick?: (c: HexCell) => void;
+  onHexagonCharacterDrop?: (c: HexCell, characterId: string) => void;
 }) {
+  const dispatch = useDispatch();
+
   const cells = hexMap.cells;
   const originX =
     -cells.map((c: HexCell) => c.coordinates.x).reduce((a, b) => a + b, 0) /
@@ -52,9 +58,7 @@ function HexMapComponent({
         c={c}
         point={point}
         onHexagonClick={onHexagonClick}
-        onHexagonCharacterDrop={(c) =>
-          console.log("Dropped " + JSON.stringify(c.coordinates))
-        }
+        onHexagonCharacterDrop={onHexagonCharacterDrop}
       />
     );
   });

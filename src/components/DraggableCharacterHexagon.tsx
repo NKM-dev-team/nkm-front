@@ -5,9 +5,11 @@ import { ItemTypes } from "../types/ItemTypes";
 
 export default function DraggableCharacterHexagon({
   name,
+  characterId,
   width,
 }: {
   name: string;
+  characterId?: string;
   width?: string | number | undefined;
 }) {
   const [{ isDragging }, drag] = useDrag(() => ({
@@ -15,6 +17,7 @@ export default function DraggableCharacterHexagon({
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
+    item: { characterId },
   }));
   return (
     <div ref={drag}>

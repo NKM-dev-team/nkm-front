@@ -14,6 +14,9 @@ function cellTypeToColor(cellType: string) {
       return "green";
   }
 }
+export interface CharacterDropResult {
+  characterId: string;
+}
 
 export default function HexCellComponent({
   c,
@@ -24,11 +27,16 @@ export default function HexCellComponent({
   c: HexCell;
   point: Point;
   onHexagonClick?: (c: HexCell) => void;
-  onHexagonCharacterDrop?: (c: HexCell) => void;
+  onHexagonCharacterDrop?: (c: HexCell, characterId: string) => void;
 }) {
   const [{ isOver }, drop] = useDrop(() => ({
     accept: ItemTypes.HEX_CHARACTER,
-    drop: () => onHexagonCharacterDrop && onHexagonCharacterDrop(c),
+    drop: (item, monitor) =>
+      onHexagonCharacterDrop &&
+      onHexagonCharacterDrop(
+        c,
+        monitor.getItem<CharacterDropResult>()?.characterId || "Empty"
+      ),
     collect: (monitor) => ({
       isOver: monitor.isOver(),
     }),

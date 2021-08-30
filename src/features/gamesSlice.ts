@@ -1,9 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { AppThunk } from "../app/store";
-import { GET_GAME_STATE_URL } from "../app/consts";
+import { GET_GAME_STATE_URL, PLACE_CHARACTER_URL } from "../app/consts";
 import { PickType } from "../types/PickType";
 import { HexMap } from "./hexMapSlice";
+import { PlaceCharacterRequest } from "../types/requests/game";
+import {
+  enqueueNotificationError,
+  enqueueNotificationSuccess,
+} from "./notificationSlice";
+import { postLoggedInData } from "./helper";
 
 export interface Phase {
   number: number;
@@ -30,7 +36,7 @@ export interface NKMCharacterState {
 }
 
 export interface Player {
-  name: String;
+  name: string;
   characters: NKMCharacter[];
 }
 
@@ -89,3 +95,31 @@ export const getGameState = (lobbyId: string): AppThunk => async (dispatch) => {
 };
 
 export default gamesSlice.reducer;
+
+const gameModificationRequest = (
+  url: string,
+  request: any,
+  successMessage: string,
+  failureMessage: string
+): AppThunk =>
+  postLoggedInData(
+    url,
+    request,
+    200,
+    (dispatch) => {
+      dispatch(getGameState(request.gameId));
+      dispatch(enqueueNotificationSuccess(successMessage));
+    },
+    (dispatch, error) => {
+      console.warn(error);
+      dispatch(enqueueNotificationError(failureMessage));
+    }
+  );
+
+export const placeCharacter = (request: PlaceCharacterRequest): AppThunk =>
+  gameModificationRequest(
+    PLACE_CHARACTER_URL,
+    request,
+    "Character placed successfully",
+    "Unable to place the character"
+  );

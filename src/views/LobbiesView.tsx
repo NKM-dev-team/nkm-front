@@ -17,7 +17,7 @@ import {
   LobbyState,
 } from "../features/lobbiesSlice";
 import { useForm } from "react-hook-form";
-import { LobbyCreationRequest } from "../types/lobby";
+import { LobbyCreationRequest } from "../types/requests/lobby";
 import { Link as RouterLink } from "react-router-dom";
 import { useMountEffect } from "../app/utils";
 
