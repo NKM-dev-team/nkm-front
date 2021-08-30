@@ -3,6 +3,7 @@ import { HexCell } from "../features/hexMapSlice";
 import React from "react";
 import Orientation from "../types/Orientation";
 import Point from "../types/Point";
+import HexCellComponent from "./HexCellComponent";
 
 // TODO: move to HexCell class / interface
 const cellY = (c: HexCell) => -c.coordinates.x - c.coordinates.z;
@@ -43,28 +44,17 @@ function HexMapComponent({
     return new Point(x + originX, y + originY);
   }
 
-  function cellTypeToColor(cellType: string) {
-    switch (cellType) {
-      case "Wall":
-        return "black";
-      case "Normal":
-        return "white";
-      case "SpawnPoint":
-        return "green";
-    }
-  }
-
   const polygons = hexMap.cells.map((c) => {
     const point = cellToPixel(c, originX, originY);
     return (
-      <polygon
+      <HexCellComponent
         key={c.coordinates.x + " " + c.coordinates.z}
-        transform={`translate(${point.x}, ${point.y})`}
-        fill={cellTypeToColor(c.cellType)}
-        stroke="#1f1212"
-        strokeWidth="0.06"
-        points="1,0 0.5000000000000001,0.8660254037844386 -0.4999999999999998,0.8660254037844387 -1,1.2246467991473532e-16 -0.5000000000000004,-0.8660254037844385 0.5000000000000001,-0.8660254037844386"
-        onClick={() => onHexagonClick && onHexagonClick(c)}
+        c={c}
+        point={point}
+        onHexagonClick={onHexagonClick}
+        onHexagonCharacterDrop={(c) =>
+          console.log("Dropped " + JSON.stringify(c.coordinates))
+        }
       />
     );
   });

@@ -14,6 +14,8 @@ import persistStore from "redux-persist/es/persistStore";
 import Notifier from "./components/Notifier";
 import { SnackbarProvider } from "notistack";
 import BackgroundService from "./components/BackgroundService";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 const theme = createMuiTheme({
   palette: {
@@ -34,12 +36,14 @@ ReactDOM.render(
   <Provider store={store}>
     <PersistGate persistor={persistor}>
       <ThemeProvider theme={theme}>
-        <SnackbarProvider maxSnack={3}>
-          <Notifier />
-        </SnackbarProvider>
-        <CssBaseline />
-        <Router />
-        <BackgroundService />
+        <DndProvider backend={HTML5Backend}>
+          <SnackbarProvider maxSnack={3}>
+            <Notifier />
+          </SnackbarProvider>
+          <CssBaseline />
+          <Router />
+          <BackgroundService />
+        </DndProvider>
       </ThemeProvider>
     </PersistGate>
   </Provider>,

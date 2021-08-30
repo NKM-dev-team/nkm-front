@@ -1,13 +1,11 @@
 import React from "react";
 import {
   Box,
-  Button,
   Chip,
   Grid,
   IconButton,
   List,
   ListItem,
-  Paper,
   Tooltip,
   Typography,
 } from "@material-ui/core";
@@ -17,7 +15,7 @@ import { useParams } from "react-router-dom";
 import { useMountEffect } from "../app/utils";
 import { getGameState } from "../features/gamesSlice";
 import { MemoizedHexMapComponent } from "../components/HexMapComponent";
-import CharacterHexagon from "../components/CharacterHexagon";
+import DraggableCharacterHexagon from "../components/DraggableCharacterHexagon";
 
 export default function GameView() {
   const dispatch = useDispatch();
@@ -65,7 +63,7 @@ export default function GameView() {
                         <Grid item key={i} xs={2}>
                           <Tooltip title={character.state.name} arrow>
                             <IconButton>
-                              <CharacterHexagon
+                              <DraggableCharacterHexagon
                                 name={character.metadataId}
                                 width={20}
                               />

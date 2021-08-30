@@ -7,7 +7,7 @@ import {
   enqueueNotificationInfo,
 } from "./notificationSlice";
 
-interface HexCoordinates {
+export interface HexCoordinates {
   x: number;
   z: number;
 }
