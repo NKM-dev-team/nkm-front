@@ -1,5 +1,6 @@
 {
   "name": "nkm-front",
+  "homepage": "/nkm-front",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -18,6 +19,7 @@
     "@types/redux-persist": "^4.3.1",
     "axios": "^0.21.0",
     "classnames": "^2.2.6",
+    "node-sass": "^4.14.1",
     "notistack": "^1.0.10",
     "react": "^17.0.1",
     "react-dnd": "^14.0.3",
