@@ -5,13 +5,14 @@ import {
   enqueueNotificationError,
   enqueueNotificationSuccess,
 } from "../features/notificationSlice";
+import logo from "../img/nkm_logo.png"
 
 export default function HomeView() {
   const dispatch = useDispatch();
   return (
     <Paper variant="outlined">
       <Grid container justify="center">
-        <img src="/nkm_logo.png" alt="nkm logo" />
+        <img src={logo} alt="nkm logo" />
       </Grid>
       <Typography variant="h2" align="center">
         Your favourite game (for sure)
