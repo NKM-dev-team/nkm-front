@@ -1,4 +1,4 @@
-FROM node:16.19.0 AS build
+FROM node:15.11.0 AS build
 WORKDIR /app
 COPY package.json yarn.lock ./
 RUN yarn install
