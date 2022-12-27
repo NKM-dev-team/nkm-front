@@ -7,8 +7,14 @@ import {
   enqueueNotificationInfo,
 } from "./notificationSlice";
 
-export interface NKMCharacterMetadata {
+export enum AttackType {
+  Melee = "Melee",
+  Ranged = "Ranged",
+}
+
+export interface CharacterMetadata {
   name: string;
+  attackType: AttackType,
   initialHealthPoints: number;
   initialAttackPoints: number;
   initialBasicAttackRange: number;
@@ -19,7 +25,7 @@ export interface NKMCharacterMetadata {
 }
 interface CharactersState {
   initialized: boolean;
-  characterMetadataList: NKMCharacterMetadata[];
+  characterMetadataList: CharacterMetadata[];
 }
 
 const initialState: CharactersState = {
@@ -33,7 +39,7 @@ export const charactersSlice = createSlice({
   reducers: {
     setCharacterMetadataList: (
       state,
-      action: PayloadAction<NKMCharacterMetadata[]>
+      action: PayloadAction<CharacterMetadata[]>
     ) => {
       state.initialized = true;
       state.characterMetadataList = action.payload;

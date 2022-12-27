@@ -9,11 +9,11 @@ export default function CharactersView() {
     (state: RootState) => state.charactersData
   );
   const characterSquares = charactersData.characterMetadataList.map((c) => (
-    <CharacterCard c={c} />
+    <CharacterCard c={c} key={c.name}/>
   ));
 
   return (
-    <Grid container justify="center" spacing={2}>
+    <Grid container justifyContent="center" spacing={2}>
       {characterSquares}
     </Grid>
   );

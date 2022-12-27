@@ -1,4 +1,5 @@
 import React from "react";
+import CHARACTER_HEXAGONS from "../img/index";
 
 export default function CharacterHexagon({
   name,
@@ -9,13 +10,13 @@ export default function CharacterHexagon({
 }) {
   return (
     <img
-      src={"/character_hexagons/" + name + ".png"}
+      src={CHARACTER_HEXAGONS[name] ?? CHARACTER_HEXAGONS['Empty']}
       alt={name}
       width={width}
       onError={(e) => {
         const target = e.target as HTMLImageElement;
         target.onerror = null;
-        target.src = "/character_hexagons/empty.png";
+        target.src = CHARACTER_HEXAGONS['Empty']
       }}
     />
   );
