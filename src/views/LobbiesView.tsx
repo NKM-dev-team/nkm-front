@@ -37,7 +37,7 @@ export default function LobbiesView() {
 
   return (
     <>
-      <Grid container justify="center">
+      <Grid container justifyContent="center">
         <Paper style={{ position: "relative", zIndex: 0 }}>
           <Box p={4}>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -73,7 +73,7 @@ export default function LobbiesView() {
         ""
       )}
       <Box m={3}>
-        <Grid container justify="space-between" spacing={3}>
+        <Grid container justifyContent="space-between" spacing={3}>
           {lobbiesData.lobbyList.map((lobbyState: LobbyState) => (
             <Grid item key={lobbyState.id}>
               <RouterLink to={"/lobby/" + lobbyState.id}>

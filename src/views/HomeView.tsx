@@ -11,7 +11,7 @@ export default function HomeView() {
   const dispatch = useDispatch();
   return (
     <Paper variant="outlined">
-      <Grid container justify="center">
+      <Grid container justifyContent="center">
         <img src={logo} alt="nkm logo" />
       </Grid>
       <Typography variant="h2" align="center">

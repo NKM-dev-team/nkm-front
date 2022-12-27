@@ -1,8 +1,6 @@
 import {
-  Action,
   createSlice,
   PayloadAction,
-  ThunkDispatch,
 } from "@reduxjs/toolkit";
 import axios from "axios";
 import { AppThunk } from "../app/store";

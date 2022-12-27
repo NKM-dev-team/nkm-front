@@ -13,9 +13,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../app/store";
 import { useParams } from "react-router-dom";
 import { useMountEffect } from "../app/utils";
-import { getGameState, placeCharacter } from "../features/gamesSlice";
+import { getGameState} from "../features/gamesSlice";
 import { MemoizedHexMapComponent } from "../components/HexMapComponent";
-import DraggableCharacterHexagon from "../components/DraggableCharacterHexagon";
 
 export default function GameView() {
   const dispatch = useDispatch();
@@ -39,7 +38,7 @@ export default function GameView() {
   return (
     <>
       <Box m={3}>
-        <Grid container justify="space-between" spacing={10}>
+        <Grid container justifyContent="space-between" spacing={10}>
           <Grid item xs={12} md={10}>
             <Typography variant="h5" component="h2" gutterBottom>
               {gameState.id}
@@ -49,16 +48,6 @@ export default function GameView() {
                 scale={1.3}
                 hexMap={gameState.hexMap}
                 onHexagonClick={(c) => console.log(c.coordinates)}
-                onHexagonCharacterDrop={(c, characterId) => {
-                  dispatch(
-                    placeCharacter({
-                      characterId: characterId,
-                      gameId: id,
-                      hexCoordinates: c.coordinates,
-                    })
-                  );
-                  console.log("Dropped " + JSON.stringify(c.coordinates));
-                }}
               />
             )}
           </Grid>
@@ -68,16 +57,16 @@ export default function GameView() {
                 <ListItem key={index}>
                   <List>
                     <Chip label={player.name} />
-                    <Grid container justify="space-between">
+                    <Grid container justifyContent="space-between">
                       {player.characters.map((character, i) => (
                         <Grid item key={i} xs={2}>
                           <Tooltip title={character.state.name} arrow>
                             <IconButton>
-                              <DraggableCharacterHexagon
-                                name={character.metadataId}
-                                width={20}
-                                characterId={character.id}
-                              />
+                              {/*<DraggableCharacterHexagon*/}
+                              {/*  name={character.metadataId}*/}
+                              {/*  width={20}*/}
+                              {/*  characterId={character.id}*/}
+                              {/*/>*/}
                             </IconButton>
                           </Tooltip>
                         </Grid>

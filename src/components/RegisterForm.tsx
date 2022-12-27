@@ -14,7 +14,7 @@ function RegisterForm() {
     dispatch(registerUser(registerRequest));
 
   return (
-    <Grid container justify="center">
+    <Grid container justifyContent="center">
       <Paper style={{ position: "relative", zIndex: 0 }}>
         <Box p={4}>
           <form onSubmit={handleSubmit(onSubmit)}>

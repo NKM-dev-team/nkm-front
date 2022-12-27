@@ -15,7 +15,7 @@ function LoginForm() {
   };
 
   return (
-    <Grid container justify="center">
+    <Grid container justifyContent="center">
       <Paper style={{ position: "relative", zIndex: 0 }}>
         {/*<Backdrop*/}
         {/*  open={userData?.loginRequestState === LOGIN_REQUEST_STATES.AWAITING}*/}

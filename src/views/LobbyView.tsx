@@ -127,7 +127,7 @@ export default function LobbyView() {
       <Box m={3}>
         <Paper variant="outlined">
           <Box p={3}>
-            <Grid container justify="space-between" spacing={3}>
+            <Grid container justifyContent="space-between" spacing={3}>
               <Grid item xs={12} md={6}>
                 <Typography variant="h5" component="h2" gutterBottom>
                   {lobbyState.name}
