@@ -44,7 +44,7 @@ export default function LobbiesView() {
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <TextField
-                    label="Nazwa"
+                    label="Name"
                     name="name"
                     inputRef={register({ required: true })}
                     error={errors.name}
@@ -59,7 +59,7 @@ export default function LobbiesView() {
                     type="submit"
                     fullWidth
                   >
-                    Stwórz pokój
+                    Create lobby
                   </Button>
                 </Grid>
               </Grid>

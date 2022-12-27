@@ -68,7 +68,7 @@ export default function Navbar() {
                 open={Boolean(anchorEl)}
                 onClose={handleCloseClick}
               >
-                <MenuItem onClick={handleLogoutClick}>Wyloguj się</MenuItem>
+                <MenuItem onClick={handleLogoutClick}>Logout</MenuItem>
               </Menu>
             </>
           ) : (

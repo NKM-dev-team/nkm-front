@@ -9,22 +9,10 @@ import { SECRET_URL } from "../app/consts";
 function Profile() {
   const authData = useSelector((state: RootState) => state.authData);
 
-  useMountEffect(() => {
-    axios
-      .get(SECRET_URL, {
-        headers: {
-          Authorization: "Bearer " + authData.token,
-        },
-      })
-      .then((r) => console.log(r.data))
-      .catch((e) => console.log(e));
-  });
-
   return (
     <Paper>
       <Typography variant="h2">Profil</Typography>
-      <Typography>{authData.login}</Typography>
-      <Typography>{authData.token}</Typography>
+      <Typography variant="h4">Hello, {authData.login} :)</Typography>
     </Paper>
   );
 }

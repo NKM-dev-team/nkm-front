@@ -9,15 +9,15 @@ import { RootState } from "../app/store";
 import { Routes } from "../types/Routes";
 
 const mainRouteMap = [
-  ["Strona główna", Routes.HOME],
-  ["Mapy", Routes.HEXMAPS],
-  ["Postacie", Routes.CHARACTERS],
-  ["Pokoje", Routes.LOBBIES],
+  ["Home", Routes.HOME],
+  ["Maps", Routes.HEXMAPS],
+  ["Characters", Routes.CHARACTERS],
+  ["Lobbies", Routes.LOBBIES],
 ];
 
 const notLoggedInRouteMap = [
-  ["Zaloguj się", Routes.LOGIN],
-  ["Zarejestruj się", Routes.REGISTER],
+  ["Login", Routes.LOGIN],
+  ["Register", Routes.REGISTER],
 ];
 const loggedInRouteMap = [["Profil", Routes.USER]];
 

@@ -6,6 +6,8 @@ export const REGISTER_URL = `${API_URL}/register`;
 export const SECRET_URL = `${API_URL}/secret`;
 export const MAPS_API_URL = `${API_URL}/maps`;
 export const CHARACTERS_URL = `${API_URL}/characters`;
+export const ABILITIES_URL = `${API_URL}/abilities`;
+export const CHARACTER_EFFECTS_URL = `${API_URL}/character_effects`;
 export const GET_LOBBIES_URL = `${API_URL}/lobbies`;
 export const GET_LOBBY_URL = (lobbyId: string) => `${API_URL}/lobby/${lobbyId}`;
 export const GET_GAME_STATE_URL = (lobbyId: string) =>

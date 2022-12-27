@@ -39,7 +39,7 @@ function LoginForm() {
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  label="Hasło"
+                  label="Password"
                   name="password"
                   type="password"
                   inputRef={register({ required: true })}
