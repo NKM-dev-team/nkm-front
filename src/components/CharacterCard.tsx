@@ -1,5 +1,5 @@
 import React from "react";
-import {Box, Grid, Paper, Typography} from "@material-ui/core";
+import {Box, Grid, Paper, Typography} from "@mui/material";
 import CharacterHexagon from "./CharacterHexagon";
 import { CharacterMetadata } from "../features/charactersSlice";
 

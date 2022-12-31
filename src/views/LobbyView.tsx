@@ -8,7 +8,7 @@ import {
   ListItem,
   Paper,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../app/store";
 import { useParams, useHistory } from "react-router-dom";
@@ -22,7 +22,7 @@ import {
   setPickType,
   startGame,
 } from "../features/lobbiesSlice";
-import Star from "@material-ui/icons/Star";
+import Star from "@mui/icons-material/Star";
 import { useMountEffect } from "../app/utils";
 import CustomSelect from "../components/CustomSelect";
 import { PickType } from "../types/PickType";

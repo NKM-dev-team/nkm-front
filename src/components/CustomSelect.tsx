@@ -1,12 +1,12 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import InputLabel from "@material-ui/core/FormLabel";
-import { MenuItem, TextField } from "@material-ui/core";
-import { OutlinedTextFieldProps } from "@material-ui/core";
+import makeStyles from '@mui/styles/makeStyles';
+import InputLabel from "@mui/material/FormLabel";
+import { MenuItem, TextField } from "@mui/material";
+import { OutlinedTextFieldProps } from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
   textField: {
-    padding: `${theme.spacing(2)}px 0 ${theme.spacing(2)}px 0`,
+    padding: `${theme.spacing(2)} 0 ${theme.spacing(2)} 0`,
     "& fieldset": {
       borderColor: theme.palette.primary.main,
       borderRadius: "17px",

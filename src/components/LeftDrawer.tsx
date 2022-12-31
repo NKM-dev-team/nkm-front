@@ -1,15 +1,12 @@
 import React from "react";
-import {
-  makeStyles,
-  useTheme,
-  Theme,
-  createStyles,
-} from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
-import Divider from "@material-ui/core/Divider";
-import IconButton from "@material-ui/core/IconButton";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import { useTheme, Theme } from "@mui/material/styles";
+import makeStyles from '@mui/styles/makeStyles';
+import createStyles from '@mui/styles/createStyles';
+import Drawer from "@mui/material/Drawer";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import LeftDrawerContent from "./LeftDrawerContent";
 
 const drawerWidth = 240;
@@ -92,7 +89,7 @@ export default function LeftDrawer({ open, setOpen }: LeftDrawerProps) {
       }}
     >
       <div className={classes.drawerHeader}>
-        <IconButton onClick={() => setOpen(false)}>
+        <IconButton onClick={() => setOpen(false)} size="large">
           {theme.direction === "ltr" ? (
             <ChevronLeftIcon />
           ) : (

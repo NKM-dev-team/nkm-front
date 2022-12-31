@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { Box, Button, Grid, Paper, TextField } from "@material-ui/core";
+import { Box, Button, Grid, Paper, TextField } from "@mui/material";
 import { Login } from "../types/login";
 import { authenticate } from "../features/authSlice";
 

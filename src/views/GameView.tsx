@@ -8,7 +8,7 @@ import {
   ListItem,
   Tooltip,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../app/store";
 import { useParams } from "react-router-dom";
@@ -35,50 +35,48 @@ export default function GameView() {
   if (gameState === undefined)
     return <Typography variant="h2">Game does not exist</Typography>;
 
-  return (
-    <>
-      <Box m={3}>
-        <Grid container justifyContent="space-between" spacing={10}>
-          <Grid item xs={12} md={10}>
-            <Typography variant="h5" component="h2" gutterBottom>
-              {gameState.id}
-            </Typography>
-            {gameState.hexMap && (
-              <MemoizedHexMapComponent
-                scale={1.3}
-                hexMap={gameState.hexMap}
-                onHexagonClick={(c) => console.log(c.coordinates)}
-              />
-            )}
-          </Grid>
-          <Grid item xs={12} md={2}>
-            <List>
-              {gameState.players.map((player, index) => (
-                <ListItem key={index}>
-                  <List>
-                    <Chip label={player.name} />
-                    <Grid container justifyContent="space-between">
-                      {player.characters.map((character, i) => (
-                        <Grid item key={i} xs={2}>
-                          <Tooltip title={character.state.name} arrow>
-                            <IconButton>
-                              {/*<DraggableCharacterHexagon*/}
-                              {/*  name={character.metadataId}*/}
-                              {/*  width={20}*/}
-                              {/*  characterId={character.id}*/}
-                              {/*/>*/}
-                            </IconButton>
-                          </Tooltip>
-                        </Grid>
-                      ))}
-                    </Grid>
-                  </List>
-                </ListItem>
-              ))}
-            </List>
-          </Grid>
+  return <>
+    <Box m={3}>
+      <Grid container justifyContent="space-between" spacing={10}>
+        <Grid item xs={12} md={10}>
+          <Typography variant="h5" component="h2" gutterBottom>
+            {gameState.id}
+          </Typography>
+          {gameState.hexMap && (
+            <MemoizedHexMapComponent
+              scale={1.3}
+              hexMap={gameState.hexMap}
+              onHexagonClick={(c) => console.log(c.coordinates)}
+            />
+          )}
         </Grid>
-      </Box>
-    </>
-  );
+        <Grid item xs={12} md={2}>
+          <List>
+            {gameState.players.map((player, index) => (
+              <ListItem key={index}>
+                <List>
+                  <Chip label={player.name} />
+                  <Grid container justifyContent="space-between">
+                    {player.characters.map((character, i) => (
+                      <Grid item key={i} xs={2}>
+                        <Tooltip title={character.state.name} arrow>
+                          <IconButton size="large">
+                            {/*<DraggableCharacterHexagon*/}
+                            {/*  name={character.metadataId}*/}
+                            {/*  width={20}*/}
+                            {/*  characterId={character.id}*/}
+                            {/*/>*/}
+                          </IconButton>
+                        </Tooltip>
+                      </Grid>
+                    ))}
+                  </Grid>
+                </List>
+              </ListItem>
+            ))}
+          </List>
+        </Grid>
+      </Grid>
+    </Box>
+  </>;
 }

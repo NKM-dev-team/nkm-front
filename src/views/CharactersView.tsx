@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../app/store";
 import CharacterCard from "../components/CharacterCard";

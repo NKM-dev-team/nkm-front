@@ -1,6 +1,6 @@
 import React from "react";
 import Navbar from "./Navbar";
-import { Container } from "@material-ui/core";
+import { Container } from "@mui/material";
 
 interface MyProps {
   children?: React.ReactNode;

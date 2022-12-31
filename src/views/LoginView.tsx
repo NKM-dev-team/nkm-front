@@ -1,6 +1,6 @@
 import React from "react";
 import LoginForm from "../components/LoginForm";
-import { Box, Typography } from "@material-ui/core";
+import { Box, Typography } from "@mui/material";
 import { Routes } from "../types/Routes";
 import { Link as RouterLink } from "react-router-dom";
 
