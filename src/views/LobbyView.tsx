@@ -134,7 +134,7 @@ export default function LobbyView() {
                 </Typography>
                 <Typography>{lobbyState.hostUserId}</Typography>
                 <Typography color="textSecondary">
-                  {lobbyState.creationDate}
+                  {lobbyState.creationDate?.toString()}
                 </Typography>
                 <List>
                   {lobbyState.userIds.map((id, index) => (

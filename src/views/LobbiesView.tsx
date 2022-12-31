@@ -83,7 +83,7 @@ export default function LobbiesView() {
                   </Typography>
                   <Typography>{lobbyState.hostUserId}</Typography>
                   <Typography color="textSecondary">
-                    {lobbyState.creationDate}
+                    {lobbyState.creationDate?.toString()}
                   </Typography>
                   <Typography color="secondary">
                     {lobbyState.userIds.join(" ") || "Empty lobby"}

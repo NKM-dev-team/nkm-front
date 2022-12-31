@@ -8,6 +8,7 @@ export default function CharacterHexagon({
   name: string;
   width?: string | number | undefined;
 }) {
+  console.log(CHARACTER_HEXAGONS)
   return (
     <img
       src={CHARACTER_HEXAGONS[name] ?? CHARACTER_HEXAGONS['Empty']}
