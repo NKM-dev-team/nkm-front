@@ -21,33 +21,33 @@ function RegisterForm() {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
+                  variant="standard"
                   label="Login"
                   name="login"
                   inputRef={register({ required: true })}
                   error={errors.login}
                   autoFocus
-                  fullWidth
-                />
+                  fullWidth />
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  variant="standard"
                   label="Email"
                   name="email"
                   type="email"
                   inputRef={register({ required: true })}
                   error={errors.email}
-                  fullWidth
-                />
+                  fullWidth />
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  variant="standard"
                   label="Password"
                   name="password"
                   type="password"
                   inputRef={register({ required: true })}
                   error={errors.password}
-                  fullWidth
-                />
+                  fullWidth />
               </Grid>
               <Grid item xs={12}>
                 <Button

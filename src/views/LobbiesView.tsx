@@ -35,67 +35,65 @@ export default function LobbiesView() {
     return () => clearTimeout(timer);
   });
 
-  return (
-    <>
-      <Grid container justifyContent="center">
-        <Paper style={{ position: "relative", zIndex: 0 }}>
-          <Box p={4}>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <TextField
-                    label="Name"
-                    name="name"
-                    inputRef={register({ required: true })}
-                    error={errors.name}
-                    autoFocus
-                    fullWidth
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                    fullWidth
-                  >
-                    Create lobby
-                  </Button>
-                </Grid>
+  return <>
+    <Grid container justifyContent="center">
+      <Paper style={{ position: "relative", zIndex: 0 }}>
+        <Box p={4}>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  variant="standard"
+                  label="Name"
+                  name="name"
+                  inputRef={register({ required: true })}
+                  error={errors.name}
+                  autoFocus
+                  fullWidth />
               </Grid>
-            </form>
-          </Box>
-        </Paper>
-      </Grid>
-      {lobbiesData.lobbyList.length === 0 ? (
-        <Typography>No lobbies created yet</Typography>
-      ) : (
-        ""
-      )}
-      <Box m={3}>
-        <Grid container justifyContent="space-between" spacing={3}>
-          {lobbiesData.lobbyList.map((lobbyState: LobbyState) => (
-            <Grid item key={lobbyState.id}>
-              <RouterLink to={"/lobby/" + lobbyState.id}>
-                <Card variant="outlined">
-                  <CardContent>
-                    <Typography variant="h5" component="h2" gutterBottom>
-                      {lobbyState.name}
-                    </Typography>
-                    <Typography>{lobbyState.hostUserId}</Typography>
-                    <Typography color="textSecondary">
-                      {lobbyState.creationDate}
-                    </Typography>
-                    <Typography color="secondary">
-                      {lobbyState.userIds.join(" ") || "Empty lobby"}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </RouterLink>
+              <Grid item xs={12}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                  fullWidth
+                >
+                  Create lobby
+                </Button>
+              </Grid>
             </Grid>
-          ))}
-        </Grid>
-      </Box>
-    </>
-  );
+          </form>
+        </Box>
+      </Paper>
+    </Grid>
+    {lobbiesData.lobbyList.length === 0 ? (
+      <Typography>No lobbies created yet</Typography>
+    ) : (
+      ""
+    )}
+    <Box m={3}>
+      <Grid container justifyContent="space-between" spacing={3}>
+        {lobbiesData.lobbyList.map((lobbyState: LobbyState) => (
+          <Grid item key={lobbyState.id}>
+            <RouterLink to={"/lobby/" + lobbyState.id}>
+              <Card variant="outlined">
+                <CardContent>
+                  <Typography variant="h5" component="h2" gutterBottom>
+                    {lobbyState.name}
+                  </Typography>
+                  <Typography>{lobbyState.hostUserId}</Typography>
+                  <Typography color="textSecondary">
+                    {lobbyState.creationDate}
+                  </Typography>
+                  <Typography color="secondary">
+                    {lobbyState.userIds.join(" ") || "Empty lobby"}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </RouterLink>
+          </Grid>
+        ))}
+      </Grid>
+    </Box>
+  </>;
 }
