@@ -1,6 +1,6 @@
 function importAll(r: __WebpackModuleApi.RequireContext) {
     let images: any = {};
-    r.keys().map((item, index) => {
+    r.keys().map((item, _) => {
         return images[item.replace('./', '').replace('.png', '')] = r(item).default;
     });
     return images;

@@ -1,9 +1,6 @@
-// export const MAPS_API_URL = "https://krzysztofruczkowski.pl:8080/api/maps";
-
 export const API_URL = "https://krzysztofruczkowski.pl/nkm/api";
 export const LOGIN_URL = `${API_URL}/login`;
 export const REGISTER_URL = `${API_URL}/register`;
-export const SECRET_URL = `${API_URL}/secret`;
 export const MAPS_API_URL = `${API_URL}/maps`;
 export const CHARACTERS_URL = `${API_URL}/characters`;
 export const ABILITIES_URL = `${API_URL}/abilities`;
