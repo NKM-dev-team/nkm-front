@@ -10,6 +10,7 @@ import lobbiesReducer from "../features/lobbiesSlice";
 import gamesReducer from "../features/gamesSlice";
 import notificationReducer from "../features/notificationSlice";
 import charactersReducer from "../features/charactersSlice";
+import abilitiesReducer from "../features/abilitiesSlice";
 import storage from "redux-persist/lib/storage";
 import persistCombineReducers from "redux-persist/es/persistCombineReducers";
 import {
@@ -34,6 +35,7 @@ const persistedRootReducer = persistCombineReducers(persistConfig, {
   gamesData: gamesReducer,
   notificationData: notificationReducer,
   charactersData: charactersReducer,
+  abilitiesData: abilitiesReducer,
 });
 
 export const store = configureStore({

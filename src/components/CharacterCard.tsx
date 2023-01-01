@@ -2,8 +2,19 @@ import React from "react";
 import {Box, Grid, Paper, Typography} from "@mui/material";
 import CharacterHexagon from "./CharacterHexagon";
 import { CharacterMetadata } from "../features/charactersSlice";
+import {RootState} from "../app/store";
+import {useSelector} from "react-redux";
+import Ability from "./Ability";
+import {AbilityMetadata} from "../features/abilitiesSlice";
 
 export default function CharacterCard({ c }: { c: CharacterMetadata }) {
+  const abilitiesData = useSelector((state: RootState) => state.abilitiesData);
+  const initialAbilityMetadatas: AbilityMetadata[] = c.initialAbilitiesMetadataIds
+    .map(id => abilitiesData.abilityMetadatas.find(a => a.name === id))
+    .flatMap(f => f ? [f] : []);
+
+  const abilities = initialAbilityMetadatas.map(am => <Ability am={am}/>);
+
   return (
     <Grid item>
       <Paper>
@@ -34,9 +45,9 @@ export default function CharacterCard({ c }: { c: CharacterMetadata }) {
         <Typography variant="body1" align="left">
           Magical defense: {c.initialMagicalDefense}
         </Typography>
-        {/*<Typography variant="body1" align="left">*/}
-        {/*  Abilities: {c.initialAbilitiesMetadataIds.join(', ')}*/}
-        {/*</Typography>*/}
+        <Grid container justifyContent="center" spacing={1}>
+          {abilities}
+        </Grid>
       </Paper>
     </Grid>
   );

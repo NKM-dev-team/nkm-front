@@ -5,9 +5,7 @@ import { RootState } from "../app/store";
 import CharacterCard from "../components/CharacterCard";
 
 export default function CharactersView() {
-  const charactersData = useSelector(
-    (state: RootState) => state.charactersData
-  );
+  const charactersData = useSelector((state: RootState) => state.charactersData);
   const characterSquares = charactersData.characterMetadataList.map((c) => (
     <CharacterCard c={c} key={c.name}/>
   ));
