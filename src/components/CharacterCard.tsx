@@ -5,8 +5,8 @@ import {AttackType, CharacterMetadata} from "../features/charactersSlice";
 import {RootState} from "../app/store";
 import {useSelector} from "react-redux";
 import Ability from "./Ability";
-import {AbilityMetadata} from "../features/abilitiesSlice";
 import StatImage from "./images/StatImage";
+import {createSelector} from "@reduxjs/toolkit";
 
 interface StatMapping {
   title: string;
@@ -15,12 +15,18 @@ interface StatMapping {
 }
 
 export default function CharacterCard({ c }: { c: CharacterMetadata }) {
-  const abilitiesData = useSelector((state: RootState) => state.abilitiesData);
-  const initialAbilityMetadatas: AbilityMetadata[] = c.initialAbilitiesMetadataIds
-    .map(id => abilitiesData.abilityMetadatas.find(a => a.name === id))
-    .flatMap(f => f ? [f] : []);
+  const selectAbilitiesData = (state: RootState) => state.abilitiesData;
+  const selectInitialAbilityMetadatas = createSelector(selectAbilitiesData, (abilitiesData) => {
+    return c.initialAbilitiesMetadataIds
+      .map(id => abilitiesData.abilityMetadatas.find(a => a.name === id))
+      .flatMap(f => f ? [f] : []);
+  });
+  const selectAbilities = createSelector(selectInitialAbilityMetadatas, (initialAbilityMetadatas) => {
+    return initialAbilityMetadatas.map(am => <Ability am={am} key={am.name}/>);
+  });
 
-  const abilities = initialAbilityMetadatas.map(am => <Ability am={am} key={am.name}/>);
+  const abilities = useSelector(selectAbilities);
+
   const statMappings: StatMapping[] = [
     {
       title: "Health points",
