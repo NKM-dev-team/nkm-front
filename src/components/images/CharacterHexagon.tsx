@@ -1,7 +1,7 @@
 import React from "react";
-import {ABILITIES} from "../img";
+import {CHARACTER_HEXAGONS} from "../../img";
 
-export default function AbilityImage({
+export default function CharacterHexagon({
   name,
   width,
 }: {
@@ -10,13 +10,13 @@ export default function AbilityImage({
 }) {
   return (
     <img
-      src={ABILITIES[name.toLowerCase()] ?? ABILITIES['empty']}
+      src={CHARACTER_HEXAGONS[name.toLowerCase()] ?? CHARACTER_HEXAGONS['empty']}
       alt={name}
       width={width}
       onError={(e) => {
         const target = e.target as HTMLImageElement;
         target.onerror = null;
-        target.src = ABILITIES['empty']
+        target.src = CHARACTER_HEXAGONS['empty']
       }}
     />
   );

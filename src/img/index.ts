@@ -12,3 +12,5 @@ function importAll(r: __WebpackModuleApi.RequireContext) {
 
 export const CHARACTER_HEXAGONS = importAll(require.context('./character_hexagons', false, /\.png/));
 export const ABILITIES = importAll(require.context('./abilities', false, /\.(png|jpe?g|svg)/));
+export const EFFECTS = importAll(require.context('./effects', false, /\.(png|jpe?g|svg)/));
+export const STATS_IMG = importAll(require.context('./stats', false, /\.(png|jpe?g|svg)/));
