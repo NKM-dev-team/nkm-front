@@ -1,16 +1,17 @@
 import React from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Link as RouterLink } from "react-router-dom";
-import { Link, Menu, MenuItem } from "@mui/material";
+import { Link as RouterLink, NavLink } from "react-router-dom";
+import {Grid, Link, Menu, MenuItem} from "@mui/material";
 import LeftDrawer from "./LeftDrawer";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../app/store";
 import { authLogout } from "../features/authSlice";
+import logo from "../img/nkm_logo.png";
+import {MAIN_ROUTE_MAP} from "../types/route_mapping";
 
 export default function Navbar() {
   const authData = useSelector((state: RootState) => state.authData);
@@ -44,9 +45,11 @@ export default function Navbar() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            {/*Photos*/}
-          </Typography>
+          <NavLink to={MAIN_ROUTE_MAP[0][1]} style={{ flexGrow: 1 }}>
+            <Grid container>
+              <img src={logo} alt={MAIN_ROUTE_MAP[0][0]} width={49} style={{alignSelf: "center"}}/>
+            </Grid>
+          </NavLink>
 
           {authData.login ? (
             <>
@@ -76,7 +79,6 @@ export default function Navbar() {
               </Menu>
             </>
           ) : (
-            // <Typography>{authData.login}</Typography>
             <Link color="inherit" component={RouterLink} to="/login">
               <Button color="inherit">Login</Button>
             </Link>

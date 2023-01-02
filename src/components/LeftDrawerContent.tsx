@@ -7,7 +7,7 @@ import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../app/store";
 import { Routes } from "../types/Routes";
-import {loggedInRouteMap, mainRouteMap, notLoggedInRouteMap} from "../types/route_mapping";
+import {AUTH_ROUTE_MAP, MAIN_ROUTE_MAP} from "../types/route_mapping";
 
 function CustomListItem(m: (string | Routes)[]) {
   return (
@@ -29,12 +29,11 @@ function CustomListItem(m: (string | Routes)[]) {
 
 export default function LeftDrawerContent() {
   const authData = useSelector((state: RootState) => state.authData);
-  const authRouteMap = authData.login ? loggedInRouteMap : notLoggedInRouteMap;
   return (
     <>
-      <List>{mainRouteMap.map((m) => CustomListItem(m))}</List>
+      <List>{MAIN_ROUTE_MAP.map((m) => CustomListItem(m))}</List>
       <Divider />
-      <List>{authRouteMap.map((m) => CustomListItem(m))}</List>
+      <List>{AUTH_ROUTE_MAP(Boolean(authData.login)).map((m) => CustomListItem(m))}</List>
     </>
   );
 }
