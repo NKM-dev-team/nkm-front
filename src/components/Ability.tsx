@@ -24,7 +24,7 @@ export default function Ability({ am }: { am: AbilityMetadata }) {
           {am.alternateName}
         </Typography>
         <Typography variant="body2">
-          <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(description)}} />
+          <span dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(description)}} />
         </Typography>
         {am.variables["cooldown"] ?
           <Typography variant="body2">

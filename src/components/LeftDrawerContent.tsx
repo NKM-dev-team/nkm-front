@@ -7,19 +7,7 @@ import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../app/store";
 import { Routes } from "../types/Routes";
-
-const mainRouteMap = [
-  ["Home", Routes.HOME],
-  ["Maps", Routes.HEXMAPS],
-  ["Characters", Routes.CHARACTERS],
-  ["Lobbies", Routes.LOBBIES],
-];
-
-const notLoggedInRouteMap = [
-  ["Login", Routes.LOGIN],
-  ["Register", Routes.REGISTER],
-];
-const loggedInRouteMap = [["Profil", Routes.USER]];
+import {loggedInRouteMap, mainRouteMap, notLoggedInRouteMap} from "../types/route_mapping";
 
 function CustomListItem(m: (string | Routes)[]) {
   return (

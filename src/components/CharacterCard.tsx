@@ -20,7 +20,7 @@ export default function CharacterCard({ c }: { c: CharacterMetadata }) {
     .map(id => abilitiesData.abilityMetadatas.find(a => a.name === id))
     .flatMap(f => f ? [f] : []);
 
-  const abilities = initialAbilityMetadatas.map(am => <Ability am={am}/>);
+  const abilities = initialAbilityMetadatas.map(am => <Ability am={am} key={am.name}/>);
   const statMappings: StatMapping[] = [
     {
       title: "Health points",
@@ -74,7 +74,7 @@ export default function CharacterCard({ c }: { c: CharacterMetadata }) {
           <Grid item container justifyContent="center" alignItems="center" spacing={2}>
             {
               statMappings.map(sm => (
-                <Grid item xs={4}>
+                <Grid item xs={4} key={sm.title}>
                   <Tooltip title={sm.title} arrow>
                     <Grid container justifyContent="space-between">
                       <Grid item>
@@ -90,24 +90,6 @@ export default function CharacterCard({ c }: { c: CharacterMetadata }) {
                 </Grid>
               ))
             }
-            {/*<Typography variant="body1" align="left">*/}
-            {/*  Attack type: {c.attackType}*/}
-            {/*</Typography>*/}
-            {/*<Typography variant="body1" align="left">*/}
-            {/*  Attack points: {c.initialAttackPoints}*/}
-            {/*</Typography>*/}
-            {/*<Typography variant="body1" align="left">*/}
-            {/*  Range: {c.initialBasicAttackRange}*/}
-            {/*</Typography>*/}
-            {/*<Typography variant="body1" align="left">*/}
-            {/*  Speed: {c.initialSpeed}*/}
-            {/*</Typography>*/}
-            {/*<Typography variant="body1" align="left">*/}
-            {/*  Physical defense: {c.initialPsychicalDefense}*/}
-            {/*</Typography>*/}
-            {/*<Typography variant="body1" align="left">*/}
-            {/*  Magical defense: {c.initialMagicalDefense}*/}
-            {/*</Typography>*/}
           </Grid>
           <Grid item container justifyContent="center" spacing={1}>
             {abilities}
