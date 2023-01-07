@@ -19,7 +19,7 @@ export interface CharacterMetadata {
   initialAttackPoints: number;
   initialBasicAttackRange: number;
   initialSpeed: number;
-  initialPsychicalDefense: number;
+  initialPhysicalDefense: number;
   initialMagicalDefense: number;
   initialAbilitiesMetadataIds: string[];
 }

@@ -30,16 +30,6 @@ export default function StatusView() {
       <Grid container spacing={2} p={1}>
         <Grid item xs={12}>
           <Typography>
-            {authData.login ? (
-              "Logged in as: {authData.login}"
-            ): (
-              "Not logged in."
-            )}
-          </Typography>
-        </Grid>
-
-        <Grid item xs={12}>
-          <Typography>
             {versionData.version ? (
               <>
                 Detected version on the server:

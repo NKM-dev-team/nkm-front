@@ -51,7 +51,7 @@ export default function CharacterCard({ c }: { c: CharacterMetadata }) {
     {
       title: "Physical defense",
       icon: "shield",
-      value: c.initialPsychicalDefense,
+      value: c.initialPhysicalDefense,
     },
     {
       title: "Magical defense",
