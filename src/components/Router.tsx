@@ -13,6 +13,7 @@ import LoginView from "../views/LoginView";
 import LobbyView from "../views/LobbyView";
 import CharactersView from "../views/CharactersView";
 import GameView from "../views/GameView";
+import StatusView from "../views/StatusView";
 
 function Router() {
   const authData = useSelector((state: RootState) => state.authData);
@@ -25,6 +26,10 @@ function Router() {
     {
       path: Routes.LOGIN,
       component: authData.login ? <Redirect to="/user" /> : <LoginView />,
+    },
+    {
+      path: Routes.STATUS,
+      component: <StatusView />,
     },
     {
       path: Routes.HEXMAPS,

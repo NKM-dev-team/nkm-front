@@ -58,7 +58,7 @@ export const getMapsAll = (): AppThunk => async (dispatch) => {
       //   )
       // );
       dispatch(setHexMapList(hexMaps));
-      dispatch(enqueueNotificationInfo("Hex maps downloaded"));
+      // dispatch(enqueueNotificationInfo("Hex maps downloaded"));
     } else {
       dispatch(
         enqueueNotificationError("Internal error with hex maps download")

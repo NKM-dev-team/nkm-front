@@ -55,7 +55,7 @@ export const getCharacterMetadataAll = (): AppThunk => async (dispatch) => {
     if (Array.isArray(result.data)) {
       let charactersMetadata = result.data;
       dispatch(setCharacterMetadataList(charactersMetadata));
-      dispatch(enqueueNotificationInfo("Characters downloaded"));
+      // dispatch(enqueueNotificationInfo("Characters downloaded"));
     } else {
       dispatch(
         enqueueNotificationError("Internal error with characters download")

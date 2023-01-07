@@ -52,7 +52,7 @@ export const getAbilityMetadatas = (): AppThunk => async (dispatch) => {
     if (Array.isArray(result.data)) {
       let abilityMetadatas = result.data;
       dispatch(setAbilityMetadatas(abilityMetadatas));
-      dispatch(enqueueNotificationInfo("Abilities downloaded"));
+      // dispatch(enqueueNotificationInfo("Abilities downloaded"));
     } else {
       dispatch(
         enqueueNotificationError("Internal error with abilities download")

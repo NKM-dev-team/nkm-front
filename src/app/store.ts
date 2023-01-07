@@ -11,6 +11,7 @@ import gamesReducer from "../features/gamesSlice";
 import notificationReducer from "../features/notificationSlice";
 import charactersReducer from "../features/charactersSlice";
 import abilitiesReducer from "../features/abilitiesSlice";
+import versionReducer from "../features/versionSlice";
 import storage from "redux-persist/lib/storage";
 import persistCombineReducers from "redux-persist/es/persistCombineReducers";
 import {
@@ -29,8 +30,9 @@ const persistConfig = {
 };
 
 const persistedRootReducer = persistCombineReducers(persistConfig, {
-  hexMapData: hexMapReducer,
   authData: authReducer,
+  versionData: versionReducer,
+  hexMapData: hexMapReducer,
   lobbiesData: lobbiesReducer,
   gamesData: gamesReducer,
   notificationData: notificationReducer,

@@ -2,6 +2,7 @@ import {Routes} from "./Routes";
 
 export const MAIN_ROUTE_MAP = [
   ["Home", Routes.HOME],
+  ["Status", Routes.STATUS],
   ["Maps", Routes.HEXMAPS],
   ["Characters", Routes.CHARACTERS],
   ["Lobbies", Routes.LOBBIES],
