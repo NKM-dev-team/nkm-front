@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface NotistackNotification {
-  key: string | number;
+  key: string;
   message: string;
   options: object | null;
 }
@@ -25,9 +25,9 @@ export const notificationSlice = createSlice({
       state.notifications.push(action.payload);
     },
 
-    dequeueNotification: (state, action: PayloadAction<string | number>) => {
+    dequeueNotification: (state, action: PayloadAction<string>) => {
       state.notifications = state.notifications.filter(
-        (n) => n.key === action.payload
+        (n) => n.key !== action.payload
       );
     },
   },
@@ -40,7 +40,7 @@ export const {
 
 export const enqueueNotificationSimple = (message: string, variant: string) =>
   enqueueNotification({
-    key: new Date().getTime() + Math.random(),
+    key: (new Date().getTime()).toString() + Math.random().toString(),
     message: message,
     options: {
       variant: variant,

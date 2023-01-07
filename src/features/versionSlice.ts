@@ -44,7 +44,7 @@ export const updateVersionIfNewer = (): AppThunk => async (dispatch, getState) =
       dispatch(getMapsAll());
       dispatch(getCharacterMetadataAll());
       dispatch(getAbilityMetadatas());
-      dispatch(enqueueNotificationInfo("New version detected"));
+      dispatch(enqueueNotificationInfo("New version detected, downloading data..."));
     }
   } catch (error) {
     dispatch(enqueueNotificationError("Unable to detect a version"));
