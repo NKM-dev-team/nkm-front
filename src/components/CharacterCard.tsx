@@ -18,8 +18,8 @@ export default function CharacterCard({ c }: { c: CharacterMetadata }) {
   const selectAbilitiesData = (state: RootState) => state.abilitiesData;
   const selectInitialAbilityMetadatas = createSelector(selectAbilitiesData, (abilitiesData) => {
     return c.initialAbilitiesMetadataIds
-      .map(id => abilitiesData.abilityMetadatas.find(a => a.name === id))
-      .flatMap(f => f ? [f] : []);
+        .map(id => abilitiesData.abilityMetadatas.find(a => a.name === id))
+        .flatMap(f => f ? [f] : []);
   });
   const selectAbilities = createSelector(selectInitialAbilityMetadatas, (initialAbilityMetadatas) => {
     return initialAbilityMetadatas.map(am => <Ability am={am} key={am.name}/>);
@@ -61,7 +61,6 @@ export default function CharacterCard({ c }: { c: CharacterMetadata }) {
   ];
 
   return (
-    <Grid item>
       <Paper sx={{
         p: 2,
         maxWidth: 200,
@@ -80,20 +79,20 @@ export default function CharacterCard({ c }: { c: CharacterMetadata }) {
           <Grid item container justifyContent="center" alignItems="center" spacing={2}>
             {
               statMappings.map(sm => (
-                <Grid item xs={4} key={sm.title}>
-                  <Tooltip title={sm.title} arrow>
-                    <Grid container justifyContent="space-between">
-                      <Grid item>
-                        <StatImage name={sm.icon} width="20"/>
+                  <Grid item xs={4} key={sm.title}>
+                    <Tooltip title={sm.title} arrow>
+                      <Grid container justifyContent="space-between">
+                        <Grid item>
+                          <StatImage name={sm.icon} width="20"/>
+                        </Grid>
+                        <Grid item>
+                          <Typography variant="body1">
+                            {sm.value}
+                          </Typography>
+                        </Grid>
                       </Grid>
-                      <Grid item>
-                        <Typography variant="body1">
-                          {sm.value}
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                  </Tooltip>
-                </Grid>
+                    </Tooltip>
+                  </Grid>
               ))
             }
           </Grid>
@@ -102,6 +101,5 @@ export default function CharacterCard({ c }: { c: CharacterMetadata }) {
           </Grid>
         </Grid>
       </Paper>
-    </Grid>
   );
 }
