@@ -1,11 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { AppThunk } from "../app/store";
-import {ABILITIES_URL} from "../app/consts";
-import {
-  enqueueNotificationError,
-  enqueueNotificationInfo,
-} from "./notificationSlice";
+import { ABILITIES_URL } from "../app/consts";
+import { enqueueNotificationError } from "./notificationSlice";
 
 export enum AbilityType {
   Passive = "Passive",
@@ -15,9 +12,9 @@ export enum AbilityType {
 
 export interface AbilityMetadata {
   name: string;
-  abilityType: AbilityType,
-  description: string,
-  variables: { [key: string]: number },
+  abilityType: AbilityType;
+  description: string;
+  variables: { [key: string]: number };
   alternateName: string;
 }
 interface AbilityMetadatasState {
@@ -34,10 +31,7 @@ export const abilitiesSlice = createSlice({
   name: "abilities",
   initialState,
   reducers: {
-    setAbilityMetadatas: (
-      state,
-      action: PayloadAction<AbilityMetadata[]>
-    ) => {
+    setAbilityMetadatas: (state, action: PayloadAction<AbilityMetadata[]>) => {
       state.initialized = true;
       state.abilityMetadatas = action.payload;
     },

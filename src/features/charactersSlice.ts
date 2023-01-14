@@ -2,10 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { AppThunk } from "../app/store";
 import { CHARACTERS_URL } from "../app/consts";
-import {
-  enqueueNotificationError,
-  enqueueNotificationInfo,
-} from "./notificationSlice";
+import { enqueueNotificationError } from "./notificationSlice";
 
 export enum AttackType {
   Melee = "Melee",
@@ -14,7 +11,7 @@ export enum AttackType {
 
 export interface CharacterMetadata {
   name: string;
-  attackType: AttackType,
+  attackType: AttackType;
   initialHealthPoints: number;
   initialAttackPoints: number;
   initialBasicAttackRange: number;

@@ -2,10 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { AppThunk } from "../app/store";
 import { MAPS_API_URL } from "../app/consts";
-import {
-  enqueueNotificationError,
-  enqueueNotificationInfo,
-} from "./notificationSlice";
+import { enqueueNotificationError } from "./notificationSlice";
 
 export interface HexCoordinates {
   x: number;
