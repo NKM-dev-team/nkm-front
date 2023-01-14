@@ -21,10 +21,6 @@ export default function Ability({ am }: { am: AbilityMetadata }) {
     "<br>"
   );
 
-  if (am.name === "Binding Ribbons") {
-    console.log(JSON.stringify(am.description));
-    console.log(JSON.stringify(description));
-  }
   return (
     <Tooltip
       title={
