@@ -27,7 +27,8 @@ function RegisterForm() {
                   inputRef={register({ required: true })}
                   error={errors.login}
                   autoFocus
-                  fullWidth />
+                  fullWidth
+                />
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -37,7 +38,8 @@ function RegisterForm() {
                   type="email"
                   inputRef={register({ required: true })}
                   error={errors.email}
-                  fullWidth />
+                  fullWidth
+                />
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -47,7 +49,8 @@ function RegisterForm() {
                   type="password"
                   inputRef={register({ required: true })}
                   error={errors.password}
-                  fullWidth />
+                  fullWidth
+                />
               </Grid>
               <Grid item xs={12}>
                 <Button

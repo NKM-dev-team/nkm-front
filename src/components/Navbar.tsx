@@ -5,13 +5,13 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link as RouterLink, NavLink } from "react-router-dom";
-import {Grid, Link, Menu, MenuItem} from "@mui/material";
+import { Grid, Link, Menu, MenuItem } from "@mui/material";
 import LeftDrawer from "./LeftDrawer";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../app/store";
 import { authLogout } from "../features/authSlice";
 import logo from "../img/nkm_logo.png";
-import {MAIN_ROUTE_MAP} from "../types/route_mapping";
+import { MAIN_ROUTE_MAP } from "../types/route_mapping";
 
 export default function Navbar() {
   const authData = useSelector((state: RootState) => state.authData);
@@ -47,7 +47,12 @@ export default function Navbar() {
           </IconButton>
           <NavLink to={MAIN_ROUTE_MAP[0][1]} style={{ flexGrow: 1 }}>
             <Grid container>
-              <img src={logo} alt={MAIN_ROUTE_MAP[0][0]} width={49} style={{alignSelf: "center"}}/>
+              <img
+                src={logo}
+                alt={MAIN_ROUTE_MAP[0][0]}
+                width={49}
+                style={{ alignSelf: "center" }}
+              />
             </Grid>
           </NavLink>
 
@@ -64,13 +69,13 @@ export default function Navbar() {
                 id="menu-appbar"
                 anchorEl={anchorEl}
                 anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
+                  vertical: "top",
+                  horizontal: "right",
                 }}
                 keepMounted
                 transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
+                  vertical: "top",
+                  horizontal: "right",
                 }}
                 open={Boolean(anchorEl)}
                 onClose={handleCloseClick}

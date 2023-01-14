@@ -1,15 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { AppThunk } from "../app/store";
-import {VERSION_URL} from "../app/consts";
+import { VERSION_URL } from "../app/consts";
 import {
   enqueueNotificationError,
   enqueueNotificationInfo,
 } from "./notificationSlice";
-import {getAllLobbies} from "./lobbiesSlice";
-import {getMapsAll} from "./hexMapSlice";
-import {getCharacterMetadataAll} from "./charactersSlice";
-import {getAbilityMetadatas} from "./abilitiesSlice";
+import { getAllLobbies } from "./lobbiesSlice";
+import { getMapsAll } from "./hexMapSlice";
+import { getCharacterMetadataAll } from "./charactersSlice";
+import { getAbilityMetadatas } from "./abilitiesSlice";
 
 interface VersionState {
   version: string;
@@ -23,10 +23,7 @@ export const versionSlice = createSlice({
   name: "version",
   initialState,
   reducers: {
-    updateVersion: (
-      state,
-      action: PayloadAction<string>
-    ) => {
+    updateVersion: (state, action: PayloadAction<string>) => {
       state.version = action.payload;
     },
   },
@@ -34,17 +31,22 @@ export const versionSlice = createSlice({
 
 export const { updateVersion } = versionSlice.actions;
 
-export const updateVersionIfNewer = (): AppThunk => async (dispatch, getState) => {
+export const updateVersionIfNewer = (): AppThunk => async (
+  dispatch,
+  getState
+) => {
   try {
     const result = await axios.get(VERSION_URL);
     const newVersion = result.data;
-    if(newVersion !== getState().versionData.version) {
+    if (newVersion !== getState().versionData.version) {
       dispatch(updateVersion(newVersion));
       dispatch(getAllLobbies());
       dispatch(getMapsAll());
       dispatch(getCharacterMetadataAll());
       dispatch(getAbilityMetadatas());
-      dispatch(enqueueNotificationInfo("New version detected, downloading data..."));
+      dispatch(
+        enqueueNotificationInfo("New version detected, downloading data...")
+      );
     }
   } catch (error) {
     dispatch(enqueueNotificationError("Unable to detect a version"));

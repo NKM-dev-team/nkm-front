@@ -40,7 +40,7 @@ export const {
 
 export const enqueueNotificationSimple = (message: string, variant: string) =>
   enqueueNotification({
-    key: (new Date().getTime()).toString() + Math.random().toString(),
+    key: new Date().getTime().toString() + Math.random().toString(),
     message: message,
     options: {
       variant: variant,

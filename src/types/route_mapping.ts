@@ -1,4 +1,4 @@
-import {Routes} from "./Routes";
+import { Routes } from "./Routes";
 
 export const MAIN_ROUTE_MAP = [
   ["Home", Routes.HOME],
@@ -14,5 +14,5 @@ export const NOT_LOGGED_IN_ROUTE_MAP = [
 ];
 export const LOGGED_IN_ROUTE_MAP = [["Profil", Routes.USER]];
 
-export const AUTH_ROUTE_MAP = (loggedIn: boolean) => loggedIn ? LOGGED_IN_ROUTE_MAP : NOT_LOGGED_IN_ROUTE_MAP;
-
+export const AUTH_ROUTE_MAP = (loggedIn: boolean) =>
+  loggedIn ? LOGGED_IN_ROUTE_MAP : NOT_LOGGED_IN_ROUTE_MAP;

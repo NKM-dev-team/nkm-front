@@ -3,19 +3,23 @@ import ReactDOM from "react-dom";
 import Router from "./components/Router";
 import { store } from "./app/store";
 import { Provider } from "react-redux";
-import { createTheme, CssBaseline, ThemeProvider, Theme, StyledEngineProvider} from "@mui/material";
+import {
+  createTheme,
+  CssBaseline,
+  ThemeProvider,
+  Theme,
+  StyledEngineProvider,
+} from "@mui/material";
 import { PersistGate } from "redux-persist/integration/react";
 import persistStore from "redux-persist/es/persistStore";
 import Notifier from "./components/Notifier";
 import { SnackbarProvider } from "notistack";
 import BackgroundService from "./components/BackgroundService";
 
-
-declare module '@mui/styles/defaultTheme' {
+declare module "@mui/styles/defaultTheme" {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
   interface DefaultTheme extends Theme {}
 }
-
 
 const theme = createTheme({
   palette: {

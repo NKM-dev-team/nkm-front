@@ -1,5 +1,5 @@
 import React from "react";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import InputLabel from "@mui/material/FormLabel";
 import { Slider, SliderProps } from "@mui/material";
 

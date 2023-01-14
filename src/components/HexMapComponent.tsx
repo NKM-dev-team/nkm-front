@@ -58,7 +58,7 @@ function HexMapComponent({
     const point = cellToPixel(c, originX, originY);
     return (
       <polygon
-        key={c.coordinates.x + ' ' + c.coordinates.z}
+        key={c.coordinates.x + " " + c.coordinates.z}
         transform={`translate(${point.x}, ${point.y})`}
         fill={cellTypeToColor(c.cellType)}
         stroke="#1f1212"

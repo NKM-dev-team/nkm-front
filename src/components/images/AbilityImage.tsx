@@ -1,5 +1,5 @@
 import React from "react";
-import {ABILITIES} from "../../img";
+import { ABILITIES } from "../../img";
 
 export default function AbilityImage({
   name,
@@ -10,13 +10,13 @@ export default function AbilityImage({
 }) {
   return (
     <img
-      src={ABILITIES[name.toLowerCase()] ?? ABILITIES['empty']}
+      src={ABILITIES[name.toLowerCase()] ?? ABILITIES["empty"]}
       alt={name}
       width={width}
       onError={(e) => {
         const target = e.target as HTMLImageElement;
         target.onerror = null;
-        target.src = ABILITIES['empty']
+        target.src = ABILITIES["empty"];
       }}
     />
   );
