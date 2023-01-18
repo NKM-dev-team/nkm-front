@@ -1,8 +1,8 @@
-import { HexMap } from "../features/hexMapSlice";
-import { HexCell } from "../features/hexMapSlice";
 import React from "react";
 import Orientation from "../types/Orientation";
 import Point from "../types/Point";
+import { HexCell } from "../types/game/hex/HexCell";
+import { HexMapView } from "../types/game/hex/HexMapView";
 
 // TODO: move to HexCell class / interface
 const cellY = (c: HexCell) => -c.coordinates.x - c.coordinates.z;
@@ -24,7 +24,7 @@ function HexMapComponent({
   onHexagonClick,
 }: {
   scale?: number;
-  hexMap: HexMap;
+  hexMap: HexMapView;
   onHexagonClick?: (c: HexCell) => void;
 }) {
   const cells = hexMap.cells;

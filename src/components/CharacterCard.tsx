@@ -1,12 +1,13 @@
 import React from "react";
 import { Grid, Paper, Tooltip, Typography } from "@mui/material";
 import CharacterHexagon from "./images/CharacterHexagon";
-import { AttackType, CharacterMetadata } from "../features/charactersSlice";
 import { RootState } from "../app/store";
 import { useSelector } from "react-redux";
 import Ability from "./Ability";
 import StatImage from "./images/StatImage";
 import { createSelector } from "@reduxjs/toolkit";
+import { CharacterMetadata } from "../types/game/character/CharacterMetadata";
+import { AttackType } from "../types/game/character/AttackType";
 
 interface StatMapping {
   title: string;
