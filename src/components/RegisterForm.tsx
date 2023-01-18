@@ -8,7 +8,6 @@ import { registerUser } from "../features/authSlice";
 function RegisterForm() {
   const { register, handleSubmit, errors } = useForm();
   const dispatch = useDispatch();
-  // const userData = useSelector((state) => state.userData);
 
   const onSubmit = (registerRequest: RegisterRequest) =>
     dispatch(registerUser(registerRequest));

@@ -2,9 +2,11 @@ import React from "react";
 import { Box, Card, CardContent, Grid, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../app/store";
-import { getAllLobbies, LobbyState } from "../features/lobbiesSlice";
+import { getAllLobbies } from "../features/lobbiesSlice";
 import { Link as RouterLink } from "react-router-dom";
 import { useMountEffect } from "../app/utils";
+import { LobbyState } from "../types/lobby/LobbyState";
+import CreateLobbyForm from "../components/CreateLobbyForm";
 
 export default function LobbiesView() {
   const lobbiesData = useSelector((state: RootState) => state.lobbiesData);
@@ -18,6 +20,7 @@ export default function LobbiesView() {
 
   return (
     <>
+      <CreateLobbyForm />
       {lobbiesData.lobbyList.length === 0 ? (
         <Typography>No lobbies created yet</Typography>
       ) : (

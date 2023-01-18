@@ -1,4 +1,4 @@
-import { HexCoordinates } from "../../features/hexMapSlice";
+import { HexCoordinates } from "../game/hex/HexCoordinates";
 
 export interface PlaceCharacterRequest {
   gameId: string;

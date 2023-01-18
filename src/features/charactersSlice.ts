@@ -3,23 +3,8 @@ import axios from "axios";
 import { AppThunk } from "../app/store";
 import { CHARACTERS_URL } from "../app/consts";
 import { enqueueNotificationError } from "./notificationSlice";
+import { CharacterMetadata } from "../types/game/character/CharacterMetadata";
 
-export enum AttackType {
-  Melee = "Melee",
-  Ranged = "Ranged",
-}
-
-export interface CharacterMetadata {
-  name: string;
-  attackType: AttackType;
-  initialHealthPoints: number;
-  initialAttackPoints: number;
-  initialBasicAttackRange: number;
-  initialSpeed: number;
-  initialPhysicalDefense: number;
-  initialMagicalDefense: number;
-  initialAbilitiesMetadataIds: string[];
-}
 interface CharactersState {
   initialized: boolean;
   characterMetadataList: CharacterMetadata[];
