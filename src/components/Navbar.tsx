@@ -4,6 +4,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
+import CircleIcon from "@mui/icons-material/Circle";
 import { Link as RouterLink, NavLink } from "react-router-dom";
 import { Grid, Link, Menu, MenuItem } from "@mui/material";
 import LeftDrawer from "./LeftDrawer";
@@ -12,6 +13,7 @@ import { RootState } from "../app/store";
 import { authLogout } from "../features/authSlice";
 import logo from "../img/nkm_logo.png";
 import { MAIN_ROUTE_MAP } from "../types/route_mapping";
+import WebsocketStatusIcon from "./WebsocketStatusIcon";
 
 export default function Navbar() {
   const authData = useSelector((state: RootState) => state.authData);
@@ -55,6 +57,7 @@ export default function Navbar() {
               />
             </Grid>
           </NavLink>
+          <WebsocketStatusIcon />
 
           {authData.login ? (
             <>

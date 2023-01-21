@@ -1,5 +1,5 @@
 import { PickType } from "../game/PickType";
-import {ClockConfig} from "../game/ClockConfig";
+import { ClockConfig } from "../game/ClockConfig";
 
 export interface Auth {
   token: string;
@@ -34,10 +34,12 @@ export interface SetNumberOfBans {
   lobbyId: string;
   numberOfBans: number;
 }
+
 export interface SetNumberOfCharactersPerPlayer {
   lobbyId: string;
   charactersPerPlayer: number;
 }
+
 export interface SetPickType {
   lobbyId: string;
   pickType: PickType;

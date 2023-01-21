@@ -5,7 +5,7 @@ export interface LobbyState {
   id: string;
   name: string | null;
   hostUserId: string | null;
-  creationDate: Date | null;
+  creationDate: string | null;
   chosenHexMapName: string | null;
   userIds: string[];
   pickType: PickType;

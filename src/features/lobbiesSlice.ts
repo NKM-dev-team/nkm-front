@@ -22,10 +22,17 @@ export const lobbiesSlice = createSlice({
       state.initialized = true;
       state.lobbyList = action.payload;
     },
+    upsertLobby: (state, action: PayloadAction<LobbyState>) => {
+      if (state.initialized) {
+        state.lobbyList = state.lobbyList
+          .filter((l) => l.id !== action.payload.id)
+          .concat(action.payload);
+      }
+    },
   },
 });
 
-export const { setLobbyList } = lobbiesSlice.actions;
+export const { setLobbyList, upsertLobby } = lobbiesSlice.actions;
 
 export const getAllLobbies = (): AppThunk => async (dispatch) => {
   try {
