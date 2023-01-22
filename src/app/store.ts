@@ -7,7 +7,6 @@ import {
 import hexMapReducer from "../features/hexMapSlice";
 import authReducer from "../features/authSlice";
 import lobbiesReducer from "../features/lobbiesSlice";
-import gamesReducer from "../features/gamesSlice";
 import notificationReducer from "../features/notificationSlice";
 import charactersReducer from "../features/charactersSlice";
 import abilitiesReducer from "../features/abilitiesSlice";
@@ -34,7 +33,6 @@ const persistedRootReducer = persistCombineReducers(persistConfig, {
   versionData: versionReducer,
   hexMapData: hexMapReducer,
   lobbiesData: lobbiesReducer,
-  gamesData: gamesReducer,
   notificationData: notificationReducer,
   charactersData: charactersReducer,
   abilitiesData: abilitiesReducer,
