@@ -11,16 +11,16 @@ import {
   Typography,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../app/store";
+import { RootState } from "../../app/store";
 import { useParams, useHistory } from "react-router-dom";
 import Star from "@mui/icons-material/Star";
-import CustomSelect from "../components/CustomSelect";
-import { PickType } from "../types/game/PickType";
-import CustomSlider from "../components/CustomSlider";
+import CustomSelect from "../CustomSelect";
+import { PickType } from "../../types/game/PickType";
+import CustomSlider from "../CustomSlider";
 import useWebSocket from "react-use-websocket";
-import { WS_LOBBY_URL } from "../app/consts";
-import { LobbyWsHandler } from "../app/lobbyWsHandler";
-import { useMountEffect } from "../app/utils";
+import { WS_LOBBY_URL } from "../../app/consts";
+import { LobbyWsHandler } from "../../app/lobbyWsHandler";
+import { useMountEffect } from "../../app/utils";
 
 export default function LobbyView() {
   const dispatch = useDispatch();

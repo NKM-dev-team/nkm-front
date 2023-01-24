@@ -9,17 +9,17 @@ import {
   Typography,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../app/store";
-import { getAllLobbies } from "../features/lobbiesSlice";
+import { RootState } from "../../app/store";
+import { getAllLobbies } from "../../features/lobbiesSlice";
 import { Link as RouterLink } from "react-router-dom";
-import { useMountEffect } from "../app/utils";
-import { LobbyState } from "../types/lobby/LobbyState";
-import CreateLobbyForm from "../components/CreateLobbyForm";
+import { useMountEffect } from "../../app/utils";
+import { LobbyState } from "../../types/lobby/LobbyState";
+import CreateLobbyForm from "../CreateLobbyForm";
 import {
   BACKEND_TIME_OFFSET,
   LOBBY_REFRESH_INTERVAL,
   SHOW_LOBBIES_FRESHER_THAN,
-} from "../app/consts";
+} from "../../app/consts";
 
 export default function LobbiesView() {
   const lobbiesData = useSelector((state: RootState) => state.lobbiesData);

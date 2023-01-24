@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Paper, Typography } from "@mui/material";
-import { RootState } from "../app/store";
+import { RootState } from "../../app/store";
 
 function Profile() {
   const authData = useSelector((state: RootState) => state.authData);

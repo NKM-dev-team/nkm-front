@@ -1,9 +1,9 @@
 import React from "react";
 import { Typography, Grid, Paper } from "@mui/material";
 import { useSelector } from "react-redux";
-import { RootState } from "../app/store";
-import { MemoizedHexMapComponent } from "../components/HexMapComponent";
-import { HexMapView } from "../types/game/hex/HexMapView";
+import { RootState } from "../../app/store";
+import { MemoizedHexMapComponent } from "../HexMapComponent";
+import { HexMapView } from "../../types/game/hex/HexMapView";
 
 export default function HexMapsView() {
   const hexMapData = useSelector((state: RootState) => state.hexMapData);

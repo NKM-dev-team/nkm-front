@@ -24,15 +24,11 @@ declare module "@mui/styles/defaultTheme" {
 const theme = createTheme({
   palette: {
     mode: "dark",
-    primary: {
-      main: "#1a71b8",
-    },
     secondary: {
       main: "#f50057",
     },
     background: {
       paper: "#181818",
-      default: "#0e0b0b",
     },
   },
 });

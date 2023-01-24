@@ -13,7 +13,7 @@ export class GameWsHandler {
   constructor(
     dispatch: any,
     sendJsonMessage: (jsonMessage: any, keep?: boolean) => void,
-    onReceiveSuccess: (request: WebsocketGameResponse) => void
+    onReceiveSuccess: (response: WebsocketGameResponse) => void
   ) {
     this.sendJson = sendJsonMessage;
     this.dispatch = dispatch;

@@ -1,5 +1,5 @@
-import { GameEvent } from "./GameEvent";
+import { GameEventView } from "./GameEventView";
 
 export interface GameLogView {
-  events: GameEvent[];
+  events: GameEventView[];
 }

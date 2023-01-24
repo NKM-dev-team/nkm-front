@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { Box, Grid, Link, Paper, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
-import { RootState } from "../app/store";
+import { RootState } from "../../app/store";
 import axios from "axios";
 import {
   GITHUB_SERVER_COMMIT_URL,
   GITHUB_SERVER_COMMITS_URL,
   GITHUB_SERVER_MASTER_HEAD_URL,
   VERSION_URL,
-} from "../app/consts";
-import { useMountEffect } from "../app/utils";
+} from "../../app/consts";
+import { useMountEffect } from "../../app/utils";
 
 export default function StatusView() {
   const versionData = useSelector((state: RootState) => state.versionData);

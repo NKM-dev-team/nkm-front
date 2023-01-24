@@ -1,6 +1,9 @@
-import { NkmCharacterView } from "./character/NkmCharacterView";
+import { CharacterId } from "../typeAliases";
+import { VictoryStatus } from "./VictoryStatus";
 
 export interface Player {
   name: string;
-  characters: NkmCharacterView[];
+  characterIds: Set<CharacterId>;
+  victoryStatus: VictoryStatus;
+  isHost: boolean;
 }

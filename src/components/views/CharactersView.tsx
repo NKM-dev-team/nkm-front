@@ -1,8 +1,8 @@
 import React from "react";
 import { Grid, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
-import { RootState } from "../app/store";
-import CharacterCard from "../components/CharacterCard";
+import { RootState } from "../../app/store";
+import CharacterCard from "../CharacterCard";
 
 export default function CharactersView() {
   const charactersData = useSelector(

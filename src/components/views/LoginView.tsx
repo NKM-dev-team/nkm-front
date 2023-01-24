@@ -1,7 +1,7 @@
 import React from "react";
-import LoginForm from "../components/LoginForm";
+import LoginForm from "../LoginForm";
 import { Box, Typography } from "@mui/material";
-import { Routes } from "../types/Routes";
+import { Routes } from "../../types/Routes";
 import { Link as RouterLink } from "react-router-dom";
 
 export default function LoginView() {

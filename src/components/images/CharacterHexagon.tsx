@@ -1,14 +1,17 @@
 import React from "react";
 import { CHARACTER_HEXAGONS } from "../../img";
+import { Tooltip } from "@mui/material";
 
 export default function CharacterHexagon({
   name,
   width,
+  tooltip = false,
 }: {
   name: string;
   width?: string | number | undefined;
+  tooltip?: boolean;
 }) {
-  return (
+  const image = (
     <img
       src={
         CHARACTER_HEXAGONS[name.toLowerCase()] ?? CHARACTER_HEXAGONS["empty"]
@@ -22,4 +25,11 @@ export default function CharacterHexagon({
       }}
     />
   );
+  if (tooltip) {
+    return (
+      <Tooltip title={name} arrow>
+        {image}
+      </Tooltip>
+    );
+  } else return image;
 }
