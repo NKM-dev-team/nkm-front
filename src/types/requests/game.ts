@@ -29,7 +29,7 @@ export interface Surrender {
 
 export interface BanCharacters {
   lobbyId: GameId;
-  characterIds: Set<CharacterMetadataId>;
+  characterIds: CharacterMetadataId[];
 }
 
 export interface PickCharacter {
@@ -39,7 +39,7 @@ export interface PickCharacter {
 
 export interface BlindPickCharacters {
   lobbyId: GameId;
-  characterIds: Set<CharacterMetadataId>;
+  characterIds: CharacterMetadataId[];
 }
 
 export interface PlaceCharacters {

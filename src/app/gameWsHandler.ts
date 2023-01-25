@@ -25,6 +25,10 @@ export class GameWsHandler {
       requestPath: requestPath,
       requestJson: JSON.stringify(request),
     };
+    this.sendRequest(wsRequest);
+  }
+
+  sendRequest(wsRequest: WebsocketGameRequest) {
     console.log(wsRequest);
     this.sendJson(wsRequest);
   }

@@ -4,6 +4,7 @@ import React from "react";
 interface TitledPaperProps {
   children?: React.ReactNode;
   title?: string;
+  [x: string]: any;
 }
 
 export function TitledPaper(props: TitledPaperProps) {

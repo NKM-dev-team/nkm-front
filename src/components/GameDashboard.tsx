@@ -1,10 +1,9 @@
-import { Chip, Grid, List, ListItem, Paper, Typography } from "@mui/material";
+import { Grid, List, ListItem, Paper, Typography } from "@mui/material";
 import React from "react";
 import { GameStateView } from "../types/game/GameStateView";
 import CharacterHexagon from "./images/CharacterHexagon";
 import { MemoizedHexMapComponent } from "./HexMapComponent";
 import { characterById } from "../app/utils";
-import ListItemText from "@mui/material/ListItemText";
 import { GameEventView } from "../types/game/GameEventView";
 import GameEventsComponent from "./GameEventsComponent";
 import { TitledPaper } from "./TitledPaper";

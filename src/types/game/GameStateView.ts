@@ -17,7 +17,7 @@ import { GameLogView } from "./GameLogView";
 
 export interface GameStateView {
   id: GameId;
-  charactersMetadata: Set<CharacterMetadata>;
+  charactersMetadata: CharacterMetadata[];
   gameStatus: GameStatus;
   pickType: PickType;
   numberOfBans: number;
@@ -26,15 +26,15 @@ export interface GameStateView {
   blindPickState: BlindPickStateView | null;
   hexMap: HexMapView | null;
   players: Player[];
-  characters: Set<NkmCharacterView>;
-  abilities: Set<AbilityView>;
-  effects: Set<CharacterEffectView>;
+  characters: NkmCharacterView[];
+  abilities: AbilityView[];
+  effects: CharacterEffectView[];
   phase: Phase;
   turn: Turn;
-  characterIdsOutsideMap: Set<CharacterId>;
-  characterIdsThatTookActionThisPhase: Set<CharacterId>;
+  characterIdsOutsideMap: CharacterId[];
+  characterIdsThatTookActionThisPhase: CharacterId[];
   characterTakingActionThisTurn: CharacterId | null;
-  playerIdsThatPlacedCharacters: Set<PlayerId>;
+  playerIdsThatPlacedCharacters: PlayerId[];
   clockConfig: ClockConfig;
   clock: Clock;
   gameLog: GameLogView;
