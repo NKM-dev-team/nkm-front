@@ -13,8 +13,21 @@ import { authLogout } from "../features/authSlice";
 import logo from "../img/nkm_logo.png";
 import { MAIN_ROUTE_MAP } from "../types/route_mapping";
 import WebsocketStatusIcon from "./WebsocketStatusIcon";
+import { WebSocketHook } from "react-use-websocket/dist/lib/types";
 
-export default function Navbar() {
+interface NavbarProps {
+  lobbyWsHook: WebSocketHook;
+  gameWsHook: WebSocketHook;
+  refreshLobbyWsConnection: () => void;
+  refreshGameWsConnection: () => void;
+}
+
+export default function Navbar({
+  lobbyWsHook,
+  gameWsHook,
+  refreshLobbyWsConnection,
+  refreshGameWsConnection,
+}: NavbarProps) {
   const authData = useSelector((state: RootState) => state.authData);
   const dispatch = useDispatch();
 
@@ -56,7 +69,16 @@ export default function Navbar() {
               />
             </Grid>
           </NavLink>
-          <WebsocketStatusIcon />
+          <WebsocketStatusIcon
+            wsName={"Lobby"}
+            wsHook={lobbyWsHook}
+            restartWs={refreshLobbyWsConnection}
+          />
+          <WebsocketStatusIcon
+            wsName={"Game"}
+            wsHook={gameWsHook}
+            restartWs={refreshGameWsConnection}
+          />
 
           {authData.login ? (
             <>

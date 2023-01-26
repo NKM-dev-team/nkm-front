@@ -17,16 +17,17 @@ import Star from "@mui/icons-material/Star";
 import CustomSelect from "../CustomSelect";
 import { PickType } from "../../types/game/PickType";
 import CustomSlider from "../CustomSlider";
-import useWebSocket from "react-use-websocket";
-import { WS_LOBBY_URL } from "../../app/consts";
 import { LobbyWsHandler } from "../../app/lobbyWsHandler";
 import { useMountEffect } from "../../app/utils";
+import { WebSocketHook } from "react-use-websocket/dist/lib/types";
 
-export default function LobbyView() {
+interface LobbyViewProps {
+  lobbyWsHook: WebSocketHook;
+}
+
+export default function LobbyView({ lobbyWsHook }: LobbyViewProps) {
   const dispatch = useDispatch();
-  const { sendJsonMessage } = useWebSocket(WS_LOBBY_URL, {
-    share: true,
-  });
+  const { sendJsonMessage } = lobbyWsHook;
 
   const lobbyWsHandler = useMemo(
     () => new LobbyWsHandler(dispatch, sendJsonMessage),

@@ -3,16 +3,13 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { Box, Button, Grid, Paper, TextField } from "@mui/material";
 import { LobbyCreation } from "../types/requests/lobby";
-import { WS_LOBBY_URL } from "../app/consts";
-import useWebSocket from "react-use-websocket";
 import { LobbyWsHandler } from "../app/lobbyWsHandler";
+import { WebSocketHook } from "react-use-websocket/dist/lib/types";
 
-function CreateLobbyForm() {
+function CreateLobbyForm({ lobbyWsHook }: { lobbyWsHook: WebSocketHook }) {
   const { register, handleSubmit, errors } = useForm();
   const dispatch = useDispatch();
-  const { sendJsonMessage } = useWebSocket(WS_LOBBY_URL, {
-    share: true,
-  });
+  const { sendJsonMessage } = lobbyWsHook;
 
   const lobbyWsHandler = useMemo(
     () => new LobbyWsHandler(dispatch, sendJsonMessage),

@@ -1,13 +1,21 @@
 import React from "react";
-import { Tooltip } from "@mui/material";
+import { IconButton, Tooltip, Typography } from "@mui/material";
 import CircleIcon from "@mui/icons-material/Circle";
-import useWebSocket, { ReadyState } from "react-use-websocket";
-import { WS_LOBBY_URL } from "../app/consts";
+import { ReadyState } from "react-use-websocket";
+import { WebSocketHook } from "react-use-websocket/dist/lib/types";
 
-export default function WebsocketStatusIcon() {
-  const { readyState } = useWebSocket(WS_LOBBY_URL, {
-    share: true,
-  });
+interface WebsocketStatusIconProps {
+  wsName: string;
+  wsHook: WebSocketHook;
+  restartWs: () => void;
+}
+
+export default function WebsocketStatusIcon({
+  wsName,
+  wsHook,
+  restartWs,
+}: WebsocketStatusIconProps) {
+  const { readyState } = wsHook;
 
   const connectionStatus = {
     [ReadyState.CONNECTING]: "Connecting",
@@ -22,12 +30,23 @@ export default function WebsocketStatusIcon() {
     [ReadyState.OPEN]: "green",
     [ReadyState.CLOSING]: "yellow",
     [ReadyState.CLOSED]: "red",
-    [ReadyState.UNINSTANTIATED]: "red",
+    [ReadyState.UNINSTANTIATED]: "grey",
   }[readyState];
 
   return (
-    <Tooltip title={`Connection status: ${connectionStatus}`}>
-      <CircleIcon sx={{ color: color }} />
+    <Tooltip
+      title={
+        <>
+          <Typography>
+            {wsName} connection status: {connectionStatus}
+          </Typography>
+          <Typography>To reconnect, click the circle.</Typography>
+        </>
+      }
+    >
+      <IconButton onClick={() => restartWs()}>
+        <CircleIcon sx={{ color: color }} />
+      </IconButton>
     </Tooltip>
   );
 }

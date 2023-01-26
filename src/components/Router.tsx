@@ -14,8 +14,21 @@ import CharactersView from "./views/CharactersView";
 import GameView from "./views/GameView";
 import StatusView from "./views/StatusView";
 import LobbyView from "./views/LobbyView";
+import { WebSocketHook } from "react-use-websocket/dist/lib/types";
 
-function Router() {
+interface RouterProps {
+  lobbyWsHook: WebSocketHook;
+  gameWsHook: WebSocketHook;
+  refreshLobbyWsConnection: () => void;
+  refreshGameWsConnection: () => void;
+}
+
+function Router({
+  lobbyWsHook,
+  gameWsHook,
+  refreshLobbyWsConnection,
+  refreshGameWsConnection,
+}: RouterProps) {
   const authData = useSelector((state: RootState) => state.authData);
 
   const routes = [
@@ -41,15 +54,15 @@ function Router() {
     },
     {
       path: Routes.LOBBIES,
-      component: <LobbiesView />,
+      component: <LobbiesView lobbyWsHook={lobbyWsHook} />,
     },
     {
       path: Routes.LOBBY,
-      component: <LobbyView />,
+      component: <LobbyView lobbyWsHook={lobbyWsHook} />,
     },
     {
       path: Routes.GAME,
-      component: <GameView />,
+      component: <GameView gameWsHook={gameWsHook} />,
     },
     {
       path: Routes.USER,
@@ -66,7 +79,14 @@ function Router() {
       <Switch>
         {routes.map((route) => (
           <Route key={1} path={route.path}>
-            <MainLayout>{route.component}</MainLayout>
+            <MainLayout
+              lobbyWsHook={lobbyWsHook}
+              gameWsHook={gameWsHook}
+              refreshLobbyWsConnection={refreshLobbyWsConnection}
+              refreshGameWsConnection={refreshGameWsConnection}
+            >
+              {route.component}
+            </MainLayout>
           </Route>
         ))}
       </Switch>

@@ -1,14 +1,30 @@
 import React from "react";
 import Navbar from "./Navbar";
 import { Container } from "@mui/material";
+import { WebSocketHook } from "react-use-websocket/dist/lib/types";
 
-interface MyProps {
+interface MainLayoutProps {
   children?: React.ReactNode;
+  lobbyWsHook: WebSocketHook;
+  gameWsHook: WebSocketHook;
+  refreshLobbyWsConnection: () => void;
+  refreshGameWsConnection: () => void;
 }
-export default function MainLayout({ children }: MyProps) {
+export default function MainLayout({
+  children,
+  lobbyWsHook,
+  gameWsHook,
+  refreshLobbyWsConnection,
+  refreshGameWsConnection,
+}: MainLayoutProps) {
   return (
     <>
-      <Navbar />
+      <Navbar
+        lobbyWsHook={lobbyWsHook}
+        gameWsHook={gameWsHook}
+        refreshLobbyWsConnection={refreshLobbyWsConnection}
+        refreshGameWsConnection={refreshGameWsConnection}
+      />
       <Container>
         <>{children}</>
       </Container>

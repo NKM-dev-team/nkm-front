@@ -20,8 +20,12 @@ import {
   LOBBY_REFRESH_INTERVAL,
   SHOW_LOBBIES_FRESHER_THAN,
 } from "../../app/consts";
+import { WebSocketHook } from "react-use-websocket/dist/lib/types";
+interface LobbiesViewProps {
+  lobbyWsHook: WebSocketHook;
+}
 
-export default function LobbiesView() {
+export default function LobbiesView({ lobbyWsHook }: LobbiesViewProps) {
   const lobbiesData = useSelector((state: RootState) => state.lobbiesData);
   const authData = useSelector((state: RootState) => state.authData);
   const dispatch = useDispatch();
@@ -52,7 +56,7 @@ export default function LobbiesView() {
         interface from the Unity game frontend to play.
       </Alert>
 
-      {authData.login ? <CreateLobbyForm /> : null}
+      {authData.login ? <CreateLobbyForm lobbyWsHook={lobbyWsHook} /> : null}
       {lobbiesToDisplay.length === 0 ? (
         <Alert severity="info">No recent lobbies to display.</Alert>
       ) : null}

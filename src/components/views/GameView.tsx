@@ -2,8 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Alert, Box, Button, Tab, Tabs } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import useWebSocket, { ReadyState } from "react-use-websocket";
-import { WS_GAME_URL } from "../../app/consts";
+import { ReadyState } from "react-use-websocket";
 import { GameWsHandler } from "../../app/gameWsHandler";
 import { GameStateView } from "../../types/game/GameStateView";
 import { GameResponseType } from "../../types/game/ws/GameResponseType";
@@ -18,8 +17,13 @@ import CustomSelect from "../CustomSelect";
 import { GameRoute } from "../../types/game/ws/GameRoute";
 import { WebsocketGameRequest } from "../../types/game/ws/WebsocketGameRequest";
 import { routeToRequest } from "../../app/utils";
+import { WebSocketHook } from "react-use-websocket/dist/lib/types";
 
-export default function GameView() {
+interface GameViewProps {
+  gameWsHook: WebSocketHook;
+}
+
+export default function GameView({ gameWsHook }: GameViewProps) {
   const { id } = useParams<{ id: string }>();
 
   const dispatch = useDispatch();
@@ -36,8 +40,7 @@ export default function GameView() {
     requestJson: JSON.stringify({ lobbyId: id }),
   });
 
-  const { sendJsonMessage, lastJsonMessage, readyState } =
-    useWebSocket(WS_GAME_URL);
+  const { sendJsonMessage, lastJsonMessage, readyState } = gameWsHook;
 
   const gameWsHandler = useMemo(
     () =>

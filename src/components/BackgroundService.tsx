@@ -2,13 +2,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateVersionIfNewer } from "../features/versionSlice";
 import { VERSION_CHECK_INTERVAL, WS_LOBBY_URL } from "../app/consts";
 import { useMountEffect } from "../app/utils";
-import useWebSocket, { ReadyState } from "react-use-websocket";
+import { ReadyState } from "react-use-websocket";
 import { RootState } from "../app/store";
 import { Auth } from "../types/requests/lobby";
 import { useEffect, useMemo } from "react";
 import { LobbyWsHandler } from "../app/lobbyWsHandler";
+import { WebSocketHook } from "react-use-websocket/dist/lib/types";
 
-export default function BackgroundService() {
+export default function BackgroundService({
+  lobbyWsHook,
+}: {
+  lobbyWsHook: WebSocketHook;
+}) {
   const dispatch = useDispatch();
 
   const checkForNewVersionRepeatedly = () => {
@@ -18,15 +23,7 @@ export default function BackgroundService() {
 
   useMountEffect(checkForNewVersionRepeatedly);
 
-  const { sendJsonMessage, lastJsonMessage, readyState } = useWebSocket(
-    WS_LOBBY_URL,
-    {
-      share: true,
-      retryOnError: true,
-      reconnectInterval: 1000,
-      reconnectAttempts: 10,
-    }
-  );
+  const { sendJsonMessage, lastJsonMessage, readyState } = lobbyWsHook;
 
   const authData = useSelector((state: RootState) => state.authData);
 
