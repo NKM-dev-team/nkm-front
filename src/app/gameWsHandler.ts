@@ -1,4 +1,4 @@
-import * as GameRequest from "../types/requests/game";
+import * as GameRequest from "../types/requests/GameRequest";
 import { enqueueNotificationError } from "../features/notificationSlice";
 import { WebsocketGameRequest } from "../types/game/ws/WebsocketGameRequest";
 import { GameRoute } from "../types/game/ws/GameRoute";
@@ -63,6 +63,10 @@ export class GameWsHandler {
 
   getState(request: GameRequest.GetState) {
     this.send(GameRoute.GetState, request);
+  }
+
+  getCurrentClock(request: GameRequest.GetCurrentClock) {
+    this.send(GameRoute.GetCurrentClock, request);
   }
 
   pause(request: GameRequest.Pause) {

@@ -2,6 +2,7 @@ export enum GameResponseType {
   Auth = "auth",
   Observe = "observe",
   GetState = "state",
+  GetCurrentClock = "clock",
   Pause = "pause",
   Surrender = "surrender",
 

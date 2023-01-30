@@ -4,7 +4,7 @@ import { VERSION_CHECK_INTERVAL, WS_LOBBY_URL } from "../app/consts";
 import { useMountEffect } from "../app/utils";
 import { ReadyState } from "react-use-websocket";
 import { RootState } from "../app/store";
-import { Auth } from "../types/requests/lobby";
+import { Auth } from "../types/requests/LobbyRequest";
 import { useEffect, useMemo } from "react";
 import { LobbyWsHandler } from "../app/lobbyWsHandler";
 import { WebSocketHook } from "react-use-websocket/dist/lib/types";

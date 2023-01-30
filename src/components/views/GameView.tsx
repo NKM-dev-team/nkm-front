@@ -7,7 +7,7 @@ import { GameWsHandler } from "../../app/gameWsHandler";
 import { GameStateView } from "../../types/game/GameStateView";
 import { GameResponseType } from "../../types/game/ws/GameResponseType";
 import { RootState } from "../../app/store";
-import { Auth } from "../../types/requests/game";
+import { Auth } from "../../types/requests/GameRequest";
 import ReactJson from "react-json-view";
 import { TabPanel } from "../TabPanel";
 import GameDashboard from "../GameDashboard";
@@ -18,6 +18,7 @@ import { GameRoute } from "../../types/game/ws/GameRoute";
 import { WebsocketGameRequest } from "../../types/game/ws/WebsocketGameRequest";
 import { routeToRequest } from "../../app/utils";
 import { WebSocketHook } from "react-use-websocket/dist/lib/types";
+import { Clock } from "../../types/game/Clock";
 
 interface GameViewProps {
   gameWsHook: WebSocketHook;
@@ -35,6 +36,9 @@ export default function GameView({ gameWsHook }: GameViewProps) {
   const [gameState, setGameState] = useState<GameStateView | undefined>(
     undefined
   );
+
+  const [lastClock, setLastClock] = useState(gameState?.clock);
+
   const [request, setRequest] = React.useState<WebsocketGameRequest>({
     requestPath: defaultRoute,
     requestJson: JSON.stringify({ lobbyId: id }),
@@ -46,10 +50,16 @@ export default function GameView({ gameWsHook }: GameViewProps) {
     () =>
       new GameWsHandler(dispatch, sendJsonMessage, (response) => {
         if (response.gameResponseType === GameResponseType.GetState) {
-          setGameState(JSON.parse(response.body));
+          const gs: GameStateView = JSON.parse(response.body);
+          setGameState(gs);
+          setLastClock(gs.clock);
         }
         if (response.gameResponseType === GameResponseType.Event) {
           setEventViews((es) => es.concat(JSON.parse(response.body)));
+        }
+        if (response.gameResponseType === GameResponseType.GetCurrentClock) {
+          const clock: Clock = JSON.parse(response.body);
+          setLastClock(clock);
         }
       }),
     [dispatch, sendJsonMessage]
@@ -60,6 +70,12 @@ export default function GameView({ gameWsHook }: GameViewProps) {
       gameWsHandler.receiveJson(lastJsonMessage);
     }
   }, [lastJsonMessage, gameWsHandler]);
+
+  useEffect(() => {
+    if (gameState !== undefined) {
+      gameWsHandler.getCurrentClock({ lobbyId: id });
+    }
+  }, [id, eventViews, gameWsHandler, gameState]);
 
   useEffect(() => {
     if (readyState !== ReadyState.OPEN) return;
@@ -118,7 +134,11 @@ export default function GameView({ gameWsHook }: GameViewProps) {
         </Tabs>
       </Box>
       <TabPanel value={selectedTab} index={0}>
-        <GameDashboard gameState={gameState} incomingEventViews={eventViews} />
+        <GameDashboard
+          gameState={gameState}
+          incomingEventViews={eventViews}
+          lastClock={lastClock ?? gameState.clock}
+        />
       </TabPanel>
       <TabPanel value={selectedTab} index={1}>
         <TitledPaper title="Game state view">

@@ -1,26 +1,71 @@
 import { Grid, List, ListItem, Paper, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { GameStateView } from "../types/game/GameStateView";
 import CharacterHexagon from "./images/CharacterHexagon";
 import { MemoizedHexMapComponent } from "./HexMapComponent";
-import { characterById } from "../app/utils";
+import { characterById, toClockTime, useMountEffect } from "../app/utils";
 import { GameEventView } from "../types/game/GameEventView";
 import GameEventsComponent from "./GameEventsComponent";
 import { TitledPaper } from "./TitledPaper";
 import { InfoLabel } from "./InfoLabel";
 import { UserChip } from "./UserChip";
+import _ from "lodash";
+import ClockComponent from "./ClockComponent";
+import { CLOCK_UPDATE_INTERVAL } from "../app/consts";
+import { Clock } from "../types/game/Clock";
 
 interface GameDashboardProps {
   gameState: GameStateView;
   incomingEventViews: GameEventView[];
+  lastClock: Clock;
 }
 
 export default function GameDashboard({
   gameState,
   incomingEventViews,
+  lastClock,
 }: GameDashboardProps) {
-  const toClockTime = (millis: number) =>
-    new Date(millis).toISOString().slice(11, -1);
+  const [currentClock, setCurrentClock] = useState(gameState.clock);
+  const [lastClockUpdateTimestamp, setLastClockUpdateTimestamp] = useState(
+    Date.now()
+  );
+
+  useEffect(() => setLastClockUpdateTimestamp(Date.now()), [lastClock]);
+
+  const getCurrentClock = (lastClock: Clock) => {
+    if (!gameState.clock.isRunning) return lastClock;
+    const lastClockCopy = _.cloneDeep(lastClock);
+
+    if (gameState.isSharedTime) {
+      return _.set(
+        lastClockCopy,
+        "sharedTime",
+        Math.max(lastClock.sharedTime - millisSinceLastClockUpdate(), 0)
+      );
+    } else {
+      return _.set(
+        lastClockCopy,
+        "playerTimes." + gameState.currentPlayerId,
+        Math.max(
+          lastClock.playerTimes[gameState.currentPlayerId] -
+            millisSinceLastClockUpdate(),
+          0
+        )
+      );
+    }
+  };
+
+  const millisSinceLastClockUpdate = () =>
+    Date.now() - lastClockUpdateTimestamp;
+
+  useEffect(() => {
+    const updateCurrentClockRepeatedly = setInterval(() => {
+      setCurrentClock(getCurrentClock(lastClock));
+    }, CLOCK_UPDATE_INTERVAL);
+    return () => {
+      clearInterval(updateCurrentClockRepeatedly);
+    };
+  }, [lastClock]);
 
   return (
     <Grid container justifyContent="space-between" spacing={1}>
@@ -72,30 +117,17 @@ export default function GameDashboard({
               ))}
             </List>
           </TitledPaper>
+          <TitledPaper title="Current player">
+            <UserChip username={gameState.currentPlayerId} />
+          </TitledPaper>
+          <TitledPaper title="Current player time">
+            <InfoLabel content={toClockTime(gameState.currentPlayerTime)} />
+          </TitledPaper>
         </Paper>
       </Grid>
       <Grid item xs={12} md={3}>
-        <Paper variant="outlined" sx={{ p: 1, overflow: "auto", height: 600 }}>
-          <Typography>Clock</Typography>
-          <TitledPaper title="Is running">
-            <InfoLabel content={String(gameState.clock.isRunning)} />
-          </TitledPaper>
-          <TitledPaper title="Shared time">
-            <InfoLabel content={toClockTime(gameState.clock.sharedTime)} />
-          </TitledPaper>
-          <TitledPaper title="Game timers">
-            <Grid container spacing={1} sx={{ p: 1 }}>
-              {Object.keys(gameState.clock.playerTimes).map((pid) => (
-                <Grid item container justifyContent="space-between" key={pid}>
-                  <UserChip username={pid} />
-                  <InfoLabel
-                    content={toClockTime(gameState.clock.playerTimes[pid])}
-                  />
-                </Grid>
-              ))}
-            </Grid>
-          </TitledPaper>
-        </Paper>
+        <ClockComponent clock={gameState.clock} />
+        <ClockComponent clock={currentClock} name={"Current clock"} />
       </Grid>
       <Grid item xs={12} justifyContent="center">
         {gameState.hexMap && (

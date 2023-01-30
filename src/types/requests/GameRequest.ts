@@ -19,6 +19,10 @@ export interface GetState {
   lobbyId: GameId;
 }
 
+export interface GetCurrentClock {
+  lobbyId: GameId;
+}
+
 export interface Pause {
   lobbyId: GameId;
 }

@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { Box, Button, Grid, Paper, TextField } from "@mui/material";
-import { LobbyCreation } from "../types/requests/lobby";
+import { LobbyCreation } from "../types/requests/LobbyRequest";
 import { LobbyWsHandler } from "../app/lobbyWsHandler";
 import { WebSocketHook } from "react-use-websocket/dist/lib/types";
 

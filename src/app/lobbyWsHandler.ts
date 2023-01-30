@@ -1,4 +1,4 @@
-import * as LobbyRequest from "../types/requests/lobby";
+import * as LobbyRequest from "../types/requests/LobbyRequest";
 import { WebsocketLobbyRequest } from "../types/lobby/ws/WebsocketLobbyRequest";
 import { LobbyRoute } from "../types/lobby/ws/LobbyRoute";
 import { WebsocketLobbyResponse } from "../types/lobby/ws/WebsocketLobbyResponse";

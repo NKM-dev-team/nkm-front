@@ -40,4 +40,11 @@ export interface GameStateView {
   gameLog: GameLogView;
 
   currentPlayerId: PlayerId;
+  hostId: PlayerId;
+  isBlindPickingPhase: boolean;
+  isDraftBanningPhase: boolean;
+  isInCharacterSelect: boolean;
+  isSharedTime: boolean;
+  currentPlayerTime: number;
+  charactersToTakeAction: CharacterId[];
 }
