@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { PersistGate } from "redux-persist/integration/react";
 import persistStore from "redux-persist/es/persistStore";
-import Notifier from "./components/Notifier";
+import Notifier from "./components/services/Notifier";
 import { SnackbarProvider } from "notistack";
 import App from "./App";
 

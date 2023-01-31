@@ -5,9 +5,9 @@ import Divider from "@mui/material/Divider";
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { RootState } from "../app/store";
-import { Routes } from "../types/Routes";
-import { AUTH_ROUTE_MAP, MAIN_ROUTE_MAP } from "../types/route_mapping";
+import { RootState } from "../../app/store";
+import { Routes } from "../../types/Routes";
+import { AUTH_ROUTE_MAP, MAIN_ROUTE_MAP } from "../../types/route_mapping";
 
 function CustomListItem(m: (string | Routes)[]) {
   return (

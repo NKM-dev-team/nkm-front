@@ -1,5 +1,5 @@
 import React from "react";
-import { GameEventView } from "../types/game/GameEventView";
+import { GameEventView } from "../../types/game/GameEventView";
 import GameEventCard from "./GameEventCard";
 import { List, ListItem } from "@mui/material";
 

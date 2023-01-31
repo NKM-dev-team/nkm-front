@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, Tooltip, Typography } from "@mui/material";
-import { AbilityMetadata } from "../features/abilitiesSlice";
-import AbilityImage from "./images/AbilityImage";
+import { AbilityMetadata } from "../../features/abilitiesSlice";
+import AbilityImage from "../images/AbilityImage";
 import DOMPurify from "dompurify";
 
 function replaceVariables(

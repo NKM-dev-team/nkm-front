@@ -1,8 +1,8 @@
 import React from "react";
-import Orientation from "../types/Orientation";
-import Point from "../types/Point";
-import { HexCell } from "../types/game/hex/HexCell";
-import { HexMapView } from "../types/game/hex/HexMapView";
+import Orientation from "../../types/Orientation";
+import Point from "../../types/Point";
+import { HexCell } from "../../types/game/hex/HexCell";
+import { HexMapView } from "../../types/game/hex/HexMapView";
 
 // TODO: move to HexCell class / interface
 const cellY = (c: HexCell) => -c.coordinates.x - c.coordinates.z;

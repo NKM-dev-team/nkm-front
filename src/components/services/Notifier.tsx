@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../app/store";
+import { RootState } from "../../app/store";
 import { useSnackbar } from "notistack";
 import { useEffect } from "react";
-import { dequeueNotification } from "../features/notificationSlice";
+import { dequeueNotification } from "../../features/notificationSlice";
 
 let shownNotificationKeys: (string | number)[] = [];
 export default function Notifier() {

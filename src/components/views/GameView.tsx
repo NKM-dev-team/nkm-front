@@ -10,7 +10,7 @@ import { RootState } from "../../app/store";
 import { Auth } from "../../types/requests/GameRequest";
 import ReactJson from "react-json-view";
 import { TabPanel } from "../TabPanel";
-import GameDashboard from "../GameDashboard";
+import GameDashboard from "../game_view/GameDashboard";
 import { GameEventView } from "../../types/game/GameEventView";
 import { TitledPaper } from "../TitledPaper";
 import CustomSelect from "../CustomSelect";

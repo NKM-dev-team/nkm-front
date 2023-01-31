@@ -1,19 +1,19 @@
 import React from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
-import HexMapsView from "./views/HexMapsView";
-import { RootState } from "../app/store";
-import Profile from "./views/Profile";
-import RegisterForm from "./RegisterForm";
-import LobbiesView from "./views/LobbiesView";
-import { Routes } from "../types/Routes";
+import HexMapsView from "../views/HexMapsView";
+import { RootState } from "../../app/store";
+import Profile from "../views/Profile";
+import RegisterForm from "../RegisterForm";
+import LobbiesView from "../views/LobbiesView";
+import { Routes } from "../../types/Routes";
 import MainLayout from "./MainLayout";
-import HomeView from "./views/HomeView";
-import LoginView from "./views/LoginView";
-import CharactersView from "./views/CharactersView";
-import GameView from "./views/GameView";
-import StatusView from "./views/StatusView";
-import LobbyView from "./views/LobbyView";
+import HomeView from "../views/HomeView";
+import LoginView from "../views/LoginView";
+import CharactersView from "../views/CharactersView";
+import GameView from "../views/GameView";
+import StatusView from "../views/StatusView";
+import LobbyView from "../views/LobbyView";
 import { WebSocketHook } from "react-use-websocket/dist/lib/types";
 
 interface RouterProps {

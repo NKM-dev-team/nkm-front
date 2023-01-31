@@ -8,10 +8,10 @@ import { Link as RouterLink, NavLink } from "react-router-dom";
 import { Grid, Link, Menu, MenuItem } from "@mui/material";
 import LeftDrawer from "./LeftDrawer";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../app/store";
-import { authLogout } from "../features/authSlice";
-import logo from "../img/nkm_logo.png";
-import { MAIN_ROUTE_MAP } from "../types/route_mapping";
+import { RootState } from "../../app/store";
+import { authLogout } from "../../features/authSlice";
+import logo from "../../img/nkm_logo.png";
+import { MAIN_ROUTE_MAP } from "../../types/route_mapping";
 import WebsocketStatusIcon from "./WebsocketStatusIcon";
 import { WebSocketHook } from "react-use-websocket/dist/lib/types";
 

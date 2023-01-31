@@ -6,9 +6,9 @@ import {
   Tooltip,
 } from "@mui/material";
 import React from "react";
-import { GameEventView } from "../types/game/GameEventView";
-import { TitledPaper } from "./TitledPaper";
-import { InfoLabel } from "./InfoLabel";
+import { GameEventView } from "../../types/game/GameEventView";
+import { TitledPaper } from "../TitledPaper";
+import { InfoLabel } from "../InfoLabel";
 import IconButton from "@mui/material/IconButton";
 
 interface GameEventCardProps {

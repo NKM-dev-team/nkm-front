@@ -1,5 +1,5 @@
-import Router from "./components/Router";
-import BackgroundService from "./components/BackgroundService";
+import Router from "./components/layout/Router";
+import BackgroundService from "./components/services/BackgroundService";
 import React, { useState } from "react";
 import useWebSocket from "react-use-websocket";
 import { WS_GAME_URL, WS_LOBBY_URL } from "./app/consts";

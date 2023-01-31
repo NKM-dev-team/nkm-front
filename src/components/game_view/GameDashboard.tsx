@@ -1,18 +1,18 @@
 import { Grid, List, ListItem, Paper, Typography } from "@mui/material";
 import React, { useEffect, useMemo, useState } from "react";
-import { GameStateView } from "../types/game/GameStateView";
-import CharacterHexagon from "./images/CharacterHexagon";
-import { MemoizedHexMapComponent } from "./HexMapComponent";
-import { characterById, toClockTime, useMountEffect } from "../app/utils";
-import { GameEventView } from "../types/game/GameEventView";
+import { GameStateView } from "../../types/game/GameStateView";
+import CharacterHexagon from "../images/CharacterHexagon";
+import { MemoizedHexMapComponent } from "../hexmaps_view/HexMapComponent";
+import { characterById, toClockTime, useMountEffect } from "../../app/utils";
+import { GameEventView } from "../../types/game/GameEventView";
 import GameEventsComponent from "./GameEventsComponent";
-import { TitledPaper } from "./TitledPaper";
-import { InfoLabel } from "./InfoLabel";
-import { UserChip } from "./UserChip";
+import { TitledPaper } from "../TitledPaper";
+import { InfoLabel } from "../InfoLabel";
+import { UserChip } from "../layout/UserChip";
 import _ from "lodash";
 import ClockComponent from "./ClockComponent";
-import { CLOCK_UPDATE_INTERVAL } from "../app/consts";
-import { Clock } from "../types/game/Clock";
+import { CLOCK_UPDATE_INTERVAL } from "../../app/consts";
+import { Clock } from "../../types/game/Clock";
 
 interface GameDashboardProps {
   gameState: GameStateView;

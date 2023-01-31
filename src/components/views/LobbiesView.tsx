@@ -14,7 +14,7 @@ import { getAllLobbies } from "../../features/lobbiesSlice";
 import { Link as RouterLink } from "react-router-dom";
 import { useMountEffect } from "../../app/utils";
 import { LobbyState } from "../../types/lobby/LobbyState";
-import CreateLobbyForm from "../CreateLobbyForm";
+import CreateLobbyForm from "../lobbies_view/CreateLobbyForm";
 import {
   BACKEND_TIME_OFFSET,
   LOBBY_REFRESH_INTERVAL,

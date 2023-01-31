@@ -1,10 +1,10 @@
 import React from "react";
-import { Clock } from "../types/game/Clock";
+import { Clock } from "../../types/game/Clock";
 import { Grid, Paper, Typography } from "@mui/material";
-import { TitledPaper } from "./TitledPaper";
-import { InfoLabel } from "./InfoLabel";
-import { UserChip } from "./UserChip";
-import { toClockTime } from "../app/utils";
+import { TitledPaper } from "../TitledPaper";
+import { InfoLabel } from "../InfoLabel";
+import { UserChip } from "../layout/UserChip";
+import { toClockTime } from "../../app/utils";
 
 interface ClockComponentProps {
   clock: Clock;

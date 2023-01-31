@@ -2,7 +2,7 @@ import React from "react";
 import { Typography, Grid, Paper } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
-import { MemoizedHexMapComponent } from "../HexMapComponent";
+import { MemoizedHexMapComponent } from "../hexmaps_view/HexMapComponent";
 import { HexMapView } from "../../types/game/hex/HexMapView";
 
 export default function HexMapsView() {
