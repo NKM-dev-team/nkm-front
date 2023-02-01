@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { updateVersionIfNewer } from "../../features/versionSlice";
-import { VERSION_CHECK_INTERVAL, WS_LOBBY_URL } from "../../app/consts";
+import { VERSION_CHECK_INTERVAL } from "../../app/consts";
 import { useMountEffect } from "../../app/utils";
 import { ReadyState } from "react-use-websocket";
 import { RootState } from "../../app/store";

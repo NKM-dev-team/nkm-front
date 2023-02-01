@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Alert, Box, Button, Tab, Tabs } from "@mui/material";
+import { Alert, Box, Tab, Tabs } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { ReadyState } from "react-use-websocket";
@@ -13,12 +13,9 @@ import { TabPanel } from "../TabPanel";
 import GameDashboard from "../game_view/GameDashboard";
 import { GameEventView } from "../../types/game/GameEventView";
 import { TitledPaper } from "../TitledPaper";
-import CustomSelect from "../CustomSelect";
-import { GameRoute } from "../../types/game/ws/GameRoute";
-import { WebsocketGameRequest } from "../../types/game/ws/WebsocketGameRequest";
-import { routeToRequest } from "../../app/utils";
 import { WebSocketHook } from "react-use-websocket/dist/lib/types";
 import { Clock } from "../../types/game/Clock";
+import RequestSender from "../game_view/RequestSender";
 
 interface GameViewProps {
   gameWsHook: WebSocketHook;
@@ -32,17 +29,11 @@ export default function GameView({ gameWsHook }: GameViewProps) {
 
   const [selectedTab, setSelectedTab] = React.useState(0);
   const [eventViews, setEventViews] = React.useState<GameEventView[]>([]);
-  const defaultRoute = GameRoute.GetState;
   const [gameState, setGameState] = useState<GameStateView | undefined>(
     undefined
   );
 
   const [lastClock, setLastClock] = useState(gameState?.clock);
-
-  const [request, setRequest] = React.useState<WebsocketGameRequest>({
-    requestPath: defaultRoute,
-    requestJson: JSON.stringify({ lobbyId: id }),
-  });
 
   const { sendJsonMessage, lastJsonMessage, readyState } = gameWsHook;
 
@@ -99,27 +90,7 @@ export default function GameView({ gameWsHook }: GameViewProps) {
   return (
     <>
       {authData.login ? (
-        <TitledPaper title="Request sender" sx={{ m: 1, p: 1 }}>
-          <CustomSelect
-            options={Object.values(GameRoute)}
-            defaultValue={defaultRoute}
-            onChange={(e) =>
-              setRequest(routeToRequest(gameState, e.target.value as GameRoute))
-            }
-          ></CustomSelect>
-
-          {request !== undefined ? (
-            <ReactJson
-              src={request}
-              theme="monokai"
-              onEdit={(o) => setRequest(o.updated_src as WebsocketGameRequest)}
-            />
-          ) : null}
-
-          <Button onClick={() => gameWsHandler.sendRequest(request)}>
-            Send request
-          </Button>
-        </TitledPaper>
+        <RequestSender gameWsHandler={gameWsHandler} gameState={gameState} />
       ) : null}
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs

@@ -28,7 +28,7 @@ export const randomAbilityId = (gameState: GameStateView) =>
 
 export const EMPTY_USE_DATA: UseData = { data: "" };
 
-export function routeToRequest(
+export function routeToWsGameRequest(
   gameState: GameStateView,
   route: GameRoute
 ): WebsocketGameRequest {
@@ -52,7 +52,7 @@ export function routeToRequest(
       break;
     case GameRoute.PickCharacter:
       json.characterId =
-        _.head([gameState.draftPickState?.charactersAvailableToPick ?? []]) ??
+        _.head([gameState.draftPickState?.charactersAvailableToPick]) ??
         _.head(gameState.charactersMetadata.map((c) => c.name)) ??
         "undefined";
       break;
@@ -92,7 +92,7 @@ export function routeToRequest(
       json.useData = EMPTY_USE_DATA;
       break;
     case GameRoute.SendChatMessage:
-      json.message = "";
+      json.message = "234";
       break;
     case GameRoute.ExecuteCommand:
       json.command = "";

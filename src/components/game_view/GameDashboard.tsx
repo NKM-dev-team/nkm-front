@@ -1,9 +1,9 @@
 import { Grid, List, ListItem, Paper, Typography } from "@mui/material";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { GameStateView } from "../../types/game/GameStateView";
 import CharacterHexagon from "../images/CharacterHexagon";
 import { MemoizedHexMapComponent } from "../hexmaps_view/HexMapComponent";
-import { characterById, toClockTime, useMountEffect } from "../../app/utils";
+import { characterById, toClockTime } from "../../app/utils";
 import { GameEventView } from "../../types/game/GameEventView";
 import GameEventsComponent from "./GameEventsComponent";
 import { TitledPaper } from "../TitledPaper";
@@ -33,7 +33,7 @@ export default function GameDashboard({
   useEffect(() => setLastClockUpdateTimestamp(Date.now()), [lastClock]);
 
   const getCurrentClock = (lastClock: Clock) => {
-    if (!gameState.clock.isRunning) return lastClock;
+    if (!lastClock.isRunning) return lastClock;
     const lastClockCopy = _.cloneDeep(lastClock);
 
     if (gameState.isSharedTime) {
