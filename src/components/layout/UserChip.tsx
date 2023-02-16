@@ -11,7 +11,7 @@ export function UserChip({ username }: UserChipProps) {
       label={username}
       color="primary"
       variant="outlined"
-      sx={{ width: 100 }}
+      sx={{ minWidth: 100 }}
     />
   );
 }
