@@ -1,26 +1,11 @@
 import React from "react";
 import { Grid, Tooltip, Typography } from "@mui/material";
-import { AbilityMetadata } from "../../features/abilitiesSlice";
 import AbilityImage from "../images/AbilityImage";
 import DOMPurify from "dompurify";
-
-function replaceVariables(
-  str: string,
-  vars: { [key: string]: number }
-): string {
-  const keys = Object.keys(vars);
-  return keys.reduce((acc, currentKey) => {
-    const re = new RegExp(`{${currentKey}}`, "g");
-    return acc.replace(re, vars[currentKey].toString());
-  }, str);
-}
+import { abilityDescription } from "../../app/utils";
+import { AbilityMetadata } from "../../types/game/ability/AbilityMetadata";
 
 export default function Ability({ am }: { am: AbilityMetadata }) {
-  const description = replaceVariables(am.description, am.variables).replaceAll(
-    "\n",
-    "<br>"
-  );
-
   return (
     <Tooltip
       title={
@@ -34,7 +19,7 @@ export default function Ability({ am }: { am: AbilityMetadata }) {
           <Typography variant="body2">
             <span
               dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(description),
+                __html: DOMPurify.sanitize(abilityDescription(am)),
               }}
             />
           </Typography>

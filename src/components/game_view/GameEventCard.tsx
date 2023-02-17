@@ -43,7 +43,6 @@ export default function GameEventCard({ eventView }: GameEventCardProps) {
         open={open}
         onClose={() => setOpen(false)}
         aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">{eventView.className}</DialogTitle>
         <DialogContent>{eventData}</DialogContent>

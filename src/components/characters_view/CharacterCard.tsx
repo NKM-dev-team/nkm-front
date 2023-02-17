@@ -1,21 +1,24 @@
 import React from "react";
-import { Grid, Paper, Tooltip, Typography } from "@mui/material";
+import {
+  CardActionArea,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  Grid,
+  Paper,
+  Typography,
+} from "@mui/material";
 import CharacterHexagon from "../images/CharacterHexagon";
 import { RootState } from "../../app/store";
 import { useSelector } from "react-redux";
 import Ability from "./Ability";
-import StatImage from "../images/StatImage";
 import { createSelector } from "@reduxjs/toolkit";
 import { CharacterMetadata } from "../../types/game/character/CharacterMetadata";
-import { AttackType } from "../../types/game/character/AttackType";
-
-interface StatMapping {
-  title: string;
-  icon: string;
-  value: number | string;
-}
+import CharacterStats from "./CharacterStats";
+import DetailedCharacterInfo from "./DetailedCharacterInfo";
 
 export default function CharacterCard({ c }: { c: CharacterMetadata }) {
+  const [open, setOpen] = React.useState(false);
   const selectAbilitiesData = (state: RootState) => state.abilitiesData;
   const selectInitialAbilityMetadatas = createSelector(
     selectAbilitiesData,
@@ -36,89 +39,49 @@ export default function CharacterCard({ c }: { c: CharacterMetadata }) {
 
   const abilities = useSelector(selectAbilities);
 
-  const statMappings: StatMapping[] = [
-    {
-      title: "Health points",
-      icon: "hearts",
-      value: c.initialHealthPoints,
-    },
-    {
-      title: `Attack points (${c.attackType})`,
-      icon: c.attackType === AttackType.Ranged ? "high-shot" : "gladius",
-      value: c.initialAttackPoints,
-    },
-    {
-      title: "Range",
-      icon: "arrow-scope",
-      value: c.initialBasicAttackRange,
-    },
-    {
-      title: "Speed",
-      icon: "wingfoot",
-      value: c.initialSpeed,
-    },
-    {
-      title: "Physical defense",
-      icon: "shield",
-      value: c.initialPhysicalDefense,
-    },
-    {
-      title: "Magical defense",
-      icon: "zebra-shield",
-      value: c.initialMagicalDefense,
-    },
-  ];
-
   return (
-    <Paper
-      sx={{
-        p: 2,
-        maxWidth: 200,
-      }}
-    >
-      <Grid container spacing={2}>
-        <Grid
-          item
-          container
-          justifyContent="center"
-          alignItems="center"
-          spacing={2}
+    <>
+      <CardActionArea onClick={() => setOpen(true)}>
+        <Paper
+          sx={{
+            p: 2,
+            maxWidth: 200,
+          }}
         >
-          <Grid item xs={4}>
-            <CharacterHexagon name={c.name} width={50} />
-          </Grid>
-          <Grid item xs={8}>
-            <Typography variant="h6" align="center">
-              {c.name}
-            </Typography>
-          </Grid>
-        </Grid>
-        <Grid
-          item
-          container
-          justifyContent="center"
-          alignItems="center"
-          spacing={2}
-        >
-          {statMappings.map((sm) => (
-            <Grid item xs={4} key={sm.title}>
-              <Tooltip title={sm.title} arrow>
-                <Grid container justifyContent="space-between">
-                  <Grid item>
-                    <StatImage name={sm.icon} width="20" />
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="body1">{sm.value}</Typography>
-                  </Grid>
-                </Grid>
-              </Tooltip>
+          <Grid container spacing={2}>
+            <Grid
+              item
+              container
+              justifyContent="center"
+              alignItems="center"
+              spacing={2}
+            >
+              <Grid item xs={4}>
+                <CharacterHexagon name={c.name} width={50} />
+              </Grid>
+              <Grid item xs={8}>
+                <Typography variant="h6" align="center">
+                  {c.name}
+                </Typography>
+              </Grid>
             </Grid>
-          ))}
-        </Grid>
-        <Grid item container justifyContent="center" spacing={1}>
-          {abilities}
-        </Grid>
-      </Grid>
-    </Paper>
+            <CharacterStats c={c} />
+            <Grid item container justifyContent="center" spacing={1}>
+              {abilities}
+            </Grid>
+          </Grid>
+        </Paper>
+      </CardActionArea>
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        aria-labelledby="alert-dialog-title"
+      >
+        <DialogTitle id="alert-dialog-title">{c.name}</DialogTitle>
+        <DialogContent>
+          <DetailedCharacterInfo c={c} />
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }

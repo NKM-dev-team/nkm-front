@@ -3,6 +3,7 @@ import axios from "axios";
 import { AppThunk } from "../app/store";
 import { ABILITIES_URL } from "../app/consts";
 import { enqueueNotificationError } from "./notificationSlice";
+import { AbilityMetadata } from "../types/game/ability/AbilityMetadata";
 
 export enum AbilityType {
   Passive = "Passive",
@@ -10,13 +11,6 @@ export enum AbilityType {
   Ultimate = "Ultimate",
 }
 
-export interface AbilityMetadata {
-  name: string;
-  abilityType: AbilityType;
-  description: string;
-  variables: { [key: string]: number };
-  alternateName: string;
-}
 interface AbilityMetadatasState {
   initialized: boolean;
   abilityMetadatas: AbilityMetadata[];

@@ -4,12 +4,13 @@ import {
   Action,
   getDefaultMiddleware,
 } from "@reduxjs/toolkit";
-import hexMapReducer from "../features/hexMapSlice";
+import abilitiesReducer from "../features/abilitiesSlice";
 import authReducer from "../features/authSlice";
+import characterEffectsReducer from "../features/characterEffectsSlice";
+import charactersReducer from "../features/charactersSlice";
+import hexMapReducer from "../features/hexMapSlice";
 import lobbiesReducer from "../features/lobbiesSlice";
 import notificationReducer from "../features/notificationSlice";
-import charactersReducer from "../features/charactersSlice";
-import abilitiesReducer from "../features/abilitiesSlice";
 import versionReducer from "../features/versionSlice";
 import storage from "redux-persist/lib/storage";
 import persistCombineReducers from "redux-persist/es/persistCombineReducers";
@@ -29,13 +30,14 @@ const persistConfig = {
 };
 
 const persistedRootReducer = persistCombineReducers(persistConfig, {
+  abilitiesData: abilitiesReducer,
   authData: authReducer,
-  versionData: versionReducer,
+  characterEffectsData: characterEffectsReducer,
+  charactersData: charactersReducer,
   hexMapData: hexMapReducer,
   lobbiesData: lobbiesReducer,
   notificationData: notificationReducer,
-  charactersData: charactersReducer,
-  abilitiesData: abilitiesReducer,
+  versionData: versionReducer,
 });
 
 export const store = configureStore({

@@ -7,6 +7,9 @@ import { GameRoute } from "../types/game/ws/GameRoute";
 import { WebsocketGameRequest } from "../types/game/ws/WebsocketGameRequest";
 import * as _ from "lodash";
 import { UseData } from "../types/game/ability/UseData";
+import { CharacterMetadata } from "../types/game/character/CharacterMetadata";
+import { AttackType } from "../types/game/character/AttackType";
+import { AbilityMetadata } from "../types/game/ability/AbilityMetadata";
 // eslint-disable-next-line react-hooks/exhaustive-deps
 export const useMountEffect = (fun: EffectCallback) => useEffect(fun, []);
 
@@ -100,3 +103,56 @@ export function routeToWsGameRequest(
   }
   return { requestPath: route, requestJson: JSON.stringify(json) };
 }
+
+interface StatMapping {
+  title: string;
+  icon: string;
+  value: number | string;
+}
+
+export const statMappings = (c: CharacterMetadata): StatMapping[] => [
+  {
+    title: "Health points",
+    icon: "hearts",
+    value: c.initialHealthPoints,
+  },
+  {
+    title: `Attack points (${c.attackType})`,
+    icon: c.attackType === AttackType.Ranged ? "high-shot" : "gladius",
+    value: c.initialAttackPoints,
+  },
+  {
+    title: "Range",
+    icon: "arrow-scope",
+    value: c.initialBasicAttackRange,
+  },
+  {
+    title: "Speed",
+    icon: "wingfoot",
+    value: c.initialSpeed,
+  },
+  {
+    title: "Physical defense",
+    icon: "shield",
+    value: c.initialPhysicalDefense,
+  },
+  {
+    title: "Magical defense",
+    icon: "zebra-shield",
+    value: c.initialMagicalDefense,
+  },
+];
+
+export const replaceVariables = (
+  str: string,
+  vars: { [key: string]: number }
+): string => {
+  const keys = Object.keys(vars);
+  return keys.reduce((acc, currentKey) => {
+    const re = new RegExp(`{${currentKey}}`, "g");
+    return acc.replace(re, vars[currentKey].toString());
+  }, str);
+};
+
+export const abilityDescription = (am: AbilityMetadata) =>
+  replaceVariables(am.description, am.variables).replaceAll("\n", "<br>");

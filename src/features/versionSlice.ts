@@ -10,6 +10,7 @@ import { getAllLobbies } from "./lobbiesSlice";
 import { getMapsAll } from "./hexMapSlice";
 import { getCharacterMetadataAll } from "./charactersSlice";
 import { getAbilityMetadatas } from "./abilitiesSlice";
+import { getCharacterEffectMetadatas } from "./characterEffectsSlice";
 
 interface VersionState {
   version: string;
@@ -31,27 +32,26 @@ export const versionSlice = createSlice({
 
 export const { updateVersion } = versionSlice.actions;
 
-export const updateVersionIfNewer = (): AppThunk => async (
-  dispatch,
-  getState
-) => {
-  try {
-    const result = await axios.get(VERSION_URL);
-    const newVersion = result.data;
-    if (newVersion !== getState().versionData.version) {
-      dispatch(updateVersion(newVersion));
-      dispatch(getAllLobbies());
-      dispatch(getMapsAll());
-      dispatch(getCharacterMetadataAll());
-      dispatch(getAbilityMetadatas());
-      dispatch(
-        enqueueNotificationInfo("New version detected, downloading data...")
-      );
+export const updateVersionIfNewer =
+  (): AppThunk => async (dispatch, getState) => {
+    try {
+      const result = await axios.get(VERSION_URL);
+      const newVersion = result.data;
+      if (newVersion !== getState().versionData.version) {
+        dispatch(updateVersion(newVersion));
+        dispatch(getAllLobbies());
+        dispatch(getMapsAll());
+        dispatch(getCharacterMetadataAll());
+        dispatch(getAbilityMetadatas());
+        dispatch(getCharacterEffectMetadatas());
+        dispatch(
+          enqueueNotificationInfo("New version detected, downloading data...")
+        );
+      }
+    } catch (error) {
+      dispatch(enqueueNotificationError("Unable to detect a version"));
+      console.warn(error);
     }
-  } catch (error) {
-    dispatch(enqueueNotificationError("Unable to detect a version"));
-    console.warn(error);
-  }
-};
+  };
 
 export default versionSlice.reducer;

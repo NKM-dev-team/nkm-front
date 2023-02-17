@@ -10,7 +10,7 @@ import { NkmCharacterView } from "./character/NkmCharacterView";
 import { BlindPickStateView } from "./blindpick/BlindPickStateView";
 import { DraftPickStateView } from "./draftpick/DraftPickStateView";
 import { AbilityView } from "./ability/AbilityView";
-import { CharacterEffectView } from "./effect/CharacterEffectView";
+import { CharacterEffectView } from "./character_effect/CharacterEffectView";
 import { Clock } from "./Clock";
 import { HexMapView } from "./hex/HexMapView";
 import { GameLogView } from "./GameLogView";
