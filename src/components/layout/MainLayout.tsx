@@ -1,7 +1,8 @@
 import React from "react";
 import Navbar from "./Navbar";
-import { Container } from "@mui/material";
+import { Alert, Container } from "@mui/material";
 import { WebSocketHook } from "react-use-websocket/dist/lib/types";
+import { ErrorBoundary } from "react-error-boundary";
 
 interface MainLayoutProps {
   children?: React.ReactNode;
@@ -26,7 +27,15 @@ export default function MainLayout({
         refreshGameWsConnection={refreshGameWsConnection}
       />
       <Container>
-        <>{children}</>
+        <ErrorBoundary
+          fallback={
+            <Alert severity="error" sx={{ m: 2 }}>
+              Something went wrong.
+            </Alert>
+          }
+        >
+          <>{children}</>
+        </ErrorBoundary>
       </Container>
     </>
   );
