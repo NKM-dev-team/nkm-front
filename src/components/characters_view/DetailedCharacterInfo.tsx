@@ -10,7 +10,6 @@ import DOMPurify from "dompurify";
 import { abilityDescription } from "../../app/utils";
 import AbilityImage from "../images/AbilityImage";
 import Effect from "./Effect";
-import { CharacterEffectMetadata } from "../../types/game/character_effect/CharacterEffectMetadata";
 import _ from "lodash";
 
 interface DetailedCharacterInfoProps {
@@ -46,7 +45,7 @@ export default function DetailedCharacterInfo({
           </Grid>
           <Grid item container justifyContent="center" spacing={1}>
             {initialAbilityMetadatas.map((am) => (
-              <>
+              <Grid item container key={am.name}>
                 <Grid item xs={2}>
                   <AbilityImage name={am.name} width={50} />
                 </Grid>
@@ -86,14 +85,15 @@ export default function DetailedCharacterInfo({
                           const metadata = effectMetadatas.find(
                             (e) => e.name === eid
                           );
-                          if (metadata) return <Effect em={metadata}></Effect>;
-                          else return <Typography>{eid}</Typography>;
+                          if (metadata)
+                            return <Effect key={eid} em={metadata}></Effect>;
+                          else return <Typography key={eid}>{eid}</Typography>;
                         })}
                       </Grid>
                     </>
                   ) : null}
                 </Grid>
-              </>
+              </Grid>
             ))}
           </Grid>
         </Grid>

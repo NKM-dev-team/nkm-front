@@ -29,6 +29,7 @@ interface NavbarProps {
   gameWsHook: WebSocketHook;
   refreshLobbyWsConnection: () => void;
   refreshGameWsConnection: () => void;
+  setDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function Navbar({
@@ -36,11 +37,11 @@ export default function Navbar({
   gameWsHook,
   refreshLobbyWsConnection,
   refreshGameWsConnection,
+  setDrawerOpen,
 }: NavbarProps) {
   const authData = useSelector((state: RootState) => state.authData);
   const dispatch = useDispatch();
 
-  const [drawerOpen, setDrawerOpen] = React.useState(false);
   const [loginViewOpen, setLoginViewOpen] = React.useState(false);
   const [registerViewOpen, setRegisterViewOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -66,7 +67,7 @@ export default function Navbar({
             color="inherit"
             aria-label="menu"
             onClick={() => setDrawerOpen(true)}
-            sx={{ mr: 2 }}
+            sx={{ mr: 2, display: { sm: "none" } }}
           >
             <MenuIcon />
           </IconButton>
@@ -125,7 +126,6 @@ export default function Navbar({
           )}
         </Toolbar>
       </AppBar>
-      <LeftDrawer open={drawerOpen} setOpen={setDrawerOpen} />
       <Dialog
         open={loginViewOpen && !authData.login}
         onClose={() => setLoginViewOpen(false)}

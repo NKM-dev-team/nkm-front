@@ -29,3 +29,5 @@ export const GITHUB_SERVER_COMMIT_URL = (commit: string) =>
   `https://github.com/nkm-game/nkm-server/commit/${commit}`;
 export const GITHUB_SERVER_COMMITS_URL =
   "https://github.com/nkm-game/nkm-server/commits/master";
+
+export const DRAWER_WIDTH = 240;
