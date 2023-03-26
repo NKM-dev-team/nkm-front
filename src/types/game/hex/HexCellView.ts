@@ -5,7 +5,7 @@ export interface HexCellEffect {
   cooldown: number;
 }
 
-export interface HexCell {
+export interface HexCellView {
   cellType: HexCellType;
   coordinates: HexCoordinates;
   characterId: CharacterId | null;

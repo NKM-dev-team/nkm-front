@@ -1,6 +1,6 @@
-import { HexCell } from "./HexCell";
+import { HexCellView } from "./HexCellView";
 
 export interface HexMapView {
   name: string;
-  cells: HexCell[];
+  cells: HexCellView[];
 }

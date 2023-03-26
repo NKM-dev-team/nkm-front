@@ -2,7 +2,6 @@ import { Grid, List, ListItem, Paper, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { GameStateView } from "../../types/game/GameStateView";
 import CharacterHexagon from "../images/CharacterHexagon";
-import { MemoizedHexMapComponent } from "../hexmaps_view/HexMapComponent";
 import { characterById, toClockTime } from "../../app/utils";
 import { GameEventView } from "../../types/game/GameEventView";
 import GameEventsComponent from "./GameEventsComponent";
@@ -129,15 +128,15 @@ export default function GameDashboard({
         <ClockComponent clock={gameState.clock} />
         <ClockComponent clock={currentClock} name={"Current clock"} />
       </Grid>
-      <Grid item xs={12} justifyContent="center">
-        {gameState.hexMap && (
-          <MemoizedHexMapComponent
-            scale={0.7}
-            hexMap={gameState.hexMap}
-            onHexagonClick={(c) => console.log(c.coordinates)}
-          />
-        )}
-      </Grid>
+      {/*<Grid item xs={12} justifyContent="center">*/}
+      {/*{gameState.hexMap && (*/}
+      {/*  <MemoizedHexMapComponent*/}
+      {/*    scale={0.7}*/}
+      {/*    hexMap={gameState.hexMap}*/}
+      {/*    onHexagonClick={(c) => console.log(c.coordinates)}*/}
+      {/*  />*/}
+      {/*)}*/}
+      {/*</Grid>*/}
     </Grid>
   );
 }

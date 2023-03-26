@@ -1,11 +1,11 @@
 import React from "react";
 import Orientation from "../../types/Orientation";
 import Point from "../../types/Point";
-import { HexCell } from "../../types/game/hex/HexCell";
-import { HexMapView } from "../../types/game/hex/HexMapView";
+import { HexCellTemplate } from "../../types/game/hex/HexCellTemplate";
+import { HexMapTemplate } from "../../types/game/hex/HexMapTemplate";
 
 // TODO: move to HexCell class / interface
-const cellY = (c: HexCell) => -c.coordinates.x - c.coordinates.z;
+const cellY = (c: HexCellTemplate) => -c.coordinates.x - c.coordinates.z;
 
 function cellTypeToColor(cellType: string) {
   switch (cellType) {
@@ -24,16 +24,21 @@ function HexMapComponent({
   onHexagonClick,
 }: {
   scale?: number;
-  hexMap: HexMapView;
-  onHexagonClick?: (c: HexCell) => void;
+  hexMap: HexMapTemplate;
+  onHexagonClick?: (c: HexCellTemplate) => void;
 }) {
-  const cells = hexMap.cells;
+  const cells = hexMap.cellTemplates;
   const originX =
-    -cells.map((c: HexCell) => c.coordinates.x).reduce((a, b) => a + b, 0) /
-    cells.length;
+    -cells
+      .map((c: HexCellTemplate) => c.coordinates.x)
+      .reduce((a, b) => a + b, 0) / cells.length;
   const originY = -cells.map(cellY).reduce((a, b) => a + b, 0) / cells.length;
 
-  function cellToPixel(hexCell: HexCell, originX: number, originY: number) {
+  function cellToPixel(
+    hexCell: HexCellTemplate,
+    originX: number,
+    originY: number
+  ) {
     const spacing = 1;
     const M = new Orientation(
       3.0 / 2.0,
@@ -54,7 +59,7 @@ function HexMapComponent({
     return new Point(x + originX, y + originY);
   }
 
-  const polygons = hexMap.cells.map((c) => {
+  const polygons = hexMap.cellTemplates.map((c) => {
     const point = cellToPixel(c, originX, originY);
     return (
       <polygon

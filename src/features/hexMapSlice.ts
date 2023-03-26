@@ -3,11 +3,11 @@ import axios from "axios";
 import { AppThunk } from "../app/store";
 import { MAPS_API_URL } from "../app/consts";
 import { enqueueNotificationError } from "./notificationSlice";
-import { HexMapView } from "../types/game/hex/HexMapView";
+import { HexMapTemplate } from "../types/game/hex/HexMapTemplate";
 
 interface HexMapState {
   initialized: boolean;
-  hexMapList: HexMapView[];
+  hexMapList: HexMapTemplate[];
 }
 
 const initialState: HexMapState = {
@@ -19,7 +19,7 @@ export const hexMapSlice = createSlice({
   name: "hexMap",
   initialState,
   reducers: {
-    setHexMapList: (state, action: PayloadAction<HexMapView[]>) => {
+    setHexMapList: (state, action: PayloadAction<HexMapTemplate[]>) => {
       state.initialized = true;
       state.hexMapList = action.payload;
     },

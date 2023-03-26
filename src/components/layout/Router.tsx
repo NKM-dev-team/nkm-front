@@ -1,9 +1,6 @@
 import React from "react";
-import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import HexMapsView from "../views/HexMapsView";
-import { RootState } from "../../app/store";
-import Profile from "../views/Profile";
 import LobbiesView from "../views/LobbiesView";
 import { Routes } from "../../types/Routes";
 import MainLayout from "./MainLayout";
@@ -27,8 +24,6 @@ function Router({
   refreshLobbyWsConnection,
   refreshGameWsConnection,
 }: RouterProps) {
-  const authData = useSelector((state: RootState) => state.authData);
-
   const routes = [
     {
       path: Routes.STATUS,
