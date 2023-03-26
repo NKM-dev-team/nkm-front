@@ -4,12 +4,10 @@ import { useSelector } from "react-redux";
 import HexMapsView from "../views/HexMapsView";
 import { RootState } from "../../app/store";
 import Profile from "../views/Profile";
-import RegisterForm from "../RegisterForm";
 import LobbiesView from "../views/LobbiesView";
 import { Routes } from "../../types/Routes";
 import MainLayout from "./MainLayout";
 import HomeView from "../views/HomeView";
-import LoginView from "../views/LoginView";
 import CharactersView from "../views/CharactersView";
 import GameView from "../views/GameView";
 import StatusView from "../views/StatusView";
@@ -32,14 +30,6 @@ function Router({
   const authData = useSelector((state: RootState) => state.authData);
 
   const routes = [
-    {
-      path: Routes.REGISTER,
-      component: authData.login ? <Redirect to="/user" /> : <RegisterForm />,
-    },
-    {
-      path: Routes.LOGIN,
-      component: authData.login ? <Redirect to="/user" /> : <LoginView />,
-    },
     {
       path: Routes.STATUS,
       component: <StatusView />,
@@ -64,10 +54,10 @@ function Router({
       path: Routes.GAME,
       component: <GameView gameWsHook={gameWsHook} />,
     },
-    {
-      path: Routes.USER,
-      component: authData.login ? <Profile /> : <Redirect to="/login" />,
-    },
+    // {
+    //   path: Routes.USER,
+    //   component: authData.login ? <Profile /> : <Redirect to="/" />,
+    // },
     {
       path: Routes.HOME,
       component: <HomeView />,

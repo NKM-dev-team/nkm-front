@@ -8,11 +8,8 @@ export const MAIN_ROUTE_MAP = [
   ["Lobbies", Routes.LOBBIES],
 ];
 
-export const NOT_LOGGED_IN_ROUTE_MAP = [
-  ["Login", Routes.LOGIN],
-  ["Register", Routes.REGISTER],
-];
-export const LOGGED_IN_ROUTE_MAP = [["Profil", Routes.USER]];
+export const NOT_LOGGED_IN_ROUTE_MAP = []; //[["Register", Routes.REGISTER]];
+export const LOGGED_IN_ROUTE_MAP = []; //[["Profil", Routes.USER]];
 
 export const AUTH_ROUTE_MAP = (loggedIn: boolean) =>
   loggedIn ? LOGGED_IN_ROUTE_MAP : NOT_LOGGED_IN_ROUTE_MAP;
