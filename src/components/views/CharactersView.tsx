@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Typography } from "@mui/material";
+import { Alert, Grid } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import CharacterCard from "../characters_view/CharacterCard";
@@ -21,8 +21,8 @@ export default function CharactersView() {
       {characterSquares}
     </Grid>
   ) : (
-    <Typography variant="h2">
+    <Alert severity="error">
       Character data is not initialized, please check your internet connection.
-    </Typography>
+    </Alert>
   );
 }
