@@ -51,7 +51,7 @@ function Router({
     },
     // {
     //   path: Routes.USER,
-    //   component: authData.login ? <Profile /> : <Redirect to="/" />,
+    //   component: authData.email ? <Profile /> : <Redirect to="/" />,
     // },
     {
       path: Routes.HOME,

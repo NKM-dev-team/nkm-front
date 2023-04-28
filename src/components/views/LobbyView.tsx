@@ -56,7 +56,7 @@ export default function LobbyView({ lobbyWsHook }: LobbyViewProps) {
     lobbyState?.numberOfBans || 0
   );
 
-  const isHost = lobbyState?.hostUserId === authData.login || false;
+  const isHost = lobbyState?.hostUserId === authData.email || false;
   const areInputsDisabled = !isHost || lobbyState?.gameStarted;
 
   useMountEffect(() => {
@@ -204,9 +204,9 @@ export default function LobbyView({ lobbyWsHook }: LobbyViewProps) {
                 )}
               </Grid>
             </Grid>
-            {authData.login && (
+            {authData.email && (
               <>
-                {(lobbyState.userIds.includes(authData.login) && (
+                {(lobbyState.userIds.includes(authData.email) && (
                   <Button
                     variant="contained"
                     color="primary"

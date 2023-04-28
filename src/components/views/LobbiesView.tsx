@@ -56,7 +56,7 @@ export default function LobbiesView({ lobbyWsHook }: LobbiesViewProps) {
         interface from the Unity game frontend to play.
       </Alert>
 
-      {authData.login ? <CreateLobbyForm lobbyWsHook={lobbyWsHook} /> : null}
+      {authData.email ? <CreateLobbyForm lobbyWsHook={lobbyWsHook} /> : null}
       {lobbiesToDisplay.length === 0 ? (
         <Alert severity="info">No recent lobbies to display.</Alert>
       ) : null}

@@ -15,13 +15,35 @@ import {
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../app/store";
-import { authLogout } from "../../features/authSlice";
+import { authenticateOauthGoogle, authLogout } from "../../features/authSlice";
 import logo from "../../img/nkm_logo.png";
 import { MAIN_ROUTE_MAP } from "../../types/route_mapping";
 import WebsocketStatusIcon from "./WebsocketStatusIcon";
 import { WebSocketHook } from "react-use-websocket/dist/lib/types";
 import RegisterForm from "../RegisterForm";
 import LoginForm from "../LoginForm";
+import { GoogleLogin } from "@react-oauth/google";
+import jwtDecode from "jwt-decode";
+
+interface GoogleOauthJwtToken {
+  iss: string;
+  nbf: string;
+  aud: string;
+  sub: string;
+  email: string;
+  email_verified: string;
+  azp: string;
+  name: string;
+  picture: string;
+  given_name: string;
+  family_name: string;
+  iat: string;
+  exp: string;
+  jti: string;
+  alg: string;
+  kid: string;
+  typ: string;
+}
 
 interface NavbarProps {
   lobbyWsHook: WebSocketHook;
@@ -91,14 +113,14 @@ export default function Navbar({
             restartWs={refreshGameWsConnection}
           />
 
-          {authData.login ? (
+          {authData.email ? (
             <>
               <Button
                 onClick={handleMenu}
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
               >
-                {authData.login}
+                {authData.email}
               </Button>
               <Menu
                 id="menu-appbar"
@@ -126,7 +148,7 @@ export default function Navbar({
         </Toolbar>
       </AppBar>
       <Dialog
-        open={loginViewOpen && !authData.login}
+        open={loginViewOpen && !authData.email}
         onClose={() => setLoginViewOpen(false)}
         aria-labelledby="alert-dialog-title"
       >
@@ -142,6 +164,25 @@ export default function Navbar({
           >
             Create an account
           </Button>
+          <GoogleLogin
+            onSuccess={(credentialResponse) => {
+              if (credentialResponse.credential) {
+                const jwtData = jwtDecode<GoogleOauthJwtToken>(
+                  credentialResponse.credential
+                );
+
+                dispatch(
+                  authenticateOauthGoogle(
+                    jwtData.email,
+                    credentialResponse.credential
+                  )
+                );
+              }
+            }}
+            onError={() => {
+              console.log("Login Failed");
+            }}
+          />
         </DialogContent>
       </Dialog>
       <Dialog

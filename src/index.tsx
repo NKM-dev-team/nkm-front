@@ -14,6 +14,7 @@ import persistStore from "redux-persist/es/persistStore";
 import Notifier from "./components/services/Notifier";
 import { SnackbarProvider } from "notistack";
 import App from "./App";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 declare module "@mui/styles/defaultTheme" {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -35,18 +36,21 @@ const persistor = persistStore(store);
 
 ReactDOM.render(
   // <React.StrictMode>
+
   <Provider store={store}>
-    <PersistGate persistor={persistor}>
-      <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={theme}>
-          <SnackbarProvider maxSnack={3}>
-            <Notifier />
-          </SnackbarProvider>
-          <CssBaseline />
-          <App />
-        </ThemeProvider>
-      </StyledEngineProvider>
-    </PersistGate>
+    <GoogleOAuthProvider clientId="499337493287-c4ujkqhp18maais03ta50lvlnntlhomt.apps.googleusercontent.com">
+      <PersistGate persistor={persistor}>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <SnackbarProvider maxSnack={3}>
+              <Notifier />
+            </SnackbarProvider>
+            <CssBaseline />
+            <App />
+          </ThemeProvider>
+        </StyledEngineProvider>
+      </PersistGate>
+    </GoogleOAuthProvider>
   </Provider>,
   // </React.StrictMode>,
   document.getElementById("root")

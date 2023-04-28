@@ -10,8 +10,8 @@ function LoginForm() {
   const dispatch = useDispatch();
   // const userData = useSelector((state) => state.userData);
 
-  const onSubmit = ({ login, password }: Login) => {
-    dispatch(authenticate({ login, password }));
+  const onSubmit = ({ email, password }: Login) => {
+    dispatch(authenticate({ email: email, password }));
   };
 
   return (
@@ -30,10 +30,11 @@ function LoginForm() {
               <Grid item xs={12}>
                 <TextField
                   variant="standard"
-                  label="Login"
-                  name="login"
+                  label="Email"
+                  name="email"
+                  type="email"
                   inputRef={register({ required: true })}
-                  error={errors.login}
+                  error={errors.email}
                   autoFocus
                   fullWidth
                 />

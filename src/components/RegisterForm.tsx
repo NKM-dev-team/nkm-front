@@ -21,17 +21,6 @@ function RegisterForm() {
               <Grid item xs={12}>
                 <TextField
                   variant="standard"
-                  label="Login"
-                  name="login"
-                  inputRef={register({ required: true })}
-                  error={errors.login}
-                  autoFocus
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  variant="standard"
                   label="Email"
                   name="email"
                   type="email"
