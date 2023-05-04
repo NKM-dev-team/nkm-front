@@ -13,8 +13,13 @@ import { AbilityMetadata } from "../types/game/ability/AbilityMetadata";
 // eslint-disable-next-line react-hooks/exhaustive-deps
 export const useMountEffect = (fun: EffectCallback) => useEffect(fun, []);
 
-export const toClockTime = (millis: number) =>
-  new Date(millis).toISOString().slice(11, -1);
+export function toClockTime(millis: number) {
+  try {
+    return new Date(millis).toISOString().slice(11, -1);
+  } catch (e) {
+    return "ERROR";
+  }
+}
 
 export const characterById = (gameState: GameStateView, id: CharacterId) =>
   gameState.characters.find((c) => c.id === id) as NkmCharacterView;
