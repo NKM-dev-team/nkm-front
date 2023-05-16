@@ -68,7 +68,7 @@ export default function StatusView() {
               <Paper sx={{ p: 2 }}>
                 <Link
                   target="_blank"
-                  href={GITHUB_SERVER_COMMIT_URL(githubServerVersion)}
+                  href={GITHUB_SERVER_COMMIT_URL(versionData.version)}
                 >
                   {versionData.version}
                 </Link>
