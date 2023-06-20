@@ -38,6 +38,7 @@ export const updateVersionIfNewer =
       const result = await axios.get(VERSION_URL);
       const newVersion = result.data;
       if (newVersion !== getState().versionData.version) {
+        localStorage.clear();
         dispatch(updateVersion(newVersion));
         dispatch(getAllLobbies());
         dispatch(getMapsAll());
