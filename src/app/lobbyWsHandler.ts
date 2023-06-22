@@ -4,18 +4,20 @@ import { LobbyRoute } from "../types/lobby/ws/LobbyRoute";
 import { WebsocketLobbyResponse } from "../types/lobby/ws/WebsocketLobbyResponse";
 import { LobbyResponseType } from "../types/lobby/ws/LobbyResponseType";
 import { enqueueNotificationError } from "../features/notificationSlice";
-import { getAllLobbies, upsertLobby } from "../features/lobbiesSlice";
 
 export class LobbyWsHandler {
   private readonly sendJson: (jsonMessage: any, keep?: boolean) => void;
   private readonly dispatch: any;
+  private readonly onReceiveSuccess: (response: WebsocketLobbyResponse) => void;
 
   constructor(
     dispatch: any,
-    sendJsonMessage: (jsonMessage: any, keep?: boolean) => void
+    sendJsonMessage: (jsonMessage: any, keep?: boolean) => void,
+    onReceiveSuccess: (response: WebsocketLobbyResponse) => void
   ) {
     this.sendJson = sendJsonMessage;
     this.dispatch = dispatch;
+    this.onReceiveSuccess = onReceiveSuccess;
   }
 
   private send(requestPath: LobbyRoute, request: any) {
@@ -43,27 +45,24 @@ export class LobbyWsHandler {
         );
       }
     } else {
-      switch (m.lobbyResponseType) {
-        case LobbyResponseType.Lobby:
-          this.dispatch(upsertLobby(JSON.parse(m.body)));
-          break;
-        case LobbyResponseType.CreateLobby:
-          this.dispatch(getAllLobbies());
-          break;
-        default:
-        // console.warn(
-        //   `${m.lobbyResponseType} lobby response type is not handled.`
-        // );
-      }
+      this.onReceiveSuccess(m);
     }
   }
 
-  sendAuth(request: LobbyRequest.Auth) {
+  auth(request: LobbyRequest.Auth) {
     this.send(LobbyRoute.Auth, request);
   }
 
   observe(request: LobbyRequest.Observe) {
     this.send(LobbyRoute.Observe, request);
+  }
+
+  getLobbies() {
+    this.send(LobbyRoute.Lobbies, "");
+  }
+
+  getLobby(request: LobbyRequest.GetLobby) {
+    this.send(LobbyRoute.Lobby, request);
   }
 
   create(request: LobbyRequest.LobbyCreation) {

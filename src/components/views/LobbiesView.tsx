@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Alert,
   AlertTitle,
@@ -10,7 +10,6 @@ import {
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../app/store";
-import { getAllLobbies } from "../../features/lobbiesSlice";
 import { Link as RouterLink } from "react-router-dom";
 import { useMountEffect } from "../../app/utils";
 import { LobbyState } from "../../types/lobby/LobbyState";
@@ -21,28 +20,55 @@ import {
   SHOW_LOBBIES_FRESHER_THAN,
 } from "../../app/consts";
 import { WebSocketHook } from "react-use-websocket/dist/lib/types";
+import { LobbyWsHandler } from "../../app/lobbyWsHandler";
+import { LobbyResponseType } from "../../types/lobby/ws/LobbyResponseType";
 interface LobbiesViewProps {
   lobbyWsHook: WebSocketHook;
 }
 
 export default function LobbiesView({ lobbyWsHook }: LobbiesViewProps) {
-  const lobbiesData = useSelector((state: RootState) => state.lobbiesData);
   const authData = useSelector((state: RootState) => state.authData);
   const dispatch = useDispatch();
 
-  const lobbiesToDisplay = lobbiesData.lobbyList.filter((f) => {
-    if (!f.creationDate) return true;
-    else {
-      return (
-        new Date().getTime() - new Date(f.creationDate).getTime() <
-        SHOW_LOBBIES_FRESHER_THAN + BACKEND_TIME_OFFSET
-      );
+  const [lobbiesState, setLobbiesState] = useState<LobbyState[] | undefined>(
+    undefined
+  );
+
+  const { sendJsonMessage, lastJsonMessage, readyState } = lobbyWsHook;
+
+  const lobbyWsHandler = useMemo(
+    () =>
+      new LobbyWsHandler(dispatch, sendJsonMessage, (response) => {
+        console.log(response.lobbyResponseType);
+        switch (response.lobbyResponseType) {
+          case LobbyResponseType.Lobbies:
+            const lss: LobbyState[] = JSON.parse(response.body);
+            setLobbiesState(lss);
+            break;
+        }
+      }),
+    [dispatch, sendJsonMessage]
+  );
+
+  useEffect(() => {
+    if (lastJsonMessage !== null) {
+      lobbyWsHandler.receiveJson(lastJsonMessage);
     }
+  }, [lastJsonMessage, lobbyWsHandler]);
+
+  const lobbiesToDisplay = lobbiesState?.filter((f) => {
+    if (!f.creationDate) return true;
+    return (
+      new Date().getTime() - new Date(f.creationDate).getTime() <
+      SHOW_LOBBIES_FRESHER_THAN + BACKEND_TIME_OFFSET
+    );
   });
 
   useMountEffect(() => {
+    lobbyWsHandler.getLobbies();
+
     const timer = setInterval(
-      () => dispatch(getAllLobbies()),
+      () => lobbyWsHandler.getLobbies(),
       LOBBY_REFRESH_INTERVAL
     );
     return () => clearTimeout(timer);
@@ -57,12 +83,12 @@ export default function LobbiesView({ lobbyWsHook }: LobbiesViewProps) {
       </Alert>
 
       {authData.email ? <CreateLobbyForm lobbyWsHook={lobbyWsHook} /> : null}
-      {lobbiesToDisplay.length === 0 ? (
+      {(lobbiesToDisplay?.length || 0) === 0 ? (
         <Alert severity="info">No recent lobbies to display.</Alert>
       ) : null}
       <Box m={3}>
         <Grid container justifyContent="space-between" spacing={3}>
-          {lobbiesToDisplay.map((lobbyState: LobbyState) => (
+          {lobbiesToDisplay?.map((lobbyState: LobbyState) => (
             <Grid item key={lobbyState.id}>
               <RouterLink to={"/lobby/" + lobbyState.id}>
                 <Card variant="outlined">

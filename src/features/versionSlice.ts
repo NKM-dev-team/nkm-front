@@ -6,7 +6,7 @@ import {
   enqueueNotificationError,
   enqueueNotificationInfo,
 } from "./notificationSlice";
-import { getAllLobbies } from "./lobbiesSlice";
+// import { getAllLobbies } from "./lobbiesSlice";
 import { getMapsAll } from "./hexMapSlice";
 import { getCharacterMetadataAll } from "./charactersSlice";
 import { getAbilityMetadatas } from "./abilitiesSlice";
@@ -40,7 +40,6 @@ export const updateVersionIfNewer =
       if (newVersion !== getState().versionData.version) {
         localStorage.clear();
         dispatch(updateVersion(newVersion));
-        dispatch(getAllLobbies());
         dispatch(getMapsAll());
         dispatch(getCharacterMetadataAll());
         dispatch(getAbilityMetadatas());

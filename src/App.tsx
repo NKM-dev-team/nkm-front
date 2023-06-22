@@ -30,7 +30,7 @@ export default function App() {
         refreshLobbyWsConnection={refreshLobbyWsConnection}
         refreshGameWsConnection={refreshGameWsConnection}
       />
-      <BackgroundService lobbyWsHook={lobbyWsHook} />
+      <BackgroundService />
     </>
   );
 }

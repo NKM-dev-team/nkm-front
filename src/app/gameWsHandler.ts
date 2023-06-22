@@ -8,7 +8,7 @@ import { WebsocketGameResponse } from "../types/game/ws/WebsocketGameResponse";
 export class GameWsHandler {
   private readonly dispatch: any;
   private readonly sendJson: (jsonMessage: any, keep?: boolean) => void;
-  private readonly onReceiveSuccess: (request: WebsocketGameResponse) => void;
+  private readonly onReceiveSuccess: (response: WebsocketGameResponse) => void;
 
   constructor(
     dispatch: any,

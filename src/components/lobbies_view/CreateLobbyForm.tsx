@@ -1,20 +1,30 @@
 import React, { useMemo } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Box, Button, Grid, Paper, TextField } from "@mui/material";
-import { LobbyCreation } from "../../types/requests/LobbyRequest";
+import { Auth, LobbyCreation } from "../../types/requests/LobbyRequest";
 import { LobbyWsHandler } from "../../app/lobbyWsHandler";
 import { WebSocketHook } from "react-use-websocket/dist/lib/types";
+import { useMountEffect } from "../../app/utils";
+import { RootState } from "../../app/store";
 
 function CreateLobbyForm({ lobbyWsHook }: { lobbyWsHook: WebSocketHook }) {
   const { register, handleSubmit, errors } = useForm();
   const dispatch = useDispatch();
+  const authData = useSelector((state: RootState) => state.authData);
+
   const { sendJsonMessage } = lobbyWsHook;
 
   const lobbyWsHandler = useMemo(
-    () => new LobbyWsHandler(dispatch, sendJsonMessage),
+    () => new LobbyWsHandler(dispatch, sendJsonMessage, () => {}),
     [dispatch, sendJsonMessage]
   );
+
+  useMountEffect(() => {
+    if (!authData.token) return;
+    const authRequest: Auth = { token: authData.token };
+    lobbyWsHandler.auth(authRequest);
+  });
 
   const onSubmit = (request: LobbyCreation) => {
     lobbyWsHandler.create(request);

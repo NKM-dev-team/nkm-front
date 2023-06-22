@@ -18,7 +18,6 @@ export default function StatusView() {
     (state: RootState) => state.charactersData
   );
   const abilitiesData = useSelector((state: RootState) => state.abilitiesData);
-  const lobbiesData = useSelector((state: RootState) => state.lobbiesData);
 
   const [githubServerVersion, setGithubServerVersion] = useState("unknown");
   const [serverRunning, setServerRunning] = useState<boolean | undefined>(
@@ -127,16 +126,6 @@ export default function StatusView() {
             }}
           >
             Abilities metadata
-          </Box>
-        </Grid>
-        <Grid item xs={miniStatusXs}>
-          <Box
-            sx={{
-              p: 2,
-              backgroundColor: lobbiesData.initialized ? "green" : "red",
-            }}
-          >
-            Lobbies
           </Box>
         </Grid>
       </Grid>

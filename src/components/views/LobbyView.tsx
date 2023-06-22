@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../app/store";
-import { useParams, useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import Star from "@mui/icons-material/Star";
 import CustomSelect from "../CustomSelect";
 import { PickType } from "../../types/game/PickType";
@@ -20,6 +20,10 @@ import CustomSlider from "../CustomSlider";
 import { LobbyWsHandler } from "../../app/lobbyWsHandler";
 import { useMountEffect } from "../../app/utils";
 import { WebSocketHook } from "react-use-websocket/dist/lib/types";
+import { LobbyState } from "../../types/lobby/LobbyState";
+import { LobbyResponseType } from "../../types/lobby/ws/LobbyResponseType";
+import { ReadyState } from "react-use-websocket";
+import { Auth } from "../../types/requests/GameRequest";
 
 interface LobbyViewProps {
   lobbyWsHook: WebSocketHook;
@@ -27,19 +31,46 @@ interface LobbyViewProps {
 
 export default function LobbyView({ lobbyWsHook }: LobbyViewProps) {
   const dispatch = useDispatch();
-  const { sendJsonMessage } = lobbyWsHook;
-
-  const lobbyWsHandler = useMemo(
-    () => new LobbyWsHandler(dispatch, sendJsonMessage),
-    [dispatch, sendJsonMessage]
-  );
 
   const history = useHistory();
-  const lobbiesData = useSelector((state: RootState) => state.lobbiesData);
   const hexMapData = useSelector((state: RootState) => state.hexMapData);
   const authData = useSelector((state: RootState) => state.authData);
   const { id } = useParams<{ id: string }>();
-  const lobbyState = lobbiesData.lobbyList.find((l) => l.id === id);
+
+  const [lobbyState, setLobbyState] = useState<LobbyState | undefined>(
+    undefined
+  );
+
+  const { sendJsonMessage, lastJsonMessage, readyState } = lobbyWsHook;
+
+  const lobbyWsHandler = useMemo(
+    () =>
+      new LobbyWsHandler(dispatch, sendJsonMessage, (response) => {
+        switch (response.lobbyResponseType) {
+          case LobbyResponseType.Lobby:
+            const ls: LobbyState = JSON.parse(response.body);
+            setLobbyState(ls);
+            break;
+        }
+      }),
+    [dispatch, sendJsonMessage]
+  );
+
+  useEffect(() => {
+    if (lastJsonMessage !== null) {
+      lobbyWsHandler.receiveJson(lastJsonMessage);
+    }
+  }, [lastJsonMessage, lobbyWsHandler]);
+
+  useEffect(() => {
+    if (readyState !== ReadyState.OPEN) return;
+    if (authData.token) {
+      const authRequest: Auth = { token: authData.token };
+      lobbyWsHandler.auth(authRequest);
+    }
+    lobbyWsHandler.observe({ lobbyId: id });
+    lobbyWsHandler.getLobby({ lobbyId: id });
+  }, [authData.token, lobbyWsHandler, id, readyState]);
 
   const [chosenHexMapName, setChosenHexMapName] = useState<string | undefined>(
     lobbyState?.chosenHexMapName || hexMapData?.hexMapList.find((x) => x)?.name
