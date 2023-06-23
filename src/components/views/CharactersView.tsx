@@ -17,7 +17,7 @@ export default function CharactersView() {
     ));
 
   return charactersData.initialized ? (
-    <Grid container justifyContent="center" spacing={5} p={2}>
+    <Grid container justifyContent="center" spacing={3} p={2}>
       {characterSquares}
     </Grid>
   ) : (

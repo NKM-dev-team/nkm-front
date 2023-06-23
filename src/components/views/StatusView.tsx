@@ -24,8 +24,6 @@ export default function StatusView() {
     undefined
   );
 
-  const miniStatusXs = 6;
-
   useMountEffect(() => {
     axios.get(GITHUB_SERVER_MASTER_HEAD_URL).then((res) => {
       const version = res.data.object.sha;
@@ -69,7 +67,7 @@ export default function StatusView() {
                   target="_blank"
                   href={GITHUB_SERVER_COMMIT_URL(versionData.version)}
                 >
-                  {versionData.version}
+                  {versionData.version.substring(0, 10)}
                 </Link>
               </Paper>
             </>
@@ -84,7 +82,7 @@ export default function StatusView() {
               target="_blank"
               href={GITHUB_SERVER_COMMIT_URL(githubServerVersion)}
             >
-              {githubServerVersion}
+              {githubServerVersion.substring(0, 10)}
             </Link>
           </Paper>
         </Grid>
@@ -98,7 +96,7 @@ export default function StatusView() {
             </>
           </Typography>
         </Grid>
-        <Grid item xs={miniStatusXs}>
+        <Grid item xs={12} sm={6}>
           <Box
             sx={{
               p: 2,
@@ -108,7 +106,7 @@ export default function StatusView() {
             HexMaps metadata
           </Box>
         </Grid>
-        <Grid item xs={miniStatusXs}>
+        <Grid item xs={12} sm={6}>
           <Box
             sx={{
               p: 2,
@@ -118,7 +116,7 @@ export default function StatusView() {
             Characters metadata
           </Box>
         </Grid>
-        <Grid item xs={miniStatusXs}>
+        <Grid item xs={12} sm={6}>
           <Box
             sx={{
               p: 2,

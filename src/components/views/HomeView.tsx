@@ -11,15 +11,18 @@ export default function HomeView() {
       <Grid container justifyContent="center">
         <img src={logo} alt="nkm logo" width={200} />
       </Grid>
-      <Typography variant="h2" align="center">
-        Your favourite game (for sure)
+      <Typography variant="h4" align="center">
+        Your favourite game
+      </Typography>
+      <Typography variant="h6" align="center">
+        (for sure)
       </Typography>
       <Typography>NKM is a great game. If it works.</Typography>
       <Typography>Seriously, imagine if you paid the developer.</Typography>
       <Divider />
       <Grid container spacing={2} p={1}>
         {MAIN_ROUTE_MAP.filter((m) => m[0] !== "Home").map((m) => (
-          <Grid item xs={4} key={m[0]}>
+          <Grid item xs={12} sm={6} key={m[0]}>
             <NavLink to={m[1]}>
               <Paper
                 sx={{

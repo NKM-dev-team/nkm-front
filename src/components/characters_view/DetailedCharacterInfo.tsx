@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Paper, Typography } from "@mui/material";
+import { Box, Grid, Paper, Typography } from "@mui/material";
 import CharacterHexagon from "../images/CharacterHexagon";
 import { RootState } from "../../app/store";
 import { useSelector } from "react-redux";
@@ -37,19 +37,36 @@ export default function DetailedCharacterInfo({
     <>
       <Paper sx={{ p: 2 }}>
         <Grid container spacing={2}>
-          <Grid item xs={6}>
+          <Grid
+            item
+            xs={12}
+            sm={4}
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+          >
             <CharacterHexagon name={c.name} width={100} />
           </Grid>
-          <Grid item xs={4}>
-            <CharacterStats c={c} />
+          <Grid
+            item
+            xs={12}
+            sm={8}
+            alignSelf="center"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Box sx={{ width: 200 }}>
+              <CharacterStats c={c} />
+            </Box>
           </Grid>
           <Grid item container justifyContent="center" spacing={1}>
             {initialAbilityMetadatas.map((am) => (
               <Grid item container key={am.name}>
-                <Grid item xs={2}>
+                <Grid item xs={12} sm={2}>
                   <AbilityImage name={am.name} width={50} />
                 </Grid>
-                <Grid item xs={10}>
+                <Grid item xs={12} sm={10}>
                   <Grid item xs={12}>
                     <Typography variant="h6">{am.name}</Typography>
                   </Grid>

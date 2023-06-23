@@ -34,6 +34,8 @@ function HexMapComponent({
       .reduce((a, b) => a + b, 0) / cells.length;
   const originY = -cells.map(cellY).reduce((a, b) => a + b, 0) / cells.length;
 
+  console.log(hexMap.name, originX, originY);
+
   function cellToPixel(
     hexCell: HexCellTemplate,
     originX: number,
@@ -74,9 +76,42 @@ function HexMapComponent({
     );
   });
 
+  // Calculate the dimensions of the hexmap
+  const minX = Math.min(
+    ...cells.map((c) => cellToPixel(c, originX, originY).x)
+  );
+  const minY = Math.min(
+    ...cells.map((c) => cellToPixel(c, originX, originY).y)
+  );
+  const maxX = Math.max(
+    ...cells.map((c) => cellToPixel(c, originX, originY).x)
+  );
+  const maxY = Math.max(
+    ...cells.map((c) => cellToPixel(c, originX, originY).y)
+  );
+  const width = maxX - minX;
+  const height = maxY - minY;
+  const centerX = (minX + maxX) / 2;
+  const centerY = (minY + maxY) / 2;
+
+  // Calculate the viewBox to center the hexmap
+  const viewBoxX = centerX - width / 2;
+  const viewBoxY = centerY - height / 2;
+  const viewBoxWidth = width;
+  const viewBoxHeight = height;
+
   return (
-    <svg height={800 * scale} viewBox={`-50 -50 100 100`}>
-      <g transform="rotate(30)">{polygons}</g>
+    // <svg height={600 * scale} viewBox={`-40 -50 100 100`}>
+    //   <g transform="rotate(30)">{polygons}</g>
+    // </svg>
+    <svg
+      height={height * scale}
+      width={width * scale}
+      viewBox={`${viewBoxX} ${viewBoxY} ${viewBoxWidth} ${viewBoxHeight}`}
+      transform="rotate(30)"
+    >
+      {/*<g transform="rotate(30)">{polygons}</g>*/}
+      <g>{polygons}</g>
     </svg>
   );
 }

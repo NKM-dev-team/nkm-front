@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  CardActionArea,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Grid,
-  Paper,
-  Typography,
-} from "@mui/material";
+import { CardActionArea, Grid, Paper, Typography } from "@mui/material";
 import CharacterHexagon from "../images/CharacterHexagon";
 import { RootState } from "../../app/store";
 import { useSelector } from "react-redux";
@@ -16,6 +8,7 @@ import { createSelector } from "@reduxjs/toolkit";
 import { CharacterMetadata } from "../../types/game/character/CharacterMetadata";
 import CharacterStats from "./CharacterStats";
 import DetailedCharacterInfo from "./DetailedCharacterInfo";
+import CustomDialog from "../CustomDialog";
 
 export default function CharacterCard({ c }: { c: CharacterMetadata }) {
   const [open, setOpen] = React.useState(false);
@@ -72,16 +65,12 @@ export default function CharacterCard({ c }: { c: CharacterMetadata }) {
           </Grid>
         </Paper>
       </CardActionArea>
-      <Dialog
+      <CustomDialog
         open={open}
-        onClose={() => setOpen(false)}
-        aria-labelledby="alert-dialog-title"
-      >
-        <DialogTitle id="alert-dialog-title">{c.name}</DialogTitle>
-        <DialogContent>
-          <DetailedCharacterInfo c={c} />
-        </DialogContent>
-      </Dialog>
+        setOpen={setOpen}
+        title={c.name}
+        content={<DetailedCharacterInfo c={c} />}
+      />
     </>
   );
 }

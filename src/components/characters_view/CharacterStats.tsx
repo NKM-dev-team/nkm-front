@@ -6,21 +6,15 @@ import { statMappings } from "../../app/utils";
 
 export default function CharacterStats({ c }: { c: CharacterMetadata }) {
   return (
-    <Grid
-      item
-      container
-      justifyContent="center"
-      alignItems="center"
-      spacing={2}
-    >
+    <Grid item container spacing={1}>
       {statMappings(c).map((sm) => (
         <Grid item xs={4} key={sm.title}>
           <Tooltip title={sm.title} arrow>
-            <Grid container justifyContent="space-between">
-              <Grid item>
+            <Grid container justifyContent="space-between" spacing={1}>
+              <Grid item xs={6}>
                 <StatImage name={sm.icon} width="20" />
               </Grid>
-              <Grid item>
+              <Grid item xs={6}>
                 <Typography variant="body1">{sm.value}</Typography>
               </Grid>
             </Grid>

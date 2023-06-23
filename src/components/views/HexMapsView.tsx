@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Grid, Paper, Alert } from "@mui/material";
+import { Typography, Grid, Paper, Alert, Box } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import { MemoizedHexMapComponent } from "../hexmaps_view/HexMapComponent";
@@ -10,12 +10,14 @@ export default function HexMapsView() {
   const hexMapData = useSelector((state: RootState) => state.hexMapData);
   const hexMapSquares = hexMapData.hexMapList.map((hexMap: HexMapTemplate) => (
     <Grid item key={hexMap.name}>
-      <Paper>
-        <Typography variant="h4" align="center">
+      <Box>
+        <Typography variant="h6" align="center">
           {hexMap.name}
         </Typography>
-        <MemoizedHexMapComponent scale={0.5} hexMap={hexMap} />
-      </Paper>
+        <Box display="flex" justifyContent="center" alignItems="center">
+          <MemoizedHexMapComponent scale={3} hexMap={hexMap} />
+        </Box>
+      </Box>
     </Grid>
   ));
 
@@ -27,7 +29,7 @@ export default function HexMapsView() {
         </Alert>
       }
     >
-      <Grid container justifyContent="center" spacing={2}>
+      <Grid container justifyContent="center" spacing={3} p={2}>
         {hexMapSquares}
       </Grid>
     </ErrorBoundary>
