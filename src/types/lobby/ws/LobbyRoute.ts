@@ -1,4 +1,5 @@
 export enum LobbyRoute {
+  Ping = "ping",
   Auth = "auth",
   Observe = "observe",
   Lobbies = "lobbies",

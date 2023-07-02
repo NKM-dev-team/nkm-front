@@ -5,14 +5,14 @@ export const CLOCK_UPDATE_INTERVAL = 60; // every 60 milliseconds
 export const BACKEND_TIME_OFFSET = 2 * 1000 * 60 * 60; // two hours
 export const SHOW_LOBBIES_FRESHER_THAN = 1000 * 60 * 15; // 15 minutes
 
-const NKM_BACKEND_DOMAIN = "krzysztofruczkowski.pl";
-const API_URL = `https://${NKM_BACKEND_DOMAIN}/nkm/api`;
-const WS_URL = `wss://${NKM_BACKEND_DOMAIN}/nkm/ws`;
+// const NKM_BACKEND_DOMAIN = "krzysztofruczkowski.pl";
+// const API_URL = `https://${NKM_BACKEND_DOMAIN}/nkm/api`;
+// const WS_URL = `wss://${NKM_BACKEND_DOMAIN}/nkm/ws`;
 
 // TODO: move those settings to env variables
-// const NKM_BACKEND_DOMAIN = "localhost:3737";
-// const API_URL = `http://${NKM_BACKEND_DOMAIN}/api`;
-// const WS_URL = `ws://${NKM_BACKEND_DOMAIN}/ws`;
+const NKM_BACKEND_DOMAIN = "localhost:3737";
+const API_URL = `http://${NKM_BACKEND_DOMAIN}/api`;
+const WS_URL = `ws://${NKM_BACKEND_DOMAIN}/ws`;
 
 export const WS_LOBBY_URL = `${WS_URL}/lobby`;
 export const WS_GAME_URL = `${WS_URL}/game`;

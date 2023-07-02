@@ -10,6 +10,8 @@ export class LobbyWsHandler {
   private readonly dispatch: any;
   private readonly onReceiveSuccess: (response: WebsocketLobbyResponse) => void;
 
+  private lastPing: any = Date.now();
+
   constructor(
     dispatch: any,
     sendJsonMessage: (jsonMessage: any, keep?: boolean) => void,
@@ -18,6 +20,9 @@ export class LobbyWsHandler {
     this.sendJson = sendJsonMessage;
     this.dispatch = dispatch;
     this.onReceiveSuccess = onReceiveSuccess;
+    setInterval(() => {
+      this.ping();
+    }, 1000);
   }
 
   private send(requestPath: LobbyRoute, request: any) {
@@ -34,6 +39,10 @@ export class LobbyWsHandler {
     console.log(m);
     if (m.lobbyResponseType === LobbyResponseType.Error) {
       this.dispatch(enqueueNotificationError(m.body));
+    } else if (m.lobbyResponseType === LobbyResponseType.Ping) {
+      const rtt = Date.now() - this.lastPing;
+      const owt = rtt / 2;
+      console.log("PING: " + owt);
     } else if (m.statusCode !== 200) {
       if (m.body) {
         this.dispatch(enqueueNotificationError(m.body));
@@ -47,6 +56,11 @@ export class LobbyWsHandler {
     } else {
       this.onReceiveSuccess(m);
     }
+  }
+
+  ping() {
+    this.lastPing = Date.now();
+    this.send(LobbyRoute.Ping, "");
   }
 
   auth(request: LobbyRequest.Auth) {

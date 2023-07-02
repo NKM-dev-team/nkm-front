@@ -1,4 +1,5 @@
 export enum LobbyResponseType {
+  Ping = "ping",
   Auth = "auth",
   Observe = "observe",
   Lobbies = "lobbies",
