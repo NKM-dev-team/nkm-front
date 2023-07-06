@@ -89,7 +89,7 @@ export default function GameView({ gameWsHook }: GameViewProps) {
 
   return (
     <>
-      {authData.email ? (
+      {authData.token ? (
         <RequestSender gameWsHandler={gameWsHandler} gameState={gameState} />
       ) : null}
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>

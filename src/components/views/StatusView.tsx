@@ -8,18 +8,15 @@ import {
   GITHUB_SERVER_COMMITS_URL,
   GITHUB_SERVER_MASTER_HEAD_URL,
   VERSION_URL,
+  VERSION_URL_STABLE,
 } from "../../app/consts";
 import { useMountEffect } from "../../app/utils";
 
 export default function StatusView() {
   const versionData = useSelector((state: RootState) => state.versionData);
-  const hexmapsData = useSelector((state: RootState) => state.hexMapData);
-  const charactersData = useSelector(
-    (state: RootState) => state.charactersData
-  );
-  const abilitiesData = useSelector((state: RootState) => state.abilitiesData);
 
   const [githubServerVersion, setGithubServerVersion] = useState("unknown");
+  const [stableServerVersion, setStableServerVersion] = useState("unknown");
   const [serverRunning, setServerRunning] = useState<boolean | undefined>(
     undefined
   );
@@ -28,6 +25,11 @@ export default function StatusView() {
     axios.get(GITHUB_SERVER_MASTER_HEAD_URL).then((res) => {
       const version = res.data.object.sha;
       setGithubServerVersion(version);
+    });
+
+    axios.get(VERSION_URL_STABLE).then((res) => {
+      const version = res.data;
+      setStableServerVersion(version);
     });
 
     axios
@@ -61,7 +63,7 @@ export default function StatusView() {
         <Grid item xs={12}>
           {versionData.version ? (
             <>
-              <Typography>Detected version on the server:</Typography>
+              <Typography>Detected version on the server (latest):</Typography>
               <Paper sx={{ p: 2 }}>
                 <Link
                   target="_blank"
@@ -74,6 +76,17 @@ export default function StatusView() {
           ) : (
             <Typography>"Error with version detection."</Typography>
           )}
+        </Grid>
+        <Grid item xs={12}>
+          <Typography>Detected version on the server (stable):</Typography>
+          <Paper sx={{ p: 2 }}>
+            <Link
+              target="_blank"
+              href={GITHUB_SERVER_COMMIT_URL(stableServerVersion)}
+            >
+              {stableServerVersion.substring(0, 10)}
+            </Link>
+          </Paper>
         </Grid>
         <Grid item xs={12}>
           <Typography>Latest version on github:</Typography>
@@ -95,36 +108,6 @@ export default function StatusView() {
               </Link>
             </>
           </Typography>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Box
-            sx={{
-              p: 2,
-              backgroundColor: hexmapsData.initialized ? "green" : "red",
-            }}
-          >
-            HexMaps metadata
-          </Box>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Box
-            sx={{
-              p: 2,
-              backgroundColor: charactersData.initialized ? "green" : "red",
-            }}
-          >
-            Characters metadata
-          </Box>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Box
-            sx={{
-              p: 2,
-              backgroundColor: abilitiesData.initialized ? "green" : "red",
-            }}
-          >
-            Abilities metadata
-          </Box>
         </Grid>
       </Grid>
     </Paper>

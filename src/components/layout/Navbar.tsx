@@ -84,14 +84,14 @@ export default function Navbar({
             restartWs={refreshGameWsConnection}
           />
 
-          {authData.email ? (
+          {authData.token ? (
             <>
               <Button
                 onClick={handleMenu}
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
               >
-                {authData.email}
+                {authData.userState?.userId ?? "undefined"}
               </Button>
               <Menu
                 id="menu-appbar"

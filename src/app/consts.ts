@@ -6,8 +6,9 @@ export const BACKEND_TIME_OFFSET = 2 * 1000 * 60 * 60; // two hours
 export const SHOW_LOBBIES_FRESHER_THAN = 1000 * 60 * 15; // 15 minutes
 
 const NKM_BACKEND_DOMAIN = "krzysztofruczkowski.pl";
-const API_URL = `https://${NKM_BACKEND_DOMAIN}/nkm/api`;
-const WS_URL = `wss://${NKM_BACKEND_DOMAIN}/nkm/ws`;
+const API_URL_STABLE = `https://${NKM_BACKEND_DOMAIN}/nkm/api`;
+export const API_URL = `https://${NKM_BACKEND_DOMAIN}/nkm-next/api`;
+const WS_URL = `wss://${NKM_BACKEND_DOMAIN}/nkm-next/ws`;
 
 // TODO: move those settings to env variables
 // const NKM_BACKEND_DOMAIN = "localhost:3737";
@@ -25,6 +26,7 @@ export const CHARACTERS_URL = `${API_URL}/characters`;
 export const ABILITIES_URL = `${API_URL}/abilities`;
 export const CHARACTER_EFFECTS_URL = `${API_URL}/character_effects`;
 export const VERSION_URL = `${API_URL}/version`;
+export const VERSION_URL_STABLE = `${API_URL_STABLE}/version`;
 export const GET_LOBBIES_URL = `${API_URL}/lobbies`;
 export const GET_LOBBY_URL = (lobbyId: string) => `${API_URL}/lobby/${lobbyId}`;
 export const GET_GAME_STATE_URL = (lobbyId: string) =>

@@ -2,8 +2,8 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { Box, Button, Grid, Paper, TextField } from "@mui/material";
-import { RegisterRequest } from "../types/login";
 import { registerUser } from "../features/authSlice";
+import { RegisterRequest } from "../types/RegisterRequest";
 
 function RegisterForm() {
   const { register, handleSubmit, errors } = useForm();

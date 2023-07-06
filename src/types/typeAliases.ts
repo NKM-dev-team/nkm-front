@@ -1,4 +1,5 @@
 export type GameId = string;
+export type UserId = string;
 export type PlayerId = string;
 export type CharacterMetadataId = string;
 export type CharacterId = string;

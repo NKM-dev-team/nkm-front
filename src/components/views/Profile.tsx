@@ -9,7 +9,9 @@ function Profile() {
   return (
     <Paper>
       <Typography variant="h2">Profil</Typography>
-      <Typography variant="h4">Hello, {authData.email} :)</Typography>
+      <Typography variant="h4">
+        Hello, {authData.userState?.userId} :)
+      </Typography>
     </Paper>
   );
 }

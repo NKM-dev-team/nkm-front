@@ -87,7 +87,7 @@ export default function LobbyView({ lobbyWsHook }: LobbyViewProps) {
     lobbyState?.numberOfBans || 0
   );
 
-  const isHost = lobbyState?.hostUserId === authData.email || false;
+  const isHost = lobbyState?.hostUserId === authData.userState?.userId || false;
   const areInputsDisabled = !isHost || lobbyState?.gameStarted;
 
   useMountEffect(() => {
@@ -155,6 +155,9 @@ export default function LobbyView({ lobbyWsHook }: LobbyViewProps) {
 
   if (lobbyState === undefined)
     return <Alert severity="error">Lobby not found.</Alert>;
+
+  if (!authData.userState)
+    return <Alert severity="error">User state is not initialized.</Alert>;
 
   return (
     <>
@@ -235,9 +238,9 @@ export default function LobbyView({ lobbyWsHook }: LobbyViewProps) {
                 )}
               </Grid>
             </Grid>
-            {authData.email && (
+            {authData.token && (
               <>
-                {(lobbyState.userIds.includes(authData.email) && (
+                {(lobbyState.userIds.includes(authData.userState.userId) && (
                   <Button
                     variant="contained"
                     color="primary"

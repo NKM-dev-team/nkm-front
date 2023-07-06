@@ -2,7 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { Box, Button, Grid, Paper, TextField } from "@mui/material";
-import { Login } from "../types/login";
+import { Credentials } from "../types/Credentials";
 import { authenticate } from "../features/authSlice";
 
 function LoginForm() {
@@ -10,7 +10,7 @@ function LoginForm() {
   const dispatch = useDispatch();
   // const userData = useSelector((state) => state.userData);
 
-  const onSubmit = ({ email, password }: Login) => {
+  const onSubmit = ({ email, password }: Credentials) => {
     dispatch(authenticate({ email: email, password }));
   };
 

@@ -19,7 +19,7 @@ export default function LoginDialog({
 
   return (
     <CustomDialog
-      open={loginViewOpen && !authData.email}
+      open={loginViewOpen && !authData.token}
       setOpen={setLoginViewOpen}
       title={"Login"}
       content={

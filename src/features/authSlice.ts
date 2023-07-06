@@ -2,16 +2,17 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { AppThunk } from "../app/store";
 import { LOGIN_URL, OAUTH_GOOGLE_LOGIN_URL, REGISTER_URL } from "../app/consts";
-import { Login, RegisterRequest } from "../types/login";
+import { Credentials } from "../types/Credentials";
 import { AuthState } from "../types/authState";
 import {
   enqueueNotificationError,
   enqueueNotificationSuccess,
 } from "./notificationSlice";
+import { RegisterRequest } from "../types/RegisterRequest";
 
 const initialState: AuthState = {
   token: null,
-  email: null,
+  userState: null,
 };
 
 export const authSlice = createSlice({
@@ -20,11 +21,11 @@ export const authSlice = createSlice({
   reducers: {
     authLogin: (state, action: PayloadAction<AuthState>) => {
       state.token = action.payload.token;
-      state.email = action.payload.email;
+      state.userState = action.payload.userState;
     },
     authLogout: (state) => {
       state.token = null;
-      state.email = null;
+      state.userState = null;
     },
   },
 });
@@ -32,26 +33,33 @@ export const authSlice = createSlice({
 export const { authLogin, authLogout } = authSlice.actions;
 
 export const authenticate =
-  ({ email, password }: Login): AppThunk =>
+  ({ email, password }: Credentials): AppThunk =>
   async (dispatch) => {
-    try {
-      const result = await axios.post(LOGIN_URL, {
+    axios
+      .post(LOGIN_URL, {
         email: email,
         password: password,
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          dispatch(authLogin(response.data));
+          dispatch(enqueueNotificationSuccess("Logged in successfully"));
+        }
+      })
+      .catch((error) => {
+        if (error.response.status === 401) {
+          dispatch(
+            enqueueNotificationError("Unable to login. " + error.response.data)
+          );
+        } else {
+          console.warn(error);
+          dispatch(
+            enqueueNotificationError(
+              "Unable to login. Please check server status and internet connection."
+            )
+          );
+        }
       });
-      if (result.status === 200) {
-        const token = result.data;
-        dispatch(authLogin({ token, email: email }));
-        dispatch(enqueueNotificationSuccess("Logged in successfully"));
-      }
-    } catch (error) {
-      console.warn(error);
-      dispatch(
-        enqueueNotificationError(
-          "Unable to log in. Please check credentials and internet connection."
-        )
-      );
-    }
   };
 
 export const authenticateOauthGoogle =
@@ -60,15 +68,14 @@ export const authenticateOauthGoogle =
     try {
       const result = await axios.post(OAUTH_GOOGLE_LOGIN_URL, googleCredential);
       if (result.status === 200) {
-        const token = result.data;
-        dispatch(authLogin({ token, email: email }));
+        dispatch(authLogin(result.data));
         dispatch(enqueueNotificationSuccess("Logged in successfully"));
       }
     } catch (error) {
       console.warn(error);
       dispatch(
         enqueueNotificationError(
-          "Unable to log in. Please check internet connection."
+          "Unable to login. Please check server status and internet connection."
         )
       );
     }
