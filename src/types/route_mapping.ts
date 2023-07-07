@@ -8,8 +8,9 @@ export const MAIN_ROUTE_MAP = [
   ["Lobbies", Routes.LOBBIES],
 ];
 
-export const NOT_LOGGED_IN_ROUTE_MAP = []; //[["Register", Routes.REGISTER]];
-export const LOGGED_IN_ROUTE_MAP = []; //[["Profil", Routes.USER]];
+// export const NOT_LOGGED_IN_ROUTE_MAP = []; //[["Register", Routes.REGISTER]];
+// export const LOGGED_IN_ROUTE_MAP = []; //[["Profil", Routes.USER]];
+export const ADMIN_ROUTE_MAP = [["Admin panel", Routes.ADMIN]];
 
-export const AUTH_ROUTE_MAP = (loggedIn: boolean) =>
-  loggedIn ? LOGGED_IN_ROUTE_MAP : NOT_LOGGED_IN_ROUTE_MAP;
+export const AUTH_ROUTE_MAP = (isAdmin: Boolean) =>
+  isAdmin ? ADMIN_ROUTE_MAP : [];

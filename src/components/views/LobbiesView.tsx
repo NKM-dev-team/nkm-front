@@ -39,7 +39,6 @@ export default function LobbiesView({ lobbyWsHook }: LobbiesViewProps) {
   const lobbyWsHandler = useMemo(
     () =>
       new LobbyWsHandler(dispatch, sendJsonMessage, (response) => {
-        console.log(response.lobbyResponseType);
         switch (response.lobbyResponseType) {
           case LobbyResponseType.Lobbies:
             const lss: LobbyState[] = JSON.parse(response.body);
@@ -82,7 +81,7 @@ export default function LobbiesView({ lobbyWsHook }: LobbiesViewProps) {
         interface from the Unity game frontend to play.
       </Alert>
 
-      {authData.token ? <CreateLobbyForm lobbyWsHook={lobbyWsHook} /> : null}
+      {authData.token ? <CreateLobbyForm /> : null}
       {(lobbiesToDisplay?.length || 0) === 0 ? (
         <Alert severity="info">No recent lobbies to display.</Alert>
       ) : null}

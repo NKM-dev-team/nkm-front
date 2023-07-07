@@ -4,14 +4,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { Box, Button, Grid, Paper, TextField } from "@mui/material";
 import { Auth, LobbyCreation } from "../../types/requests/LobbyRequest";
 import { LobbyWsHandler } from "../../app/lobbyWsHandler";
-import { WebSocketHook } from "react-use-websocket/dist/lib/types";
 import { useMountEffect } from "../../app/utils";
 import { RootState } from "../../app/store";
+import useWebSocket from "react-use-websocket";
+import { WS_LOBBY_URL } from "../../app/consts";
 
-function CreateLobbyForm({ lobbyWsHook }: { lobbyWsHook: WebSocketHook }) {
+function CreateLobbyForm() {
   const { register, handleSubmit, errors } = useForm();
   const dispatch = useDispatch();
   const authData = useSelector((state: RootState) => state.authData);
+
+  const lobbyWsHook = useWebSocket(WS_LOBBY_URL);
 
   const { sendJsonMessage } = lobbyWsHook;
 
@@ -27,6 +30,7 @@ function CreateLobbyForm({ lobbyWsHook }: { lobbyWsHook: WebSocketHook }) {
   });
 
   const onSubmit = (request: LobbyCreation) => {
+    console.log(request);
     lobbyWsHandler.create(request);
   };
 

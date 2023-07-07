@@ -34,7 +34,9 @@ export default function LeftDrawerContent() {
       <List>{MAIN_ROUTE_MAP.map((m) => CustomListItem(m))}</List>
       <Divider />
       <List>
-        {AUTH_ROUTE_MAP(Boolean(authData.token)).map((m) => CustomListItem(m))}
+        {AUTH_ROUTE_MAP(Boolean(authData.userState?.isAdmin)).map((m) =>
+          CustomListItem(m)
+        )}
       </List>
     </>
   );

@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import HexMapsView from "../views/HexMapsView";
 import LobbiesView from "../views/LobbiesView";
 import { Routes } from "../../types/Routes";
@@ -8,8 +8,11 @@ import HomeView from "../views/HomeView";
 import CharactersView from "../views/CharactersView";
 import GameView from "../views/GameView";
 import StatusView from "../views/StatusView";
-import LobbyView from "../views/LobbyView";
 import { WebSocketHook } from "react-use-websocket/dist/lib/types";
+import { useSelector } from "react-redux";
+import { RootState } from "../../app/store";
+import AdminPanelView from "../views/AdminPanelView";
+import LobbyViewParam from "../views/LobbyViewParam";
 
 interface RouterProps {
   lobbyWsHook: WebSocketHook;
@@ -24,6 +27,7 @@ function Router({
   refreshLobbyWsConnection,
   refreshGameWsConnection,
 }: RouterProps) {
+  const authData = useSelector((state: RootState) => state.authData);
   const routes = [
     {
       path: Routes.STATUS,
@@ -43,7 +47,7 @@ function Router({
     },
     {
       path: Routes.LOBBY,
-      component: <LobbyView lobbyWsHook={lobbyWsHook} />,
+      component: <LobbyViewParam lobbyWsHook={lobbyWsHook} />,
     },
     {
       path: Routes.GAME,
@@ -53,6 +57,14 @@ function Router({
     //   path: Routes.USER,
     //   component: authData.email ? <Profile /> : <Redirect to="/" />,
     // },
+    {
+      path: Routes.ADMIN,
+      component: authData.userState?.isAdmin ? (
+        <AdminPanelView />
+      ) : (
+        <Redirect to="/" />
+      ),
+    },
     {
       path: Routes.HOME,
       component: <HomeView />,

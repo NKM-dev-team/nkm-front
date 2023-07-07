@@ -12,13 +12,12 @@ import {
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../app/store";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Star from "@mui/icons-material/Star";
 import CustomSelect from "../CustomSelect";
 import { PickType } from "../../types/game/PickType";
 import CustomSlider from "../CustomSlider";
 import { LobbyWsHandler } from "../../app/lobbyWsHandler";
-import { useMountEffect } from "../../app/utils";
 import { WebSocketHook } from "react-use-websocket/dist/lib/types";
 import { LobbyState } from "../../types/lobby/LobbyState";
 import { LobbyResponseType } from "../../types/lobby/ws/LobbyResponseType";
@@ -27,15 +26,20 @@ import { Auth } from "../../types/requests/GameRequest";
 
 interface LobbyViewProps {
   lobbyWsHook: WebSocketHook;
+  id: string;
+  autoInitAsHost?: boolean;
 }
 
-export default function LobbyView({ lobbyWsHook }: LobbyViewProps) {
+export default function LobbyView({
+  lobbyWsHook,
+  id,
+  autoInitAsHost = true,
+}: LobbyViewProps) {
   const dispatch = useDispatch();
 
   const history = useHistory();
   const hexMapData = useSelector((state: RootState) => state.hexMapData);
   const authData = useSelector((state: RootState) => state.authData);
-  const { id } = useParams<{ id: string }>();
 
   const [lobbyState, setLobbyState] = useState<LobbyState | undefined>(
     undefined
@@ -68,8 +72,6 @@ export default function LobbyView({ lobbyWsHook }: LobbyViewProps) {
       const authRequest: Auth = { token: authData.token };
       lobbyWsHandler.auth(authRequest);
     }
-    lobbyWsHandler.observe({ lobbyId: id });
-    lobbyWsHandler.getLobby({ lobbyId: id });
   }, [authData.token, lobbyWsHandler, id, readyState]);
 
   const [chosenHexMapName, setChosenHexMapName] = useState<string | undefined>(
@@ -90,11 +92,13 @@ export default function LobbyView({ lobbyWsHook }: LobbyViewProps) {
   const isHost = lobbyState?.hostUserId === authData.userState?.userId || false;
   const areInputsDisabled = !isHost || lobbyState?.gameStarted;
 
-  useMountEffect(() => {
+  useEffect(() => {
     lobbyWsHandler.observe({ lobbyId: id });
-  });
+    lobbyWsHandler.getLobby({ lobbyId: id });
+  }, [id, lobbyWsHandler]);
 
   useEffect(() => {
+    if (!autoInitAsHost) return;
     if (!isHost) return;
     if (chosenHexMapName === undefined) return;
     if (lobbyState?.chosenHexMapName === chosenHexMapName) return;
@@ -106,15 +110,25 @@ export default function LobbyView({ lobbyWsHook }: LobbyViewProps) {
     isHost,
     lobbyState?.chosenHexMapName,
     lobbyWsHandler,
+    autoInitAsHost,
   ]);
 
   useEffect(() => {
+    if (!autoInitAsHost) return;
     if (!isHost) return;
     if (lobbyState?.pickType === chosenPickType) return;
     lobbyWsHandler.setPickType({ lobbyId: id, pickType: chosenPickType });
-  }, [chosenPickType, id, isHost, lobbyState?.pickType, lobbyWsHandler]);
+  }, [
+    chosenPickType,
+    id,
+    isHost,
+    lobbyState?.pickType,
+    lobbyWsHandler,
+    autoInitAsHost,
+  ]);
 
   useEffect(() => {
+    if (!autoInitAsHost) return;
     if (!isHost) return;
     if (lobbyState?.numberOfCharactersPerPlayer === chosenCharactersPerPlayer)
       return;
@@ -128,16 +142,25 @@ export default function LobbyView({ lobbyWsHook }: LobbyViewProps) {
     isHost,
     lobbyState?.numberOfCharactersPerPlayer,
     lobbyWsHandler,
+    autoInitAsHost,
   ]);
 
   useEffect(() => {
+    if (!autoInitAsHost) return;
     if (!isHost) return;
     if (lobbyState?.numberOfBans === chosenBans) return;
     lobbyWsHandler.setNumberOfBans({
       lobbyId: id,
       numberOfBans: chosenBans,
     });
-  }, [chosenBans, id, isHost, lobbyState?.numberOfBans, lobbyWsHandler]);
+  }, [
+    chosenBans,
+    id,
+    isHost,
+    lobbyState?.numberOfBans,
+    lobbyWsHandler,
+    autoInitAsHost,
+  ]);
 
   const joinLobby = () => {
     lobbyWsHandler.join({ lobbyId: id });
@@ -163,6 +186,9 @@ export default function LobbyView({ lobbyWsHook }: LobbyViewProps) {
     <>
       <Box m={3}>
         <Paper variant="outlined">
+          <Typography variant="body2" textAlign="right" color="#545545" p={1}>
+            {id}
+          </Typography>
           <Box p={3}>
             <Grid container justifyContent="space-between" spacing={3}>
               <Grid item xs={12} md={6}>
