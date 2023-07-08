@@ -4,20 +4,15 @@ import { WebsocketGameRequest } from "../types/game/ws/WebsocketGameRequest";
 import { GameRoute } from "../types/game/ws/GameRoute";
 import { GameResponseType } from "../types/game/ws/GameResponseType";
 import { WebsocketGameResponse } from "../types/game/ws/WebsocketGameResponse";
+import { WsHandler } from "./WsHandler";
 
-export class GameWsHandler {
-  private readonly dispatch: any;
-  private readonly sendJson: (jsonMessage: any, keep?: boolean) => void;
-  private readonly onReceiveSuccess: (response: WebsocketGameResponse) => void;
-
-  constructor(
-    dispatch: any,
-    sendJsonMessage: (jsonMessage: any, keep?: boolean) => void,
-    onReceiveSuccess: (response: WebsocketGameResponse) => void
-  ) {
-    this.sendJson = sendJsonMessage;
-    this.dispatch = dispatch;
-    this.onReceiveSuccess = onReceiveSuccess;
+export class GameWsHandler extends WsHandler<
+  WebsocketGameRequest,
+  WebsocketGameResponse
+> {
+  override sendOrEnqueueRequest(wsRequest: WebsocketGameRequest) {
+    this.logBlue(`${wsRequest.requestPath} ${wsRequest.requestJson}`);
+    super.sendOrEnqueueRequest(wsRequest);
   }
 
   private send(requestPath: GameRoute, request: any) {
@@ -25,17 +20,18 @@ export class GameWsHandler {
       requestPath: requestPath,
       requestJson: JSON.stringify(request),
     };
-    this.sendRequest(wsRequest);
+    this.sendOrEnqueueRequest(wsRequest);
   }
 
-  sendRequest(wsRequest: WebsocketGameRequest) {
-    console.log(wsRequest);
-    this.sendJson(wsRequest);
-  }
+  override receiveJson(json: any) {
+    super.receiveJson(json);
 
-  receiveJson(json: any) {
     const m = json as WebsocketGameResponse;
-    console.log(m);
+
+    this.logPurple(
+      `${m.gameResponseType}(${m.statusCode}) ${m.body.substring(0, 250)}`
+    );
+
     if (m.gameResponseType === GameResponseType.Error) {
       this.dispatch(enqueueNotificationError(m.body));
     } else if (m.statusCode !== 200) {

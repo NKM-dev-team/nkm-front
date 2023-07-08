@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Alert, Box, Tab, Tabs } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 import { ReadyState } from "react-use-websocket";
 import { GameWsHandler } from "../../app/gameWsHandler";
 import { GameStateView } from "../../types/game/GameStateView";
@@ -19,11 +18,15 @@ import RequestSender from "../game_view/RequestSender";
 
 interface GameViewProps {
   gameWsHook: WebSocketHook;
+  id: string;
+  autoAuth?: boolean;
 }
 
-export default function GameView({ gameWsHook }: GameViewProps) {
-  const { id } = useParams<{ id: string }>();
-
+export default function GameView({
+  gameWsHook,
+  id,
+  autoAuth = true,
+}: GameViewProps) {
   const dispatch = useDispatch();
   const authData = useSelector((state: RootState) => state.authData);
 
@@ -63,19 +66,23 @@ export default function GameView({ gameWsHook }: GameViewProps) {
   }, [lastJsonMessage, gameWsHandler]);
 
   useEffect(() => {
-    if (gameState !== undefined) {
-      gameWsHandler.getCurrentClock({ lobbyId: id });
-    }
-  }, [id, eventViews, gameWsHandler, gameState]);
-
-  useEffect(() => {
+    if (!autoAuth) return;
     if (readyState !== ReadyState.OPEN) return;
     if (!authData.token) return;
     const authRequest: Auth = { token: authData.token };
     gameWsHandler.auth(authRequest);
+  }, [authData.token, gameWsHandler, id, readyState, autoAuth]);
+
+  useEffect(() => {
     gameWsHandler.observe({ lobbyId: id });
     gameWsHandler.getState({ lobbyId: id });
-  }, [authData.token, gameWsHandler, id, readyState]);
+  }, [authData.token, gameWsHandler, id]);
+
+  useEffect(() => {
+    if (gameState !== undefined) {
+      gameWsHandler.getCurrentClock({ lobbyId: id });
+    }
+  }, [id, eventViews, gameWsHandler, gameState]);
 
   if (gameState === undefined)
     return <Alert severity="error">Game not found.</Alert>;

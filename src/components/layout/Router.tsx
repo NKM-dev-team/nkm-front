@@ -6,13 +6,13 @@ import { Routes } from "../../types/Routes";
 import MainLayout from "./MainLayout";
 import HomeView from "../views/HomeView";
 import CharactersView from "../views/CharactersView";
-import GameView from "../views/GameView";
 import StatusView from "../views/StatusView";
 import { WebSocketHook } from "react-use-websocket/dist/lib/types";
 import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import AdminPanelView from "../views/AdminPanelView";
 import LobbyViewParam from "../views/LobbyViewParam";
+import GameViewParam from "../views/GameViewParam";
 
 interface RouterProps {
   lobbyWsHook: WebSocketHook;
@@ -51,7 +51,7 @@ function Router({
     },
     {
       path: Routes.GAME,
-      component: <GameView gameWsHook={gameWsHook} />,
+      component: <GameViewParam gameWsHook={gameWsHook} />,
     },
     // {
     //   path: Routes.USER,

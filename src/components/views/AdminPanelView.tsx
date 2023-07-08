@@ -4,17 +4,19 @@ import { useDispatch } from "react-redux";
 import { LobbyWsHandler } from "../../app/lobbyWsHandler";
 import { useMountEffect } from "../../app/utils";
 import axios from "axios";
-import { LOGIN_URL, WS_LOBBY_URL } from "../../app/consts";
+import { LOGIN_URL, WS_GAME_URL, WS_LOBBY_URL } from "../../app/consts";
 import { LobbyResponseType } from "../../types/lobby/ws/LobbyResponseType";
 import LobbyView from "./LobbyView";
 import useWebSocket from "react-use-websocket";
 import { PickType } from "../../types/game/PickType";
+import GameView from "./GameView";
 
 export default function AdminPanelView() {
   const dispatch = useDispatch();
 
-  // create a new hook so we don't interfere with shared hook auth
+  // create new hooks so we don't interfere with shared hook auth
   const lobbyWsHook = useWebSocket(WS_LOBBY_URL);
+  const gameWsHook = useWebSocket(WS_GAME_URL);
 
   const { sendJsonMessage, lastJsonMessage } = lobbyWsHook;
 
@@ -22,6 +24,7 @@ export default function AdminPanelView() {
   const [token2, setToken2] = useState<string | null>(null);
   const [gameId, setGameId] = useState<string | null>(null);
   const [initializingLobby, setInitializingLobby] = useState<boolean>(false);
+  const [gameStarted, setGameStarted] = useState<boolean>(false);
 
   const lobbyWsHandler = useMemo(
     () =>
@@ -32,6 +35,9 @@ export default function AdminPanelView() {
           switch (response.lobbyResponseType) {
             case LobbyResponseType.CreateLobby:
               setGameId(response.body);
+              break;
+            case LobbyResponseType.StartGame:
+              setGameStarted(true);
               break;
           }
         },
@@ -73,6 +79,9 @@ export default function AdminPanelView() {
   const createTestGame = () => {
     if (!token1) return;
     if (!token2) return;
+
+    setGameId(null);
+    setGameStarted(false);
 
     lobbyWsHandler.auth({ token: token1 });
     lobbyWsHandler.create({ name: "Auto created test game from Admin panel" });
@@ -117,7 +126,15 @@ export default function AdminPanelView() {
           lobbyWsHook={lobbyWsHook}
           id={gameId}
           autoInitAsHost={false}
+          autoAuth={false}
         ></LobbyView>
+      ) : null}
+      {gameId && gameStarted ? (
+        <GameView
+          gameWsHook={gameWsHook}
+          id={gameId}
+          autoAuth={false}
+        ></GameView>
       ) : null}
     </>
   );

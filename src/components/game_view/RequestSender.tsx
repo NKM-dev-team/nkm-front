@@ -44,7 +44,7 @@ export default function RequestSender({
         />
       ) : null}
 
-      <Button onClick={() => gameWsHandler.sendRequest(request)}>
+      <Button onClick={() => gameWsHandler.sendOrEnqueueRequest(request)}>
         Send request
       </Button>
     </TitledPaper>

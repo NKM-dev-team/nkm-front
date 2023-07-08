@@ -28,12 +28,14 @@ interface LobbyViewProps {
   lobbyWsHook: WebSocketHook;
   id: string;
   autoInitAsHost?: boolean;
+  autoAuth?: boolean;
 }
 
 export default function LobbyView({
   lobbyWsHook,
   id,
   autoInitAsHost = true,
+  autoAuth = true,
 }: LobbyViewProps) {
   const dispatch = useDispatch();
 
@@ -44,6 +46,24 @@ export default function LobbyView({
   const [lobbyState, setLobbyState] = useState<LobbyState | undefined>(
     undefined
   );
+
+  const [chosenHexMapName, setChosenHexMapName] = useState<string | undefined>(
+    lobbyState?.chosenHexMapName || hexMapData?.hexMapList.find((x) => x)?.name
+  );
+
+  const [chosenPickType, setChosenPickType] = useState<PickType>(
+    lobbyState?.pickType || PickType.AllRandom
+  );
+
+  const [chosenCharactersPerPlayer, setChosenCharactersPerPlayer] =
+    useState<number>(lobbyState?.numberOfCharactersPerPlayer || 2);
+
+  const [chosenBans, setChosenBans] = useState<number>(
+    lobbyState?.numberOfBans || 0
+  );
+
+  const isHost = lobbyState?.hostUserId === authData.userState?.userId || false;
+  const areInputsDisabled = !isHost || lobbyState?.gameStarted;
 
   const { sendJsonMessage, lastJsonMessage, readyState } = lobbyWsHook;
 
@@ -67,30 +87,12 @@ export default function LobbyView({
   }, [lastJsonMessage, lobbyWsHandler]);
 
   useEffect(() => {
+    if (!autoAuth) return;
     if (readyState !== ReadyState.OPEN) return;
-    if (authData.token) {
-      const authRequest: Auth = { token: authData.token };
-      lobbyWsHandler.auth(authRequest);
-    }
-  }, [authData.token, lobbyWsHandler, id, readyState]);
-
-  const [chosenHexMapName, setChosenHexMapName] = useState<string | undefined>(
-    lobbyState?.chosenHexMapName || hexMapData?.hexMapList.find((x) => x)?.name
-  );
-
-  const [chosenPickType, setChosenPickType] = useState<PickType>(
-    lobbyState?.pickType || PickType.AllRandom
-  );
-
-  const [chosenCharactersPerPlayer, setChosenCharactersPerPlayer] =
-    useState<number>(lobbyState?.numberOfCharactersPerPlayer || 2);
-
-  const [chosenBans, setChosenBans] = useState<number>(
-    lobbyState?.numberOfBans || 0
-  );
-
-  const isHost = lobbyState?.hostUserId === authData.userState?.userId || false;
-  const areInputsDisabled = !isHost || lobbyState?.gameStarted;
+    if (!authData.token) return;
+    const authRequest: Auth = { token: authData.token };
+    lobbyWsHandler.auth(authRequest);
+  }, [authData.token, lobbyWsHandler, id, readyState, autoAuth]);
 
   useEffect(() => {
     lobbyWsHandler.observe({ lobbyId: id });
