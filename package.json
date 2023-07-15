@@ -32,6 +32,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start local": "cross-env REACT_APP_LOCAL_BACKEND=true react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -57,6 +58,7 @@
     "@types/react-dom": "^18.0.10",
     "@types/react-router-dom": "^5.3.3",
     "@types/webpack-env": "^1.18.0",
+    "cross-env": "^7.0.3",
     "prettier": "2.8.3"
   }
 }

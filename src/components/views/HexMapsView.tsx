@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Grid, Paper, Alert, Box } from "@mui/material";
+import { Typography, Grid, Alert, Box } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import { MemoizedHexMapComponent } from "../hexmaps_view/HexMapComponent";

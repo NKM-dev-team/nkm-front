@@ -5,15 +5,26 @@ export const CLOCK_UPDATE_INTERVAL = 60; // every 60 milliseconds
 export const BACKEND_TIME_OFFSET = 2 * 1000 * 60 * 60; // two hours
 export const SHOW_LOBBIES_FRESHER_THAN = 1000 * 60 * 15; // 15 minutes
 
-const NKM_BACKEND_DOMAIN = "krzysztofruczkowski.pl";
-const API_URL_STABLE = `https://${NKM_BACKEND_DOMAIN}/nkm/api`;
-export const API_URL = `https://${NKM_BACKEND_DOMAIN}/nkm-next/api`;
-const WS_URL = `wss://${NKM_BACKEND_DOMAIN}/nkm-next/ws`;
+const LOCAL_DOMAIN = "localhost:3737";
+const REMOTE_DOMAIN = "krzysztofruczkowski.pl";
 
-// TODO: move those settings to env variables
-// const NKM_BACKEND_DOMAIN = "localhost:3737";
-// const API_URL = `http://${NKM_BACKEND_DOMAIN}/api`;
-// const WS_URL = `ws://${NKM_BACKEND_DOMAIN}/ws`;
+export const API_URL_STABLE = `https://${REMOTE_DOMAIN}/nkm/api`;
+
+const LOCAL_URL = {
+  API: `http://${LOCAL_DOMAIN}/api`,
+  WS: `ws://${LOCAL_DOMAIN}/ws`,
+};
+
+const REMOTE_URL = {
+  API: `https://${REMOTE_DOMAIN}/nkm-next/api`,
+  WS: `wss://${REMOTE_DOMAIN}/nkm-next/ws`,
+};
+
+const URL =
+  process.env.REACT_APP_LOCAL_BACKEND === "true" ? LOCAL_URL : REMOTE_URL;
+
+export const API_URL = URL.API;
+export const WS_URL = URL.WS;
 
 export const WS_LOBBY_URL = `${WS_URL}/lobby`;
 export const WS_GAME_URL = `${WS_URL}/game`;

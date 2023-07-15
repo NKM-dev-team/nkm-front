@@ -90,7 +90,7 @@ export default function BlindPick({
     <TitledPaper>
       <Typography variant="h2" align="center">
         Pick {blindPickState.config.numberOfCharactersPerPlayer} character{" "}
-        {blindPickState.config.numberOfCharactersPerPlayer == 1 ? "" : "s"}
+        {blindPickState.config.numberOfCharactersPerPlayer === 1 ? "" : "s"}
       </Typography>
       <Grid container p={1}>
         <Grid item xs={12} sm={3} p={1}>
