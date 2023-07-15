@@ -15,6 +15,7 @@ import { TitledPaper } from "../TitledPaper";
 import { WebSocketHook } from "react-use-websocket/dist/lib/types";
 import { Clock } from "../../types/game/Clock";
 import RequestSender from "../game_view/RequestSender";
+import GameUI from "../game_view/GameUI";
 
 interface GameViewProps {
   gameWsHook: WebSocketHook;
@@ -75,8 +76,11 @@ export default function GameView({
 
   useEffect(() => {
     gameWsHandler.observe({ lobbyId: id });
+  }, [gameWsHandler, id]);
+
+  useEffect(() => {
     gameWsHandler.getState({ lobbyId: id });
-  }, [authData.token, gameWsHandler, id]);
+  }, [gameWsHandler, id, eventViews]);
 
   useEffect(() => {
     if (gameState !== undefined) {
@@ -96,33 +100,41 @@ export default function GameView({
 
   return (
     <>
-      {authData.token ? (
-        <RequestSender gameWsHandler={gameWsHandler} gameState={gameState} />
-      ) : null}
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs
           value={selectedTab}
           onChange={(e, newValue) => {
             setSelectedTab(newValue);
           }}
-          aria-label="basic tabs example"
         >
-          <Tab label="Dashboard" {...a11yProps(0)} />
-          <Tab label="JSON explorer" {...a11yProps(1)} />
+          <Tab label="Game UI" {...a11yProps(0)} />
+          <Tab label="Dashboard" {...a11yProps(1)} />
+          <Tab label="JSON explorer" {...a11yProps(2)} />
+          {authData.token ? (
+            <Tab label="Request sender" {...a11yProps(3)} />
+          ) : null}
         </Tabs>
       </Box>
       <TabPanel value={selectedTab} index={0}>
+        <GameUI gameWsHandler={gameWsHandler} gameState={gameState} />
+      </TabPanel>
+      <TabPanel value={selectedTab} index={1}>
         <GameDashboard
           gameState={gameState}
           incomingEventViews={eventViews}
           lastClock={lastClock ?? gameState.clock}
         />
       </TabPanel>
-      <TabPanel value={selectedTab} index={1}>
-        <TitledPaper title="Game state view">
+      <TabPanel value={selectedTab} index={2}>
+        <TitledPaper title="Game state json view">
           <ReactJson src={gameState} theme="monokai" collapsed={1} />
         </TitledPaper>
       </TabPanel>
+      {authData.token ? (
+        <TabPanel value={selectedTab} index={3}>
+          <RequestSender gameWsHandler={gameWsHandler} gameState={gameState} />
+        </TabPanel>
+      ) : null}
     </>
   );
 }
