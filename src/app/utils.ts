@@ -1,4 +1,4 @@
-import { EffectCallback, useEffect } from "react";
+import { EffectCallback, useEffect, useState } from "react";
 import { AbilityId, CharacterId } from "../types/typeAliases";
 import { NkmCharacterView } from "../types/game/character/NkmCharacterView";
 import { GameStateView } from "../types/game/GameStateView";
@@ -10,8 +10,53 @@ import { UseData } from "../types/game/ability/UseData";
 import { CharacterMetadata } from "../types/game/character/CharacterMetadata";
 import { AttackType } from "../types/game/character/AttackType";
 import { AbilityMetadata } from "../types/game/ability/AbilityMetadata";
+import { Clock } from "../types/game/Clock";
+import { CLOCK_UPDATE_INTERVAL } from "./consts";
 // eslint-disable-next-line react-hooks/exhaustive-deps
 export const useMountEffect = (fun: EffectCallback) => useEffect(fun, []);
+
+export function useClock(lastClock: Clock, gameState: GameStateView) {
+  const [currentClock, setCurrentClock] = useState(lastClock);
+  const [lastClockUpdateTimestamp, setLastClockUpdateTimestamp] = useState(
+    Date.now()
+  );
+
+  useEffect(() => setLastClockUpdateTimestamp(Date.now()), [lastClock]);
+
+  const millisSinceLastClockUpdate = () =>
+    Date.now() - lastClockUpdateTimestamp;
+
+  const getCurrentClock = (lastClock: Clock) => {
+    if (!lastClock.isRunning) return lastClock;
+    const lastClockCopy = _.cloneDeep(lastClock);
+
+    if (lastClock.isSharedTime) {
+      lastClockCopy["sharedTime"] = Math.max(
+        lastClock.sharedTime - millisSinceLastClockUpdate(),
+        0
+      );
+      return lastClockCopy;
+    } else {
+      lastClockCopy.playerTimes[gameState.currentPlayerId] = Math.max(
+        lastClock.playerTimes[gameState.currentPlayerId] -
+          millisSinceLastClockUpdate(),
+        0
+      );
+      return lastClockCopy;
+    }
+  };
+
+  useEffect(() => {
+    const updateCurrentClockRepeatedly = setInterval(() => {
+      setCurrentClock(getCurrentClock(lastClock));
+    }, CLOCK_UPDATE_INTERVAL);
+    return () => {
+      clearInterval(updateCurrentClockRepeatedly);
+    };
+  }, [lastClock]);
+
+  return currentClock;
+}
 
 export function toClockTime(millis: number) {
   try {

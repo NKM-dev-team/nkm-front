@@ -160,7 +160,7 @@ export default function AdminPanelView() {
         initialTimeMillis: 99999999,
         incrementMillis: 99999999,
         maxBanTimeMillis: 99999999,
-        maxPickTimeMillis: 99999999,
+        maxPickTimeMillis: 11000,
         timeAfterPickMillis: 10000,
         timeForCharacterPlacing: 99999999,
       },

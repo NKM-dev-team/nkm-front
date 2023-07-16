@@ -44,7 +44,6 @@ export interface GameStateView {
   isBlindPickingPhase: boolean;
   isDraftBanningPhase: boolean;
   isInCharacterSelect: boolean;
-  isSharedTime: boolean;
   currentPlayerTime: number;
   charactersToTakeAction: CharacterId[];
 }

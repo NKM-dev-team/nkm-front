@@ -123,6 +123,7 @@ export default function GameView({
           gameWsHandler={gameWsHandler}
           gameState={gameState}
           authState={authState}
+          lastClock={lastClock ?? gameState.clock}
         />
       </TabPanel>
       <TabPanel value={selectedTab} index={1}>

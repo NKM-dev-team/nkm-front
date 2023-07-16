@@ -1,16 +1,14 @@
 import { Grid, List, ListItem, Paper, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { GameStateView } from "../../types/game/GameStateView";
 import CharacterHexagon from "../images/CharacterHexagon";
-import { characterById, toClockTime } from "../../app/utils";
+import { characterById, toClockTime, useClock } from "../../app/utils";
 import { GameEventView } from "../../types/game/GameEventView";
 import GameEventsComponent from "./GameEventsComponent";
 import { TitledPaper } from "../TitledPaper";
 import { InfoLabel } from "../InfoLabel";
 import { UserChip } from "../layout/UserChip";
-import _ from "lodash";
 import ClockComponent from "./ClockComponent";
-import { CLOCK_UPDATE_INTERVAL } from "../../app/consts";
 import { Clock } from "../../types/game/Clock";
 
 interface GameDashboardProps {
@@ -24,44 +22,7 @@ export default function GameDashboard({
   incomingEventViews,
   lastClock,
 }: GameDashboardProps) {
-  const [currentClock, setCurrentClock] = useState(gameState.clock);
-  const [lastClockUpdateTimestamp, setLastClockUpdateTimestamp] = useState(
-    Date.now()
-  );
-
-  useEffect(() => setLastClockUpdateTimestamp(Date.now()), [lastClock]);
-
-  const getCurrentClock = (lastClock: Clock) => {
-    if (!lastClock.isRunning) return lastClock;
-    const lastClockCopy = _.cloneDeep(lastClock);
-
-    if (gameState.isSharedTime) {
-      lastClockCopy["sharedTime"] = Math.max(
-        lastClock.sharedTime - millisSinceLastClockUpdate(),
-        0
-      );
-      return lastClockCopy;
-    } else {
-      lastClockCopy.playerTimes[gameState.currentPlayerId] = Math.max(
-        lastClock.playerTimes[gameState.currentPlayerId] -
-          millisSinceLastClockUpdate(),
-        0
-      );
-      return lastClockCopy;
-    }
-  };
-
-  const millisSinceLastClockUpdate = () =>
-    Date.now() - lastClockUpdateTimestamp;
-
-  useEffect(() => {
-    const updateCurrentClockRepeatedly = setInterval(() => {
-      setCurrentClock(getCurrentClock(lastClock));
-    }, CLOCK_UPDATE_INTERVAL);
-    return () => {
-      clearInterval(updateCurrentClockRepeatedly);
-    };
-  }, [lastClock]);
+  const currentClock = useClock(lastClock, gameState);
 
   return (
     <Grid container justifyContent="space-between" spacing={1}>
