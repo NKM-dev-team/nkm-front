@@ -36,21 +36,18 @@ export default function GameDashboard({
     const lastClockCopy = _.cloneDeep(lastClock);
 
     if (gameState.isSharedTime) {
-      return _.set(
-        lastClockCopy,
-        "sharedTime",
-        Math.max(lastClock.sharedTime - millisSinceLastClockUpdate(), 0)
+      lastClockCopy["sharedTime"] = Math.max(
+        lastClock.sharedTime - millisSinceLastClockUpdate(),
+        0
       );
+      return lastClockCopy;
     } else {
-      return _.set(
-        lastClockCopy,
-        "playerTimes." + gameState.currentPlayerId,
-        Math.max(
-          lastClock.playerTimes[gameState.currentPlayerId] -
-            millisSinceLastClockUpdate(),
-          0
-        )
+      lastClockCopy.playerTimes[gameState.currentPlayerId] = Math.max(
+        lastClock.playerTimes[gameState.currentPlayerId] -
+          millisSinceLastClockUpdate(),
+        0
       );
+      return lastClockCopy;
     }
   };
 
