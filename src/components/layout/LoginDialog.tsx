@@ -5,6 +5,7 @@ import { RootState } from "../../app/store";
 import LoginForm from "../LoginForm";
 import CustomDialog from "../CustomDialog";
 import GoogleLoginButton from "./GoogleLoginButton";
+import { Grid } from "@mui/material";
 
 export default function LoginDialog({
   loginViewOpen,
@@ -25,6 +26,10 @@ export default function LoginDialog({
       content={
         <>
           <LoginForm />
+          <Grid container justifyContent="center" p={1}>
+            <GoogleLoginButton />
+          </Grid>
+
           <Button
             color="secondary"
             onClick={() => {
@@ -34,7 +39,6 @@ export default function LoginDialog({
           >
             Create an account
           </Button>
-          <GoogleLoginButton />
         </>
       }
     />
