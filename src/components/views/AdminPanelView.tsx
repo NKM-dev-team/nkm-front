@@ -11,6 +11,7 @@ import useWebSocket from "react-use-websocket";
 import { PickType } from "../../types/game/PickType";
 import GameView from "./GameView";
 import { GameWsHandler } from "../../app/gameWsHandler";
+import { AuthState } from "../../types/authState";
 
 export default function AdminPanelView() {
   const dispatch = useDispatch();
@@ -19,8 +20,15 @@ export default function AdminPanelView() {
   const lobbyWsHook = useWebSocket(WS_LOBBY_URL);
   const gameWsHook = useWebSocket(WS_GAME_URL);
 
-  const [token1, setToken1] = useState<string | null>(null);
-  const [token2, setToken2] = useState<string | null>(null);
+  const [authState1, setAuthState1] = useState<AuthState>({
+    token: null,
+    userState: null,
+  });
+  const [authState2, setAuthState2] = useState<AuthState>({
+    token: null,
+    userState: null,
+  });
+
   const [gameId, setGameId] = useState<string | null>(null);
   const [initializingLobby, setInitializingLobby] = useState<boolean>(false);
   const [gameStarted, setGameStarted] = useState<boolean>(false);
@@ -28,6 +36,8 @@ export default function AdminPanelView() {
 
   const testUser1Label = "TEST USER 1";
   const testUser2Label = "TEST USER 2";
+
+  const mockAuthState = actingAs === testUser1Label ? authState1 : authState2;
 
   const lobbyWsHandler = useMemo(
     () =>
@@ -75,7 +85,8 @@ export default function AdminPanelView() {
       })
       .then((response) => {
         if (response.status === 200) {
-          setToken1(response.data.token);
+          setAuthState1(response.data);
+          // setToken1(response.data.token);
         }
       });
 
@@ -86,10 +97,14 @@ export default function AdminPanelView() {
       })
       .then((response) => {
         if (response.status === 200) {
-          setToken2(response.data.token);
+          setAuthState2(response.data);
+          // setToken2(response.data.token);
         }
       });
   });
+
+  const token1 = authState1.token;
+  const token2 = authState2.token;
 
   const actAsTestUser1 = useCallback(() => {
     if (!token1) return;
@@ -109,7 +124,7 @@ export default function AdminPanelView() {
     setActingAs(testUser2Label);
   }, [token2, lobbyWsHandler, gameWsHandler]);
 
-  const createTestGame = () => {
+  const createBlindPlick = () => {
     if (!token1) return;
     if (!token2) return;
 
@@ -134,6 +149,21 @@ export default function AdminPanelView() {
     lobbyWsHandler.setPickType({
       lobbyId: gameId,
       pickType: PickType.BlindPick,
+    });
+    lobbyWsHandler.setNumberOfCharactersPerPlayer({
+      lobbyId: gameId,
+      charactersPerPlayer: 2,
+    });
+    lobbyWsHandler.setClockConfig({
+      lobbyId: gameId,
+      newConfig: {
+        initialTimeMillis: 99999999,
+        incrementMillis: 99999999,
+        maxBanTimeMillis: 99999999,
+        maxPickTimeMillis: 99999999,
+        timeAfterPickMillis: 10000,
+        timeForCharacterPlacing: 99999999,
+      },
     });
     lobbyWsHandler.startGame({ lobbyId: gameId });
   }, [
@@ -177,7 +207,7 @@ export default function AdminPanelView() {
         </Grid>
         <Grid container spacing={2} p={1}>
           <Grid item xs={12} sm={6}>
-            <Button onClick={createTestGame}>Fast create test game</Button>
+            <Button onClick={createBlindPlick}>Fast create blind pick</Button>
           </Grid>
         </Grid>
       </Paper>
@@ -193,6 +223,7 @@ export default function AdminPanelView() {
         <GameView
           gameWsHook={gameWsHook}
           id={gameId}
+          authState={mockAuthState}
           autoAuth={false}
         ></GameView>
       ) : null}

@@ -1,11 +1,10 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Alert, Box, Tab, Tabs } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { ReadyState } from "react-use-websocket";
 import { GameWsHandler } from "../../app/gameWsHandler";
 import { GameStateView } from "../../types/game/GameStateView";
 import { GameResponseType } from "../../types/game/ws/GameResponseType";
-import { RootState } from "../../app/store";
 import { Auth } from "../../types/requests/GameRequest";
 import ReactJson from "react-json-view";
 import { TabPanel } from "../TabPanel";
@@ -16,20 +15,24 @@ import { WebSocketHook } from "react-use-websocket/dist/lib/types";
 import { Clock } from "../../types/game/Clock";
 import RequestSender from "../game_view/RequestSender";
 import GameUI from "../game_view/GameUI";
+import { AuthState } from "../../types/authState";
 
 interface GameViewProps {
   gameWsHook: WebSocketHook;
   id: string;
+  authState: AuthState;
   autoAuth?: boolean;
 }
 
 export default function GameView({
   gameWsHook,
   id,
+  authState,
   autoAuth = true,
 }: GameViewProps) {
   const dispatch = useDispatch();
-  const authData = useSelector((state: RootState) => state.authData);
+
+  const authData = authState;
 
   const [selectedTab, setSelectedTab] = React.useState(0);
   const [eventViews, setEventViews] = React.useState<GameEventView[]>([]);
@@ -116,7 +119,11 @@ export default function GameView({
         </Tabs>
       </Box>
       <TabPanel value={selectedTab} index={0}>
-        <GameUI gameWsHandler={gameWsHandler} gameState={gameState} />
+        <GameUI
+          gameWsHandler={gameWsHandler}
+          gameState={gameState}
+          authState={authState}
+        />
       </TabPanel>
       <TabPanel value={selectedTab} index={1}>
         <GameDashboard

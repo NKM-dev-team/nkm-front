@@ -2,6 +2,8 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { WebSocketHook } from "react-use-websocket/dist/lib/types";
 import GameView from "./GameView";
+import { useSelector } from "react-redux";
+import { RootState } from "../../app/store";
 
 interface GameViewParamProps {
   gameWsHook: WebSocketHook;
@@ -10,5 +12,9 @@ interface GameViewParamProps {
 export default function GameViewParam({ gameWsHook }: GameViewParamProps) {
   const { id } = useParams<{ id: string }>();
 
-  return <GameView gameWsHook={gameWsHook} id={id}></GameView>;
+  const authData = useSelector((state: RootState) => state.authData);
+
+  return (
+    <GameView gameWsHook={gameWsHook} id={id} authState={authData}></GameView>
+  );
 }
