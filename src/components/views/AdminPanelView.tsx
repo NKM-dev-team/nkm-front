@@ -11,7 +11,7 @@ import useWebSocket from "react-use-websocket";
 import { PickType } from "../../types/game/PickType";
 import GameView from "./GameView";
 import { GameWsHandler } from "../../app/gameWsHandler";
-import { AuthState } from "../../types/authState";
+import { AuthState, RequestStatus } from "../../types/authState";
 
 export default function AdminPanelView() {
   const dispatch = useDispatch();
@@ -23,10 +23,14 @@ export default function AdminPanelView() {
   const [authState1, setAuthState1] = useState<AuthState>({
     token: null,
     userState: null,
+    loginRequestStatus: RequestStatus.None,
+    registerRequestStatus: RequestStatus.None,
   });
   const [authState2, setAuthState2] = useState<AuthState>({
     token: null,
     userState: null,
+    loginRequestStatus: RequestStatus.None,
+    registerRequestStatus: RequestStatus.None,
   });
 
   const [gameId, setGameId] = useState<string | null>(null);

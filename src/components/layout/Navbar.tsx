@@ -128,6 +128,7 @@ export default function Navbar({
       <RegisterDialog
         registerViewOpen={registerViewOpen}
         setRegisterViewOpen={setRegisterViewOpen}
+        setLoginViewOpen={setLoginViewOpen}
       />
     </div>
   );

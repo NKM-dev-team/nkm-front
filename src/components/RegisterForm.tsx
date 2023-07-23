@@ -25,7 +25,7 @@ function RegisterForm() {
                   name="email"
                   type="email"
                   inputRef={register({ required: true })}
-                  error={errors.email}
+                  error={!!errors.email}
                   fullWidth
                 />
               </Grid>
@@ -36,7 +36,7 @@ function RegisterForm() {
                   name="password"
                   type="password"
                   inputRef={register({ required: true })}
-                  error={errors.password}
+                  error={!!errors.password}
                   fullWidth
                 />
               </Grid>

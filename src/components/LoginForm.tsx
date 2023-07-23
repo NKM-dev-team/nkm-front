@@ -8,7 +8,6 @@ import { authenticate } from "../features/authSlice";
 function LoginForm() {
   const { register, handleSubmit, errors } = useForm();
   const dispatch = useDispatch();
-  // const userData = useSelector((state) => state.userData);
 
   const onSubmit = ({ email, password }: Credentials) => {
     dispatch(authenticate({ email: email, password }));
@@ -17,13 +16,6 @@ function LoginForm() {
   return (
     <Grid container justifyContent="center">
       <Paper style={{ position: "relative", zIndex: 0 }}>
-        {/*<Backdrop*/}
-        {/*  open={userData?.loginRequestState === LOGIN_REQUEST_STATES.AWAITING}*/}
-        {/*  style={{ position: "absolute", zIndex: 1 }}*/}
-        {/*>*/}
-        {/*  <CircularProgress color="inherit" />*/}
-        {/*</Backdrop>*/}
-
         <Box p={4}>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={2}>
@@ -34,7 +26,7 @@ function LoginForm() {
                   name="email"
                   type="email"
                   inputRef={register({ required: true })}
-                  error={errors.email}
+                  error={!!errors.email}
                   autoFocus
                   fullWidth
                 />
@@ -46,7 +38,7 @@ function LoginForm() {
                   name="password"
                   type="password"
                   inputRef={register({ required: true })}
-                  error={errors.password}
+                  error={!!errors.password}
                   fullWidth
                 />
               </Grid>

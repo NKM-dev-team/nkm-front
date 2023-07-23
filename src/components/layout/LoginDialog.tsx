@@ -5,7 +5,8 @@ import { RootState } from "../../app/store";
 import LoginForm from "../LoginForm";
 import CustomDialog from "../CustomDialog";
 import GoogleLoginButton from "./GoogleLoginButton";
-import { Grid } from "@mui/material";
+import { Backdrop, CircularProgress, Grid } from "@mui/material";
+import { RequestStatus } from "../../types/authState";
 
 export default function LoginDialog({
   loginViewOpen,
@@ -25,6 +26,12 @@ export default function LoginDialog({
       title={"Login"}
       content={
         <>
+          <Backdrop
+            open={authData.loginRequestStatus === RequestStatus.Awaiting}
+            style={{ position: "absolute", zIndex: 1 }}
+          >
+            <CircularProgress />
+          </Backdrop>
           <LoginForm />
           <Grid container justifyContent="center" p={1}>
             <GoogleLoginButton />
