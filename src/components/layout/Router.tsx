@@ -1,6 +1,6 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
-import HexMapsView from "../views/HexMapsView";
+// import HexMapsView from "../views/HexMapsView";
 import LobbiesView from "../views/LobbiesView";
 import { Routes } from "../../types/Routes";
 import MainLayout from "./MainLayout";
@@ -13,6 +13,8 @@ import { RootState } from "../../app/store";
 import AdminPanelView from "../views/AdminPanelView";
 import LobbyViewParam from "../views/LobbyViewParam";
 import GameViewParam from "../views/GameViewParam";
+
+const HexMapsView = React.lazy(() => import("../views/HexMapsView"));
 
 interface RouterProps {
   lobbyWsHook: WebSocketHook;
@@ -35,7 +37,19 @@ function Router({
     },
     {
       path: Routes.HEXMAPS,
-      component: <HexMapsView />,
+      component: (
+        <>
+          <Suspense
+            fallback={
+              <div>
+                <p>Loading...</p>
+              </div>
+            }
+          >
+            <HexMapsView />,
+          </Suspense>
+        </>
+      ),
     },
     {
       path: Routes.CHARACTERS,
