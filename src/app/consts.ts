@@ -43,6 +43,8 @@ export const GET_LOBBY_URL = (lobbyId: string) => `${API_URL}/lobby/${lobbyId}`;
 export const GET_GAME_STATE_URL = (lobbyId: string) =>
   `${API_URL}/state/${lobbyId}`;
 
+export const CREATE_BUG_REPORT_URL = `${API_URL}/bug_reports/create`;
+
 export const GITHUB_SERVER_MASTER_HEAD_URL =
   "https://api.github.com/repos/nkm-game/nkm-server/git/refs/heads/master";
 export const GITHUB_SERVER_COMMIT_URL = (commit: string) =>
