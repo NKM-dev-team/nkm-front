@@ -1,20 +1,22 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { Box, Button, Grid, Paper, TextField } from "@mui/material";
+import { Box, Button, Grid, Paper } from "@mui/material";
 import { postBugReportCreate } from "../features/helper";
-import LoginForm from "./LoginForm";
+import { CustomTextarea } from "./CustomTextarea";
+import { enqueueNotificationError } from "../features/notificationSlice";
 
 export interface BugReport {
   description: string;
 }
 
-function BugReportForm() {
+function BugReportForm({ afterSubmit }: { afterSubmit: () => void }) {
   const { register, handleSubmit, errors } = useForm();
   const dispatch = useDispatch();
 
   const onSubmit = ({ description }: BugReport) => {
     dispatch(postBugReportCreate(description, null));
+    afterSubmit();
   };
 
   return (
@@ -24,15 +26,14 @@ function BugReportForm() {
           <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <TextField
-                  variant="standard"
-                  label="Describe the bug / suggestion"
+                <CustomTextarea
+                  placeholder="Describe the bug / suggestion"
                   name="description"
-                  type="description"
-                  inputRef={register({ required: true, maxLength: 1000 })}
-                  // error={!!errors.email}
+                  ref={register({ required: true, maxLength: 5 })}
+                  onError={(error) =>
+                    dispatch(enqueueNotificationError(errors.description))
+                  }
                   autoFocus
-                  fullWidth
                 />
               </Grid>
               <Grid item xs={12}>
@@ -53,4 +54,4 @@ function BugReportForm() {
   );
 }
 
-export default LoginForm;
+export default BugReportForm;

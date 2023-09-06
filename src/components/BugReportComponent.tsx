@@ -1,27 +1,30 @@
 import React, { useState } from "react";
-import bug from "../../img/bug.svg";
 import CustomDialog from "./CustomDialog";
 import BugReportForm from "./BugReportForm";
+import BugReportIcon from "@mui/icons-material/BugReport";
+import { Fab } from "@mui/material";
 
 interface BugReportComponentProps {}
+
+const fabStyle = {
+  position: "absolute",
+  bottom: 16,
+  right: 16,
+};
 
 export default function BugReportComponent({}: BugReportComponentProps) {
   const [open, setOpen] = useState(false);
   return (
     <>
-      <img
-        src={bug}
-        alt={"Report a bug"}
-        width={50}
-        style={{ alignSelf: "center" }}
-        onClick={() => setOpen(true)}
-      />
+      <Fab sx={fabStyle} color="error" onClick={() => setOpen(true)}>
+        <BugReportIcon />
+      </Fab>
 
       <CustomDialog
         open={open}
         setOpen={setOpen}
         title={"Report a bug"}
-        content={<BugReportForm />}
+        content={<BugReportForm afterSubmit={() => setOpen(false)} />}
       />
     </>
   );

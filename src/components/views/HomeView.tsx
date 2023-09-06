@@ -1,9 +1,10 @@
 import React from "react";
-import { Grid, Paper, Typography } from "@mui/material";
+import { Fab, Grid, Paper, Typography } from "@mui/material";
 import logo from "../../img/nkm_logo.png";
 import { NavLink } from "react-router-dom";
 import { MAIN_ROUTE_MAP } from "../../types/route_mapping";
 import Divider from "@mui/material/Divider";
+import BugReportIcon from "@mui/icons-material/BugReport";
 
 export default function HomeView() {
   return (
