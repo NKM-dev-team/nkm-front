@@ -39,6 +39,7 @@ export default function CharacterCard({ c }: { c: CharacterMetadata }) {
           sx={{
             p: 2,
             maxWidth: 200,
+            maxHeight: 233,
           }}
         >
           <Grid container spacing={2}>
