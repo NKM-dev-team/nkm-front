@@ -4,15 +4,13 @@ import BugReportForm from "./BugReportForm";
 import BugReportIcon from "@mui/icons-material/BugReport";
 import { Fab } from "@mui/material";
 
-interface BugReportComponentProps {}
-
 const fabStyle = {
   position: "absolute",
   bottom: 16,
   right: 16,
 };
 
-export default function BugReportComponent({}: BugReportComponentProps) {
+export default function BugReportComponent() {
   const [open, setOpen] = useState(false);
   return (
     <>

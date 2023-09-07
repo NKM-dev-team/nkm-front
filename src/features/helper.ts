@@ -1,7 +1,7 @@
 import { Action, ThunkDispatch } from "@reduxjs/toolkit";
 import { AppThunk } from "../app/store";
 import axios from "axios";
-import { CREATE_BUG_REPORT_URL } from "../app/consts";
+import { CREATE_BUG_REPORT_URL, FETCH_BUG_REPORT_URL } from "../app/consts";
 import { GameId } from "../types/typeAliases";
 import {
   enqueueNotificationError,
@@ -70,3 +70,28 @@ export const postBugReportCreate =
         );
       });
   };
+
+export const fetchBugReports = (): AppThunk => async (dispatch, getState) => {
+  const isLoggedIn = getState().authData.token !== null;
+
+  const config = isLoggedIn
+    ? {
+        headers: {
+          Authorization: "Bearer " + getState().authData.token,
+        },
+      }
+    : {};
+
+  axios
+    .get(FETCH_BUG_REPORT_URL, config)
+    .then((response) => {
+      if (response.status === 200) {
+        console.log(response.data);
+        // dispatch(enqueueNotificationSuccess("Bug report created"));
+      }
+    })
+    .catch((error) => {
+      console.warn(error);
+      dispatch(enqueueNotificationError("Unable to fetch bug reports."));
+    });
+};

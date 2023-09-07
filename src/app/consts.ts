@@ -43,6 +43,7 @@ export const GET_LOBBY_URL = (lobbyId: string) => `${API_URL}/lobby/${lobbyId}`;
 export const GET_GAME_STATE_URL = (lobbyId: string) =>
   `${API_URL}/state/${lobbyId}`;
 
+export const FETCH_BUG_REPORT_URL = `${API_URL}/bug_reports/fetch`;
 export const CREATE_BUG_REPORT_URL = `${API_URL}/bug_reports/create`;
 
 export const GITHUB_SERVER_MASTER_HEAD_URL =
