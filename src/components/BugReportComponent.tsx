@@ -5,7 +5,7 @@ import BugReportIcon from "@mui/icons-material/BugReport";
 import { Fab } from "@mui/material";
 
 const fabStyle = {
-  position: "absolute",
+  position: "fixed",
   bottom: 16,
   right: 16,
 };

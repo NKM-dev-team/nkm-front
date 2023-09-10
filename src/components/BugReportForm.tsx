@@ -16,7 +16,6 @@ function BugReportForm({ afterSubmit }: { afterSubmit: () => void }) {
   const onSubmit = ({ description }: BugReport) => {
     dispatch(postBugReportCreate(description, null));
     afterSubmit();
-    dispatch(fetchBugReports());
   };
 
   return (

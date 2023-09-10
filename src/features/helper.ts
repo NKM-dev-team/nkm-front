@@ -2,11 +2,13 @@ import { Action, ThunkDispatch } from "@reduxjs/toolkit";
 import { AppThunk } from "../app/store";
 import axios from "axios";
 import { CREATE_BUG_REPORT_URL, FETCH_BUG_REPORT_URL } from "../app/consts";
-import { GameId } from "../types/typeAliases";
+import { GameId, UserId } from "../types/typeAliases";
 import {
   enqueueNotificationError,
   enqueueNotificationSuccess,
 } from "./notificationSlice";
+import { AuthState } from "../types/authState";
+import { Dispatch } from "react";
 
 export const postLoggedInData =
   (
@@ -71,27 +73,40 @@ export const postBugReportCreate =
       });
   };
 
-export const fetchBugReports = (): AppThunk => async (dispatch, getState) => {
-  const isLoggedIn = getState().authData.token !== null;
+export interface BugReport {
+  id: string;
+  creationDate: string;
+  description: string;
+  creatorIdOpt: UserId | null;
+  resolved: boolean;
+}
+
+export const fetchBugReports = async (
+  authState: AuthState,
+  dispatch: Dispatch<any>
+): Promise<BugReport[]> => {
+  const isLoggedIn = authState.token !== null;
 
   const config = isLoggedIn
     ? {
         headers: {
-          Authorization: "Bearer " + getState().authData.token,
+          Authorization: "Bearer " + authState.token,
         },
       }
     : {};
 
-  axios
-    .get(FETCH_BUG_REPORT_URL, config)
-    .then((response) => {
-      if (response.status === 200) {
-        console.log(response.data);
-        // dispatch(enqueueNotificationSuccess("Bug report created"));
-      }
-    })
-    .catch((error) => {
-      console.warn(error);
-      dispatch(enqueueNotificationError("Unable to fetch bug reports."));
-    });
+  return new Promise((resolve, reject) => {
+    axios
+      .get<BugReport[]>(FETCH_BUG_REPORT_URL, config)
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+      })
+      .catch((error) => {
+        console.warn(error);
+        dispatch(enqueueNotificationError("Unable to fetch bug reports."));
+        reject(error);
+      });
+  });
 };

@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import InteractiveTestView from "../admin_panel_view/InteractiveTestView";
-import { Box, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Tab, Tabs } from "@mui/material";
 import { TabPanel } from "../TabPanel";
+import BugReportsView from "../admin_panel_view/BugReportsView";
+import { useSelector } from "react-redux";
+import { RootState } from "../../app/store";
 
 export default function AdminPanelView() {
   const [selectedTab, setSelectedTab] = useState(0);
+  const authData = useSelector((state: RootState) => state.authData);
 
   return (
     <>
@@ -23,7 +27,7 @@ export default function AdminPanelView() {
         <InteractiveTestView />
       </TabPanel>
       <TabPanel value={selectedTab} index={1}>
-        <Typography>Bug reports</Typography>
+        <BugReportsView authState={authData} />
       </TabPanel>
     </>
   );
