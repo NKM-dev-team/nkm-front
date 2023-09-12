@@ -8,3 +8,4 @@ export type AbilityId = string;
 export type CharacterEffectMetadataId = string;
 export type CharacterEffectId = string;
 export type GameEventId = string;
+export type BugReportId = string;

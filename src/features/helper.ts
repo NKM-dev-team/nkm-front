@@ -1,8 +1,12 @@
 import { Action, ThunkDispatch } from "@reduxjs/toolkit";
 import { AppThunk } from "../app/store";
 import axios from "axios";
-import { CREATE_BUG_REPORT_URL, FETCH_BUG_REPORT_URL } from "../app/consts";
-import { GameId, UserId } from "../types/typeAliases";
+import {
+  CREATE_BUG_REPORT_URL,
+  FETCH_BUG_REPORT_URL,
+  SET_RESOLVED_BUG_REPORT_URL,
+} from "../app/consts";
+import { BugReportId, GameId, UserId } from "../types/typeAliases";
 import {
   enqueueNotificationError,
   enqueueNotificationSuccess,
@@ -107,6 +111,45 @@ export const fetchBugReports = async (
         console.warn(error);
         dispatch(enqueueNotificationError("Unable to fetch bug reports."));
         reject(error);
+      });
+  });
+};
+
+export const setBugReportResolved = async (
+  authState: AuthState,
+  dispatch: Dispatch<any>,
+  id: BugReportId,
+  resolved: boolean
+): Promise<void> => {
+  const isLoggedIn = authState.token !== null;
+
+  const config = isLoggedIn
+    ? {
+        headers: {
+          Authorization: "Bearer " + authState.token,
+        },
+      }
+    : {};
+
+  return new Promise((resolve, reject) => {
+    axios
+      .post(
+        SET_RESOLVED_BUG_REPORT_URL,
+        {
+          id: id,
+          resolved: resolved,
+        },
+        config
+      )
+      .then((response) => {
+        if (response.status === 200) {
+          resolve();
+        }
+      })
+      .catch((error) => {
+        console.warn(error);
+        dispatch(enqueueNotificationError("Unable change resolved status."));
+        reject();
       });
   });
 };

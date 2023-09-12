@@ -3,21 +3,36 @@ import {
   CardContent,
   FormControlLabel,
   Grid,
+  Switch,
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-import { BugReport } from "../../features/helper";
+import { BugReport, setBugReportResolved } from "../../features/helper";
 import DOMPurify from "dompurify";
-import { Switch } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { AuthState } from "../../types/authState";
 
 interface BugReportCardProps {
+  authState: AuthState;
   bugReport: BugReport;
+  afterBugReportUpdate: () => void;
 }
 
-export default function BugReportCard({ bugReport }: BugReportCardProps) {
+export default function BugReportCard({
+  authState,
+  bugReport,
+  afterBugReportUpdate,
+}: BugReportCardProps) {
   const [checked, setChecked] = useState<boolean>(bugReport.resolved);
+  const dispatch = useDispatch();
+
   const handleChange = () => {
-    setChecked(!checked);
+    setBugReportResolved(authState, dispatch, bugReport.id, !checked)
+      .then(() => {
+        setChecked(!checked);
+        afterBugReportUpdate();
+      })
+      .catch();
   };
   return (
     <>
