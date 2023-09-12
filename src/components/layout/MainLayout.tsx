@@ -5,6 +5,7 @@ import { WebSocketHook } from "react-use-websocket/dist/lib/types";
 import { ErrorBoundary } from "react-error-boundary";
 import LeftDrawer from "./LeftDrawer";
 import { DRAWER_WIDTH } from "../../app/consts";
+import BugReportComponent from "../BugReportComponent";
 
 interface MainLayoutProps {
   children?: React.ReactNode;
@@ -55,6 +56,7 @@ export default function MainLayout({
           >
             <>{children}</>
           </ErrorBoundary>
+          <BugReportComponent />
         </Container>
       </Box>
     </Box>
