@@ -7859,6 +7859,11 @@ react-transition-group@^4.4.5:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
+react-unity-webgl@^9.4.3:
+  version "9.4.3"
+  resolved "https://registry.yarnpkg.com/react-unity-webgl/-/react-unity-webgl-9.4.3.tgz#c13cadb8fd447d817a128e6e05975c4f4c9b8f74"
+  integrity sha512-P/NhKil8EZRtT3q87DC0EgxdNd3c5wa34DMWr5128r2bZojgVIJJu+b20RtGaJpW4lxg6SB2PNN4+R2QujKlDw==
+
 react-use-websocket@3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/react-use-websocket/-/react-use-websocket-3.0.0.tgz#754cb8eea76f55d31c5676d4abe3e573bc2cea04"

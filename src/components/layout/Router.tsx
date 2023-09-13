@@ -13,6 +13,7 @@ import { RootState } from "../../app/store";
 import AdminPanelView from "../views/AdminPanelView";
 import LobbyViewParam from "../views/LobbyViewParam";
 import GameViewParam from "../views/GameViewParam";
+import ReleaseView from "../views/ReleaseView";
 
 interface RouterProps {
   lobbyWsHook: WebSocketHook;
@@ -61,6 +62,14 @@ function Router({
       path: Routes.ADMIN,
       component: authData.userState?.isAdmin ? (
         <AdminPanelView />
+      ) : (
+        <Redirect to="/" />
+      ),
+    },
+    {
+      path: Routes.RELEASE,
+      component: authData.userState?.isAdmin ? (
+        <ReleaseView />
       ) : (
         <Redirect to="/" />
       ),

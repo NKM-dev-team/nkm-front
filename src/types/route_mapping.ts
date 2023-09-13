@@ -10,7 +10,10 @@ export const MAIN_ROUTE_MAP = [
 
 // export const NOT_LOGGED_IN_ROUTE_MAP = []; //[["Register", Routes.REGISTER]];
 // export const LOGGED_IN_ROUTE_MAP = []; //[["Profil", Routes.USER]];
-export const ADMIN_ROUTE_MAP = [["Admin panel", Routes.ADMIN]];
+export const ADMIN_ROUTE_MAP = [
+  ["Admin panel", Routes.ADMIN],
+  ["Release", Routes.RELEASE],
+];
 
 export const AUTH_ROUTE_MAP = (isAdmin: Boolean) =>
   isAdmin ? ADMIN_ROUTE_MAP : [];

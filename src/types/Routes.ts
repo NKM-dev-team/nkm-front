@@ -5,6 +5,7 @@ export enum Routes {
   CHARACTERS = "/characters",
   LOBBIES = "/lobbies",
   ADMIN = "/admin",
+  RELEASE = "/release",
   // USER = "/user",
   LOBBY = "/lobby/:id",
   GAME = "/game/:id",

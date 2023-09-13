@@ -2,7 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { Box, Button, Grid, Paper, TextField } from "@mui/material";
-import { fetchBugReports, postBugReportCreate } from "../features/helper";
+import { postBugReportCreate } from "../features/helper";
 import { enqueueNotificationError } from "../features/notificationSlice";
 
 export interface BugReport {
