@@ -5,6 +5,7 @@ import { TabPanel } from "../TabPanel";
 import BugReportsView from "../admin_panel_view/BugReportsView";
 import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
+import UnityBuild from "../UnityBuild";
 
 export default function AdminPanelView() {
   const [selectedTab, setSelectedTab] = useState(0);

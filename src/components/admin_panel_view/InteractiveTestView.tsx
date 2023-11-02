@@ -12,11 +12,13 @@ import { GameWsHandler } from "../../app/gameWsHandler";
 import { AuthState, RequestStatus } from "../../types/authState";
 import LobbyView from "../views/LobbyView";
 import GameView from "../views/GameView";
+import useNkmUnity from "../../app/useNkmUnity";
+import { Unity } from "react-unity-webgl";
 
 export default function InteractiveTestView() {
   const dispatch = useDispatch();
 
-  // create new hooks so we don't interfere with shared hook auth
+  // create new hooks, so we don't interfere with shared hook auth
   const lobbyWsHook = useWebSocket(WS_LOBBY_URL);
   const gameWsHook = useWebSocket(WS_GAME_URL);
 
@@ -33,7 +35,11 @@ export default function InteractiveTestView() {
     registerRequestStatus: RequestStatus.None,
   });
 
+  const nkmUnity1 = useNkmUnity();
+  const nkmUnity2 = useNkmUnity();
+
   const [gameId, setGameId] = useState<string | null>(null);
+  const [pickType, setPickType] = useState<PickType>(PickType.BlindPick);
   const [initializingLobby, setInitializingLobby] = useState<boolean>(false);
   const [gameStarted, setGameStarted] = useState<boolean>(false);
   const [actingAs, setActingAs] = useState<string | null>(null);
@@ -90,7 +96,6 @@ export default function InteractiveTestView() {
       .then((response) => {
         if (response.status === 200) {
           setAuthState1(response.data);
-          // setToken1(response.data.token);
         }
       });
 
@@ -102,7 +107,6 @@ export default function InteractiveTestView() {
       .then((response) => {
         if (response.status === 200) {
           setAuthState2(response.data);
-          // setToken2(response.data.token);
         }
       });
   });
@@ -110,30 +114,60 @@ export default function InteractiveTestView() {
   const token1 = authState1.token;
   const token2 = authState2.token;
 
-  const actAsTestUser1 = useCallback(() => {
-    if (!token1) return;
+  const initUnityCreds = () => {
+    if (!authState1.token || !authState1.userState) return;
+    if (!authState2.token || !authState2.userState) return;
+    nkmUnity1.login({
+      token: authState1.token,
+      userState: authState1.userState,
+    });
+    nkmUnity2.login({
+      token: authState2.token,
+      userState: authState2.userState,
+    });
+  };
 
-    lobbyWsHandler.auth({ token: token1 });
-    gameWsHandler.auth({ token: token1 });
+  // TODO refactor into one method??
+  const actAsTestUser1 = useCallback(() => {
+    const authData = authState1;
+    if (!authData.token || !authData.userState) return;
+
+    lobbyWsHandler.auth({ token: authData.token });
+    gameWsHandler.auth({ token: authData.token });
 
     setActingAs(testUser1Label);
-  }, [token1, lobbyWsHandler, gameWsHandler]);
+  }, [authState1, lobbyWsHandler, gameWsHandler]);
 
   const actAsTestUser2 = useCallback(() => {
-    if (!token2) return;
+    const authData = authState2;
+    if (!authData.token || !authData.userState) return;
 
-    lobbyWsHandler.auth({ token: token2 });
-    gameWsHandler.auth({ token: token2 });
+    lobbyWsHandler.auth({ token: authData.token });
+    gameWsHandler.auth({ token: authData.token });
 
     setActingAs(testUser2Label);
-  }, [token2, lobbyWsHandler, gameWsHandler]);
+  }, [authState2, lobbyWsHandler, gameWsHandler]);
 
-  const createBlindPlick = () => {
+  const createBlindPick = () => {
+    createNewLobby(PickType.BlindPick);
+  };
+  const createDraftPick = () => {
+    createNewLobby(PickType.DraftPick);
+  };
+
+  const createAllRandom = () => {
+    createNewLobby(PickType.AllRandom);
+  };
+
+  const createNewLobby = (pickType: PickType) => {
     if (!token1) return;
     if (!token2) return;
 
     setGameId(null);
     setGameStarted(false);
+    setPickType(pickType);
+
+    initUnityCreds();
 
     actAsTestUser1();
     lobbyWsHandler.create({ name: "Auto created test game from Admin panel" });
@@ -149,10 +183,10 @@ export default function InteractiveTestView() {
     lobbyWsHandler.join({ lobbyId: gameId });
     lobbyWsHandler.auth({ token: token1 });
     actAsTestUser1();
-    lobbyWsHandler.setHexMap({ lobbyId: gameId, hexMapName: "1v1v1" });
+    lobbyWsHandler.setHexMap({ lobbyId: gameId, hexMapName: "TestMap" });
     lobbyWsHandler.setPickType({
       lobbyId: gameId,
-      pickType: PickType.BlindPick,
+      pickType: pickType,
     });
     lobbyWsHandler.setNumberOfCharactersPerPlayer({
       lobbyId: gameId,
@@ -161,12 +195,12 @@ export default function InteractiveTestView() {
     lobbyWsHandler.setClockConfig({
       lobbyId: gameId,
       newConfig: {
-        initialTimeMillis: 99999999,
-        incrementMillis: 99999999,
-        maxBanTimeMillis: 99999999,
-        maxPickTimeMillis: 11000,
+        initialTimeMillis: 1000 * 60 * 60,
+        incrementMillis: 5000,
+        maxBanTimeMillis: 61000,
+        maxPickTimeMillis: 61000,
         timeAfterPickMillis: 10000,
-        timeForCharacterPlacing: 99999999,
+        timeForCharacterPlacing: 1000 * 60 * 60,
       },
     });
     lobbyWsHandler.startGame({ lobbyId: gameId });
@@ -179,6 +213,14 @@ export default function InteractiveTestView() {
     actAsTestUser1,
     actAsTestUser2,
   ]);
+
+  useEffect(() => {
+    if (!gameStarted) return;
+    if (!gameId) return;
+
+    nkmUnity1.loadGame(gameId);
+    nkmUnity2.loadGame(gameId);
+  }, [gameStarted]);
 
   if (!token1 || !token2) {
     return (
@@ -211,10 +253,27 @@ export default function InteractiveTestView() {
         </Grid>
         <Grid container spacing={2} p={1}>
           <Grid item xs={12} sm={6}>
-            <Button onClick={createBlindPlick}>Fast create blind pick</Button>
+            <Button onClick={createBlindPick}>Create blind pick</Button>
+            <Button onClick={createDraftPick}>Create draft pick</Button>
+            <Button onClick={createAllRandom}>Create all random</Button>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Button onClick={initUnityCreds}>
+              Initialize unity credentials
+            </Button>
           </Grid>
         </Grid>
       </Paper>
+      <Unity
+        unityProvider={nkmUnity1.unityContextHook.unityProvider}
+        style={{ width: 1024, height: 576 }}
+        key={nkmUnity1.unityKey}
+      />
+      <Unity
+        unityProvider={nkmUnity2.unityContextHook.unityProvider}
+        style={{ width: 1024, height: 576 }}
+        key={nkmUnity2.unityKey}
+      />
       {gameId ? (
         <LobbyView
           lobbyWsHook={lobbyWsHook}
