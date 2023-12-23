@@ -29,13 +29,19 @@ export default function GameDashboard({
       <Grid item xs={12} md={3}>
         <Paper variant="outlined" sx={{ p: 1, overflow: "auto", height: 600 }}>
           <Typography>Game log</Typography>
-          <GameEventsComponent eventViews={gameState.gameLog.events} />
+          <GameEventsComponent
+            eventViews={gameState.gameLog.events}
+            gameState={gameState}
+          />
         </Paper>
       </Grid>
       <Grid item xs={12} md={3}>
         <Paper variant="outlined" sx={{ p: 1, overflow: "auto", height: 600 }}>
           <Typography>Incoming events</Typography>
-          <GameEventsComponent eventViews={incomingEventViews} />
+          <GameEventsComponent
+            eventViews={incomingEventViews}
+            gameState={gameState}
+          />
         </Paper>
       </Grid>
       <Grid item xs={12} md={3}>

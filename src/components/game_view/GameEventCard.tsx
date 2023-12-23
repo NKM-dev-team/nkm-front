@@ -10,14 +10,21 @@ import { GameEventView } from "../../types/game/GameEventView";
 import { TitledPaper } from "../TitledPaper";
 import { InfoLabel } from "../InfoLabel";
 import IconButton from "@mui/material/IconButton";
+import { GameStateView } from "../../types/game/GameStateView";
+import GameEventImages from "./GameEventImages";
+import GameEventLabel from "./GameEventLabel";
 
 interface GameEventCardProps {
-  eventView: GameEventView;
+  gameEvent: GameEventView;
+  gameState: GameStateView;
 }
 
-export default function GameEventCard({ eventView }: GameEventCardProps) {
+export default function GameEventCard({
+  gameEvent,
+  gameState,
+}: GameEventCardProps) {
   const [open, setOpen] = React.useState(false);
-  const event = JSON.parse(eventView.eventJson);
+  const event = JSON.parse(gameEvent.eventJson);
   const eventData = (
     <Grid container flexDirection="column" overflow="auto">
       {Object.keys(event).map((key) => {
@@ -36,7 +43,7 @@ export default function GameEventCard({ eventView }: GameEventCardProps) {
     <>
       <Tooltip title={eventData} placement="right" arrow>
         <IconButton onClick={() => setOpen(true)}>
-          {eventView.className}
+          <GameEventLabel gameEvent={gameEvent} gameState={gameState} />
         </IconButton>
       </Tooltip>
       <Dialog
@@ -44,7 +51,7 @@ export default function GameEventCard({ eventView }: GameEventCardProps) {
         onClose={() => setOpen(false)}
         aria-labelledby="alert-dialog-title"
       >
-        <DialogTitle id="alert-dialog-title">{eventView.className}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{gameEvent.className}</DialogTitle>
         <DialogContent>{eventData}</DialogContent>
       </Dialog>
     </>

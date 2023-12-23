@@ -2,8 +2,10 @@ import React from "react";
 import { Grid, Tooltip, Typography } from "@mui/material";
 import AbilityImage from "../images/AbilityImage";
 import DOMPurify from "dompurify";
-import { abilityDescription } from "../../app/utils";
-import { AbilityMetadata } from "../../types/game/ability/AbilityMetadata";
+import {
+  abilityDescription,
+  AbilityMetadata,
+} from "../../types/game/ability/AbilityMetadata";
 
 export default function Ability({ am }: { am: AbilityMetadata }) {
   return (

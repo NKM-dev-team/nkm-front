@@ -7,10 +7,13 @@ import { createSelector } from "@reduxjs/toolkit";
 import { CharacterMetadata } from "../../types/game/character/CharacterMetadata";
 import CharacterStats from "./CharacterStats";
 import DOMPurify from "dompurify";
-import { abilityDescription } from "../../app/utils";
 import AbilityImage from "../images/AbilityImage";
 import Effect from "./Effect";
 import _ from "lodash";
+import {
+  abilityDescription,
+  AbilityMetadata,
+} from "../../types/game/ability/AbilityMetadata";
 
 interface DetailedCharacterInfoProps {
   c: CharacterMetadata;
@@ -61,7 +64,7 @@ export default function DetailedCharacterInfo({
             </Box>
           </Grid>
           <Grid item container justifyContent="center" spacing={1}>
-            {initialAbilityMetadatas.map((am) => (
+            {initialAbilityMetadatas.map((am: AbilityMetadata) => (
               <Grid item container key={am.name}>
                 <Grid item xs={12} sm={2}>
                   <AbilityImage name={am.name} width={50} />
