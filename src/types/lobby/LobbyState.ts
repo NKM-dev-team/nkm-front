@@ -1,5 +1,7 @@
 import { PickType } from "../game/PickType";
 import { ClockConfig } from "../game/ClockConfig";
+import { UserId } from "../typeAliases";
+import { NkmColor } from "../game/NkmColor";
 
 export interface LobbyState {
   id: string;
@@ -12,5 +14,6 @@ export interface LobbyState {
   numberOfCharactersPerPlayer: number;
   numberOfBans: number;
   clockConfig: ClockConfig;
+  playerColors: { [key: UserId]: NkmColor };
   gameStarted: boolean;
 }

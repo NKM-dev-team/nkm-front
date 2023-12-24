@@ -57,10 +57,12 @@ export default function LobbiesView({ lobbyWsHook }: LobbiesViewProps) {
 
   const lobbiesToDisplay = lobbiesState?.filter((f) => {
     if (!f.creationDate) return true;
-    return (
-      new Date().getTime() - new Date(f.creationDate).getTime() <
-      SHOW_LOBBIES_FRESHER_THAN + BACKEND_TIME_OFFSET
-    );
+    return true;
+    // TODO: add filtering
+    // return (
+    //   new Date().getTime() - new Date(f.creationDate).getTime() <
+    //   SHOW_LOBBIES_FRESHER_THAN + BACKEND_TIME_OFFSET
+    // );
   });
 
   useMountEffect(() => {
