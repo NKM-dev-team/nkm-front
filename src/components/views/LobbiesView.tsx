@@ -55,15 +55,22 @@ export default function LobbiesView({ lobbyWsHook }: LobbiesViewProps) {
     }
   }, [lastJsonMessage, lobbyWsHandler]);
 
-  const lobbiesToDisplay = lobbiesState?.filter((f) => {
-    if (!f.creationDate) return true;
-    return true;
-    // TODO: add filtering
-    // return (
-    //   new Date().getTime() - new Date(f.creationDate).getTime() <
-    //   SHOW_LOBBIES_FRESHER_THAN + BACKEND_TIME_OFFSET
-    // );
-  });
+  const lobbiesToDisplay = lobbiesState
+    ?.filter((f) => {
+      if (!f.creationDate) return true;
+      const match = f.creationDate.match(
+        /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}/
+      );
+      if (!match) return true;
+      const parsableDateString = match[0];
+      const creationDate = new Date(parsableDateString);
+      console.log(new Date().getTime() - creationDate.getTime());
+      return (
+        new Date().getTime() - creationDate.getTime() <
+        SHOW_LOBBIES_FRESHER_THAN + BACKEND_TIME_OFFSET
+      );
+    })
+    .reverse();
 
   useMountEffect(() => {
     lobbyWsHandler.getLobbies();
