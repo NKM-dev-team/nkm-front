@@ -28,8 +28,12 @@ export default function StatusView() {
     });
 
     axios.get(VERSION_URL_STABLE).then((res) => {
-      const version = res.data;
-      setStableServerVersion(version);
+      if (res.status == 200) {
+        const version = res.data;
+        setStableServerVersion(version);
+      } else {
+        setStableServerVersion("unavailable");
+      }
     });
 
     axios
