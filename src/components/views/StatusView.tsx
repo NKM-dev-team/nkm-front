@@ -15,8 +15,10 @@ import { useMountEffect } from "../../app/utils";
 export default function StatusView() {
   const versionData = useSelector((state: RootState) => state.versionData);
 
-  const [githubServerVersion, setGithubServerVersion] = useState("unknown");
-  const [stableServerVersion, setStableServerVersion] = useState("unknown");
+  const [githubServerVersion, setGithubServerVersion] =
+    useState<string>("unknown");
+  const [stableServerVersion, setStableServerVersion] =
+    useState<string>("unknown");
   const [serverRunning, setServerRunning] = useState<boolean | undefined>(
     undefined
   );
@@ -27,19 +29,24 @@ export default function StatusView() {
       setGithubServerVersion(version);
     });
 
-    axios.get(VERSION_URL_STABLE).then((res) => {
-      if (res.status == 200) {
-        const version = res.data;
-        setStableServerVersion(version);
-      } else {
-        setStableServerVersion("unavailable");
-      }
-    });
+    axios
+      .get(VERSION_URL_STABLE)
+      .then((res) => {
+        if (res.status === 200 && res.data.length === 40) {
+          const version = res.data;
+          setStableServerVersion(version);
+        } else {
+          console.error("stable version undefined");
+        }
+      })
+      .catch(() => {
+        console.error("stable version undefined");
+      });
 
     axios
       .get(VERSION_URL)
       .then((res) => {
-        setServerRunning(res.status === 200);
+        setServerRunning(res.status === 200 && res.data.length === 40);
       })
       .catch(() => {
         setServerRunning(false);
