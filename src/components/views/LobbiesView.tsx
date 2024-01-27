@@ -64,7 +64,6 @@ export default function LobbiesView({ lobbyWsHook }: LobbiesViewProps) {
       if (!match) return true;
       const parsableDateString = match[0];
       const creationDate = new Date(parsableDateString);
-      console.log(new Date().getTime() - creationDate.getTime());
       return (
         new Date().getTime() - creationDate.getTime() <
         SHOW_LOBBIES_FRESHER_THAN + BACKEND_TIME_OFFSET

@@ -9,7 +9,6 @@ import * as _ from "lodash";
 import { UseData } from "../types/game/ability/UseData";
 import { CharacterMetadata } from "../types/game/character/CharacterMetadata";
 import { AttackType } from "../types/game/character/AttackType";
-import { AbilityMetadata } from "../types/game/ability/AbilityMetadata";
 import { Clock } from "../types/game/Clock";
 import { CLOCK_UPDATE_INTERVAL } from "./consts";
 // eslint-disable-next-line react-hooks/exhaustive-deps

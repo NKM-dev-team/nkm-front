@@ -11,7 +11,6 @@ import { TitledPaper } from "../TitledPaper";
 import { InfoLabel } from "../InfoLabel";
 import IconButton from "@mui/material/IconButton";
 import { GameStateView } from "../../types/game/GameStateView";
-import GameEventImages from "./GameEventImages";
 import GameEventLabel from "./GameEventLabel";
 
 interface GameEventCardProps {

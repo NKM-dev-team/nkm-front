@@ -5,8 +5,6 @@ import React from "react";
 import CharacterHexagon from "../images/CharacterHexagon";
 import AbilityImage from "../images/AbilityImage";
 import CharacterEffectImage from "../images/CharacterEffectImage";
-import { useSelector } from "react-redux";
-import { RootState } from "../../app/store";
 import { CharacterEffectType } from "../../types/game/character_effect/CharacterEffectType";
 
 interface GameEventImagesProps {
@@ -21,13 +19,13 @@ export default function GameEventImages({
   const event = JSON.parse(gameEvent.eventJson);
   const images = [];
 
-  if (gameEvent.className == "ClockUpdated") {
+  if (gameEvent.className === "ClockUpdated") {
     images.push(<AccessTimeIcon key="clock" />);
   }
 
   if (event.characterId) {
     const characterView = gameState.characters.find(
-      (c) => c.id == event.characterId
+      (c) => c.id === event.characterId
     );
     if (characterView) {
       images.push(
@@ -42,7 +40,7 @@ export default function GameEventImages({
 
   if (event.abilityId) {
     const abilityView = gameState.abilities.find(
-      (a) => a.id == event.abilityId
+      (a) => a.id === event.abilityId
     );
     if (abilityView) {
       images.push(
@@ -56,7 +54,7 @@ export default function GameEventImages({
   }
 
   if (event.effectId) {
-    const effectView = gameState.effects.find((e) => e.id == event.effectId);
+    const effectView = gameState.effects.find((e) => e.id === event.effectId);
 
     if (effectView) {
       images.push(

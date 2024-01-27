@@ -79,9 +79,10 @@ export const postBugReportCreate =
 
 export interface BugReport {
   id: string;
-  creationDate: string;
-  description: string;
   creatorIdOpt: UserId | null;
+  description: string;
+  gameId: GameId | null;
+  creationDate: string;
   resolved: boolean;
 }
 
