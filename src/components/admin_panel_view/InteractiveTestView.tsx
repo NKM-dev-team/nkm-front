@@ -13,7 +13,6 @@ import { AuthState, RequestStatus } from "../../types/authState";
 import LobbyView from "../views/LobbyView";
 import GameView from "../views/GameView";
 import useNkmUnity from "../../app/useNkmUnity";
-import { Unity } from "react-unity-webgl";
 
 export default function InteractiveTestView() {
   const dispatch = useDispatch();
@@ -264,16 +263,8 @@ export default function InteractiveTestView() {
           </Grid>
         </Grid>
       </Paper>
-      <Unity
-        unityProvider={nkmUnity1.unityContextHook.unityProvider}
-        style={{ width: 1024, height: 576 }}
-        key={nkmUnity1.unityKey}
-      />
-      <Unity
-        unityProvider={nkmUnity2.unityContextHook.unityProvider}
-        style={{ width: 1024, height: 576 }}
-        key={nkmUnity2.unityKey}
-      />
+      {nkmUnity1.renderUnityComponent()}
+      {nkmUnity2.renderUnityComponent()}
       {gameId ? (
         <LobbyView
           lobbyWsHook={lobbyWsHook}
