@@ -11,6 +11,7 @@ import charactersReducer from "../features/charactersSlice";
 import hexMapReducer from "../features/hexMapSlice";
 import notificationReducer from "../features/notificationSlice";
 import versionReducer from "../features/versionSlice";
+import settingsReducer from "../features/settingsSlice";
 import storage from "redux-persist/lib/storage";
 import persistCombineReducers from "redux-persist/es/persistCombineReducers";
 import {
@@ -36,6 +37,7 @@ const persistedRootReducer = persistCombineReducers(persistConfig, {
   hexMapData: hexMapReducer,
   notificationData: notificationReducer,
   versionData: versionReducer,
+  settingsData: settingsReducer,
 });
 
 export const store = configureStore({

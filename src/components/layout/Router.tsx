@@ -14,6 +14,7 @@ import AdminPanelView from "../views/AdminPanelView";
 import LobbyViewParam from "../views/LobbyViewParam";
 import GameViewParam from "../views/GameViewParam";
 import ReleaseView from "../views/ReleaseView";
+import SettingsView from "../views/SettingsView";
 
 interface RouterProps {
   lobbyWsHook: WebSocketHook;
@@ -58,6 +59,10 @@ function Router({
     //   path: Routes.USER,
     //   component: authData.email ? <Profile /> : <Redirect to="/" />,
     // },
+    {
+      path: Routes.SETTINGS,
+      component: <SettingsView />,
+    },
     {
       path: Routes.ADMIN,
       component: authData.userState?.isAdmin ? (

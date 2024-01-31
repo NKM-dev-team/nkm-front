@@ -4,17 +4,14 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import axios from "axios";
 import {
-  GET_GAME_STATE_URL,
-  GET_LOBBIES_URL,
-  GET_LOBBY_URL,
   GITHUB_SERVER_COMMIT_URL,
   GITHUB_SERVER_COMMITS_URL,
   GITHUB_SERVER_MASTER_HEAD_URL,
-  VERSION_URL,
-  VERSION_URL_STABLE,
 } from "../../app/consts";
 import { useMountEffect } from "../../app/utils";
 import { LobbyState } from "../../types/lobby/LobbyState";
+import { getNkmApi, useNkmApi } from "../../app/useNkmApi";
+import { ApiVersion } from "../../features/settingsSlice";
 
 interface HealthCheckBoxProps {
   label: string;
@@ -38,6 +35,7 @@ function HealthCheckBox({ label, backgroundColor }: HealthCheckBoxProps) {
 
 export default function StatusView() {
   const versionData = useSelector((state: RootState) => state.versionData);
+  const nkmApi = useNkmApi();
 
   const [githubServerVersion, setGithubServerVersion] =
     useState<string>("unknown");
@@ -63,7 +61,7 @@ export default function StatusView() {
   useEffect(() => {
     if (someGameId === undefined) return;
     axios
-      .get(GET_LOBBY_URL(someGameId))
+      .get(nkmApi.GET_LOBBY_URL(someGameId))
       .then((res) => {
         if (res.status === 200) {
           setGetLobbyStateRunning(true);
@@ -74,7 +72,7 @@ export default function StatusView() {
       });
 
     axios
-      .get(GET_GAME_STATE_URL(someGameId))
+      .get(nkmApi.GET_GAME_STATE_URL(someGameId))
       .then((res) => {
         if (res.status === 200) {
           setGetGameStateRunning(true);
@@ -87,7 +85,7 @@ export default function StatusView() {
 
   useMountEffect(() => {
     axios
-      .get(GET_LOBBIES_URL)
+      .get(nkmApi.GET_LOBBIES_URL)
       .then((res) => {
         if (res.status === 200) {
           const lobbies: LobbyState[] = res.data;
@@ -108,7 +106,7 @@ export default function StatusView() {
     });
 
     axios
-      .get(VERSION_URL_STABLE)
+      .get(getNkmApi(ApiVersion.Stable).VERSION_URL)
       .then((res) => {
         if (res.status === 200 && res.data.length === 40) {
           const version = res.data;
@@ -122,7 +120,7 @@ export default function StatusView() {
       });
 
     axios
-      .get(VERSION_URL)
+      .get(nkmApi.VERSION_URL)
       .then((res) => {
         setServerRunning(res.status === 200 && res.data.length === 40);
       })
@@ -149,7 +147,7 @@ export default function StatusView() {
         <Typography>Health check:</Typography>
         <Grid container justifyContent="center" spacing={2} p={1}>
           <HealthCheckBox
-            label="Server status (latest)"
+            label="Server status"
             backgroundColor={statusToColor(serverRunning)}
           />
           <HealthCheckBox

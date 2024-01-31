@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { NavLink } from "react-router-dom";
-import { Grid, Menu, MenuItem } from "@mui/material";
+import { Chip, Grid, Menu, MenuItem, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import { authLogout } from "../../features/authSlice";
@@ -32,6 +32,9 @@ export default function Navbar({
   setDrawerOpen,
 }: NavbarProps) {
   const authData = useSelector((state: RootState) => state.authData);
+  const apiVersion = useSelector(
+    (state: RootState) => state.settingsData.apiVersion
+  );
   const dispatch = useDispatch();
 
   const [loginViewOpen, setLoginViewOpen] = React.useState(false);
@@ -73,6 +76,9 @@ export default function Navbar({
               />
             </Grid>
           </NavLink>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            <Chip label={`API Version: ${apiVersion}`} size="small" />
+          </Typography>
           <WebsocketStatusIcon
             wsName={"Lobby"}
             wsHook={lobbyWsHook}

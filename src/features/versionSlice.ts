@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import { AppThunk } from "../app/store";
-import { VERSION_URL } from "../app/consts";
+import { AppThunk, RootState } from "../app/store";
 import {
   enqueueNotificationError,
   enqueueNotificationInfo,
@@ -11,6 +10,7 @@ import { getMapsAll } from "./hexMapSlice";
 import { getCharacterMetadataAll } from "./charactersSlice";
 import { getAbilityMetadatas } from "./abilitiesSlice";
 import { getCharacterEffectMetadatas } from "./characterEffectsSlice";
+import { getNkmApi } from "../app/useNkmApi";
 
 interface VersionState {
   version: string;
@@ -34,6 +34,9 @@ export const { updateVersion } = versionSlice.actions;
 
 export const updateVersionIfNewer =
   (): AppThunk => async (dispatch, getState) => {
+    const state: RootState = getState();
+    const { VERSION_URL } = getNkmApi(state.settingsData.apiVersion);
+
     try {
       const result = await axios.get(VERSION_URL);
       const newVersion = result.data;

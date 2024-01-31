@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import { AppThunk } from "../app/store";
-import { MAPS_API_URL } from "../app/consts";
+import { AppThunk, RootState } from "../app/store";
 import { enqueueNotificationError } from "./notificationSlice";
 import { HexMapTemplate } from "../types/game/hex/HexMapTemplate";
+import { getNkmApi } from "../app/useNkmApi";
 
 interface HexMapState {
   initialized: boolean;
@@ -28,7 +28,10 @@ export const hexMapSlice = createSlice({
 
 export const { setHexMapList } = hexMapSlice.actions;
 
-export const getMapsAll = (): AppThunk => async (dispatch) => {
+export const getMapsAll = (): AppThunk => async (dispatch, getState) => {
+  const state: RootState = getState();
+  const { MAPS_API_URL } = getNkmApi(state.settingsData.apiVersion);
+
   try {
     const result = await axios.get(MAPS_API_URL);
     if (Array.isArray(result.data)) {

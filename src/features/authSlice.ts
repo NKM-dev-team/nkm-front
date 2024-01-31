@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import { AppThunk } from "../app/store";
-import { LOGIN_URL, OAUTH_GOOGLE_LOGIN_URL, REGISTER_URL } from "../app/consts";
+import { AppThunk, RootState } from "../app/store";
 import { Credentials } from "../types/Credentials";
 import { AuthState, RequestStatus } from "../types/authState";
 import {
@@ -9,6 +8,7 @@ import {
   enqueueNotificationSuccess,
 } from "./notificationSlice";
 import { RegisterRequest } from "../types/RegisterRequest";
+import { getNkmApi } from "../app/useNkmApi";
 
 const initialState: AuthState = {
   token: null,
@@ -56,7 +56,10 @@ export const {
 
 export const authenticate =
   ({ email, password }: Credentials): AppThunk =>
-  async (dispatch) => {
+  async (dispatch, getState) => {
+    const state: RootState = getState();
+    const { LOGIN_URL } = getNkmApi(state.settingsData.apiVersion);
+
     dispatch(awaitLoginRequest());
 
     axios
@@ -89,7 +92,10 @@ export const authenticate =
 
 export const authenticateOauthGoogle =
   (email: string, googleCredential: string): AppThunk =>
-  async (dispatch) => {
+  async (dispatch, getState) => {
+    const state: RootState = getState();
+    const { OAUTH_GOOGLE_LOGIN_URL } = getNkmApi(state.settingsData.apiVersion);
+
     dispatch(awaitLoginRequest());
     axios
       .post(OAUTH_GOOGLE_LOGIN_URL, googleCredential)
@@ -112,7 +118,9 @@ export const authenticateOauthGoogle =
 
 export const registerUser =
   (registerRequest: RegisterRequest): AppThunk =>
-  async (dispatch) => {
+  async (dispatch, getState) => {
+    const state: RootState = getState();
+    const { REGISTER_URL } = getNkmApi(state.settingsData.apiVersion);
     dispatch(awaitRegisterRequest());
     axios
       .post(REGISTER_URL, registerRequest)

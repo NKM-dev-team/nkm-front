@@ -7,6 +7,7 @@ export enum Routes {
   ADMIN = "/admin",
   RELEASE = "/release",
   // USER = "/user",
+  SETTINGS = "/settings",
   LOBBY = "/lobby/:id",
   GAME = "/game/:id",
 }

@@ -7,14 +7,15 @@ import { LobbyWsHandler } from "../../app/lobbyWsHandler";
 import { useMountEffect } from "../../app/utils";
 import { RootState } from "../../app/store";
 import useWebSocket from "react-use-websocket";
-import { WS_LOBBY_URL } from "../../app/consts";
+import { useNkmApi } from "../../app/useNkmApi";
 
 function CreateLobbyForm() {
   const { register, handleSubmit, errors } = useForm();
   const dispatch = useDispatch();
   const authData = useSelector((state: RootState) => state.authData);
+  const nkmApi = useNkmApi();
 
-  const lobbyWsHook = useWebSocket(WS_LOBBY_URL);
+  const lobbyWsHook = useWebSocket(nkmApi.WS_LOBBY_URL);
 
   const { sendJsonMessage } = lobbyWsHook;
 

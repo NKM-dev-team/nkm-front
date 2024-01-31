@@ -6,6 +6,7 @@ export const MAIN_ROUTE_MAP = [
   ["Maps", Routes.HEXMAPS],
   ["Characters", Routes.CHARACTERS],
   ["Lobbies", Routes.LOBBIES],
+  ["Settings", Routes.SETTINGS],
 ];
 
 // export const NOT_LOGGED_IN_ROUTE_MAP = []; //[["Register", Routes.REGISTER]];

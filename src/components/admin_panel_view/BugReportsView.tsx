@@ -7,26 +7,28 @@ import {
   Switch,
   Tooltip,
 } from "@mui/material";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useMountEffect } from "../../app/utils";
 import { BugReport, fetchBugReports } from "../../features/helper";
 import { AuthState } from "../../types/authState";
 import BugReportCard from "./BugReportCard";
 import CachedIcon from "@mui/icons-material/Cached";
 import IconButton from "@mui/material/IconButton";
+import { RootState } from "../../app/store";
 
 export interface BugReportsViewProps {
   authState: AuthState;
 }
 
 export default function BugReportsView({ authState }: BugReportsViewProps) {
+  const rootState = useSelector((state: RootState) => state);
   const dispatch = useDispatch();
   const [bugReports, setBugReports] = useState<BugReport[]>([]);
   const [showResolved, setShowResolved] = useState<boolean>(false);
   const [autoRefresh, setAutoRefresh] = useState<boolean>(true);
 
   const refresh = (): void => {
-    fetchBugReports(authState, dispatch).then(setBugReports).catch();
+    fetchBugReports(rootState, dispatch).then(setBugReports).catch();
   };
 
   useMountEffect(refresh);
@@ -95,7 +97,7 @@ export default function BugReportsView({ authState }: BugReportsViewProps) {
           return (
             <ListItem key={b.id}>
               <BugReportCard
-                authState={authState}
+                rootState={rootState}
                 bugReport={b}
                 afterBugReportUpdate={afterBugReportUpdate}
               />

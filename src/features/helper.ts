@@ -1,18 +1,13 @@
 import { Action, ThunkDispatch } from "@reduxjs/toolkit";
-import { AppThunk } from "../app/store";
+import { AppThunk, RootState } from "../app/store";
 import axios from "axios";
-import {
-  CREATE_BUG_REPORT_URL,
-  FETCH_BUG_REPORT_URL,
-  SET_RESOLVED_BUG_REPORT_URL,
-} from "../app/consts";
 import { BugReportId, GameId, UserId } from "../types/typeAliases";
 import {
   enqueueNotificationError,
   enqueueNotificationSuccess,
 } from "./notificationSlice";
-import { AuthState } from "../types/authState";
 import { Dispatch } from "react";
+import { getNkmApi } from "../app/useNkmApi";
 
 export const postLoggedInData =
   (
@@ -43,7 +38,10 @@ export const postLoggedInData =
 export const postBugReportCreate =
   (description: string, gameId: GameId | null): AppThunk =>
   async (dispatch, getState) => {
-    const isLoggedIn = getState().authData.token !== null;
+    const state: RootState = getState();
+    const { CREATE_BUG_REPORT_URL } = getNkmApi(state.settingsData.apiVersion);
+
+    const isLoggedIn = state.authData.token !== null;
 
     const config = isLoggedIn
       ? {
@@ -87,15 +85,17 @@ export interface BugReport {
 }
 
 export const fetchBugReports = async (
-  authState: AuthState,
+  state: RootState,
   dispatch: Dispatch<any>
 ): Promise<BugReport[]> => {
-  const isLoggedIn = authState.token !== null;
+  const { FETCH_BUG_REPORT_URL } = getNkmApi(state.settingsData.apiVersion);
+
+  const isLoggedIn = state.authData.token !== null;
 
   const config = isLoggedIn
     ? {
         headers: {
-          Authorization: "Bearer " + authState.token,
+          Authorization: "Bearer " + state.authData.token,
         },
       }
     : {};
@@ -117,17 +117,21 @@ export const fetchBugReports = async (
 };
 
 export const setBugReportResolved = async (
-  authState: AuthState,
+  state: RootState,
   dispatch: Dispatch<any>,
   id: BugReportId,
   resolved: boolean
 ): Promise<void> => {
-  const isLoggedIn = authState.token !== null;
+  const { SET_RESOLVED_BUG_REPORT_URL } = getNkmApi(
+    state.settingsData.apiVersion
+  );
+
+  const isLoggedIn = state.authData.token !== null;
 
   const config = isLoggedIn
     ? {
         headers: {
-          Authorization: "Bearer " + authState.token,
+          Authorization: "Bearer " + state.authData.token,
         },
       }
     : {};

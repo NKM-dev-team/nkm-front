@@ -11,17 +11,17 @@ import React, { useState } from "react";
 import { BugReport, setBugReportResolved } from "../../features/helper";
 import DOMPurify from "dompurify";
 import { useDispatch } from "react-redux";
-import { AuthState } from "../../types/authState";
 import { useClipboard } from "use-clipboard-copy";
+import { RootState } from "../../app/store";
 
 interface BugReportCardProps {
-  authState: AuthState;
+  rootState: RootState;
   bugReport: BugReport;
   afterBugReportUpdate: () => void;
 }
 
 export default function BugReportCard({
-  authState,
+  rootState,
   bugReport,
   afterBugReportUpdate,
 }: BugReportCardProps) {
@@ -36,7 +36,7 @@ export default function BugReportCard({
   };
 
   const handleChange = () => {
-    setBugReportResolved(authState, dispatch, bugReport.id, !checked)
+    setBugReportResolved(rootState, dispatch, bugReport.id, !checked)
       .then(() => {
         setChecked(!checked);
         afterBugReportUpdate();

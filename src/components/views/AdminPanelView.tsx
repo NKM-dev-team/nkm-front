@@ -19,8 +19,8 @@ export default function AdminPanelView() {
             setSelectedTab(newValue);
           }}
         >
-          <Tab label="Interactive test view" />
           <Tab label="Bug reports" />
+          <Tab label="Interactive test view" />
         </Tabs>
       </Box>
       <TabPanel value={selectedTab} index={0}>

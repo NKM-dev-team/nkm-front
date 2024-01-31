@@ -2,15 +2,16 @@ import Router from "./components/layout/Router";
 import BackgroundService from "./components/services/BackgroundService";
 import React, { useState } from "react";
 import useWebSocket from "react-use-websocket";
-import { WS_GAME_URL, WS_LOBBY_URL } from "./app/consts";
+import { useNkmApi } from "./app/useNkmApi";
 
 export default function App() {
+  const nkmApi = useNkmApi();
   const [connectLobby, setConnectLobby] = useState(true);
   const [connectGame, setConnectGame] = useState(true);
 
-  const lobbyWsHook = useWebSocket(WS_LOBBY_URL, {}, connectLobby);
+  const lobbyWsHook = useWebSocket(nkmApi.WS_LOBBY_URL, {}, connectLobby);
 
-  const gameWsHook = useWebSocket(WS_GAME_URL, {}, connectGame);
+  const gameWsHook = useWebSocket(nkmApi.WS_GAME_URL, {}, connectGame);
 
   const refreshLobbyWsConnection = () => {
     setConnectLobby(false);

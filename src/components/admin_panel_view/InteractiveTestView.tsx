@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux";
 import { LobbyWsHandler } from "../../app/lobbyWsHandler";
 import { useMountEffect } from "../../app/utils";
 import axios from "axios";
-import { LOGIN_URL, WS_GAME_URL, WS_LOBBY_URL } from "../../app/consts";
 import { LobbyResponseType } from "../../types/lobby/ws/LobbyResponseType";
 import useWebSocket from "react-use-websocket";
 import { PickType } from "../../types/game/PickType";
@@ -13,13 +12,16 @@ import { AuthState, RequestStatus } from "../../types/authState";
 import LobbyView from "../views/LobbyView";
 import GameView from "../views/GameView";
 import useNkmUnity from "../../app/useNkmUnity";
+import { useNkmApi } from "../../app/useNkmApi";
 
 export default function InteractiveTestView() {
   const dispatch = useDispatch();
 
+  const nkmApi = useNkmApi();
+
   // create new hooks, so we don't interfere with shared hook auth
-  const lobbyWsHook = useWebSocket(WS_LOBBY_URL);
-  const gameWsHook = useWebSocket(WS_GAME_URL);
+  const lobbyWsHook = useWebSocket(nkmApi.WS_LOBBY_URL);
+  const gameWsHook = useWebSocket(nkmApi.WS_GAME_URL);
 
   const [authState1, setAuthState1] = useState<AuthState>({
     token: null,
@@ -88,7 +90,7 @@ export default function InteractiveTestView() {
 
   useMountEffect(() => {
     axios
-      .post(LOGIN_URL, {
+      .post(nkmApi.LOGIN_URL, {
         email: "test1@example.com",
         password: "test",
       })
@@ -99,7 +101,7 @@ export default function InteractiveTestView() {
       });
 
     axios
-      .post(LOGIN_URL, {
+      .post(nkmApi.LOGIN_URL, {
         email: "test2@example.com",
         password: "test",
       })
