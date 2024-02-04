@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Alert, Button, Grid, Paper, Typography } from "@mui/material";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { LobbyWsHandler } from "../../app/lobbyWsHandler";
 import { useMountEffect } from "../../app/utils";
 import axios from "axios";
@@ -13,9 +13,14 @@ import LobbyView from "../views/LobbyView";
 import GameView from "../views/GameView";
 import useNkmUnity from "../../app/useNkmUnity";
 import { useNkmApi } from "../../app/useNkmApi";
+import { RootState } from "../../app/store";
 
 export default function InteractiveTestView() {
   const dispatch = useDispatch();
+
+  const apiVersion = useSelector(
+    (state: RootState) => state.settingsData.apiVersion
+  );
 
   const nkmApi = useNkmApi();
 
@@ -115,9 +120,13 @@ export default function InteractiveTestView() {
   const token1 = authState1.token;
   const token2 = authState2.token;
 
-  const initUnityCreds = () => {
+  const initUnityCredsAndApiVersion = () => {
     if (!authState1.token || !authState1.userState) return;
     if (!authState2.token || !authState2.userState) return;
+
+    nkmUnity1.changeApi(apiVersion);
+    nkmUnity2.changeApi(apiVersion);
+
     nkmUnity1.login({
       token: authState1.token,
       userState: authState1.userState,
@@ -168,7 +177,7 @@ export default function InteractiveTestView() {
     setGameStarted(false);
     setPickType(pickType);
 
-    initUnityCreds();
+    initUnityCredsAndApiVersion();
 
     actAsTestUser1();
     lobbyWsHandler.create({ name: "Auto created test game from Admin panel" });
@@ -259,7 +268,7 @@ export default function InteractiveTestView() {
             <Button onClick={createAllRandom}>Create all random</Button>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Button onClick={initUnityCreds}>
+            <Button onClick={initUnityCredsAndApiVersion}>
               Initialize unity credentials
             </Button>
           </Grid>

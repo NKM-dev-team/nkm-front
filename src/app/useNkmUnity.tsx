@@ -5,6 +5,7 @@ import { GameId } from "../types/typeAliases";
 import { random } from "lodash";
 import { Box, CircularProgress, IconButton, Typography } from "@mui/material";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
+import { ApiVersion } from "../features/settingsSlice";
 
 export default function useNkmUnity() {
   const buildFolder = "unity_build";
@@ -46,6 +47,10 @@ export default function useNkmUnity() {
       "LoadGame",
       gameId
     );
+  };
+
+  const changeApi = (api: ApiVersion) => {
+    unityContextHook.sendMessage(webglInteropGameObjectName, "ChangeApi", api);
   };
 
   const renderUnityComponent = () => (
@@ -116,6 +121,7 @@ export default function useNkmUnity() {
     quitUnity,
     login,
     loadGame,
+    changeApi,
     renderUnityComponent,
   };
 }
