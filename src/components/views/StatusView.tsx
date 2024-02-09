@@ -3,15 +3,12 @@ import { Box, Grid, Link, Paper, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import axios from "axios";
-import {
-  GITHUB_SERVER_COMMIT_URL,
-  GITHUB_SERVER_COMMITS_URL,
-  GITHUB_SERVER_MASTER_HEAD_URL,
-} from "../../app/consts";
+import { GITHUB_SERVER_COMMIT_URL } from "../../app/consts";
 import { useMountEffect } from "../../app/utils";
 import { LobbyState } from "../../types/lobby/LobbyState";
 import { getNkmApi, useNkmApi } from "../../app/useNkmApi";
 import { ApiVersion } from "../../features/settingsSlice";
+import LastCommitInfo from "../status_view/LastCommitInfo";
 
 interface HealthCheckBoxProps {
   label: string;
@@ -37,8 +34,6 @@ export default function StatusView() {
   const versionData = useSelector((state: RootState) => state.versionData);
   const nkmApi = useNkmApi();
 
-  const [githubServerVersion, setGithubServerVersion] =
-    useState<string>("unknown");
   const [stableServerVersion, setStableServerVersion] =
     useState<string>("unknown");
   const [serverRunning, setServerRunning] = useState<boolean | undefined>(
@@ -100,11 +95,6 @@ export default function StatusView() {
         setGetLobbiesRunning(false);
       });
 
-    axios.get(GITHUB_SERVER_MASTER_HEAD_URL).then((res) => {
-      const version = res.data.object.sha;
-      setGithubServerVersion(version);
-    });
-
     axios
       .get(getNkmApi(ApiVersion.Stable).VERSION_URL)
       .then((res) => {
@@ -129,6 +119,12 @@ export default function StatusView() {
         setServerRunning(false);
       });
   });
+
+  const repositories = [
+    { owner: "nkm-game", repo: "nkm-server", mainBranch: "master" },
+    { owner: "nkm-game", repo: "nkm-front", mainBranch: "typescript" },
+    { owner: "nkm-game", repo: "nkm-unity-front", mainBranch: "master" },
+  ];
 
   const statusToColor = (status: boolean | undefined) => {
     switch (status) {
@@ -163,7 +159,7 @@ export default function StatusView() {
             backgroundColor={statusToColor(getGameStateRunning)}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} p={1}>
           {versionData.version ? (
             <>
               <Typography>Detected version on the server (latest):</Typography>
@@ -180,7 +176,7 @@ export default function StatusView() {
             <Typography>"Error with version detection."</Typography>
           )}
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} p={1}>
           <Typography>Detected version on the server (stable):</Typography>
           <Paper sx={{ p: 2 }}>
             <Link
@@ -191,26 +187,17 @@ export default function StatusView() {
             </Link>
           </Paper>
         </Grid>
-        <Grid item xs={12}>
-          <Typography>Latest version on github:</Typography>
-          <Paper sx={{ p: 2 }}>
-            <Link
-              target="_blank"
-              href={GITHUB_SERVER_COMMIT_URL(githubServerVersion)}
-            >
-              {githubServerVersion.substring(0, 10)}
-            </Link>
-          </Paper>
-        </Grid>
-        <Grid item xs={12}>
-          <Typography>
-            <>
-              You can view all of the commits here:{" "}
-              <Link target="_blank" href={GITHUB_SERVER_COMMITS_URL}>
-                {GITHUB_SERVER_COMMITS_URL}
-              </Link>
-            </>
-          </Typography>
+        <Typography>Latest commit by repository:</Typography>
+        <Grid container spacing={2} p={1}>
+          {repositories.map(({ owner, repo, mainBranch }) => (
+            <Grid item lg={4} md={6} xs={12} key={repo}>
+              <LastCommitInfo
+                owner={owner}
+                repo={repo}
+                mainBranch={mainBranch}
+              />
+            </Grid>
+          ))}
         </Grid>
       </Grid>
     </Paper>
