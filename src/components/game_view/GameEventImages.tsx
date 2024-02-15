@@ -31,7 +31,7 @@ export default function GameEventImages({
       images.push(
         <CharacterHexagon
           key={`character-${characterView.id}`}
-          name={characterView.state.name}
+          name={characterView.state?.name || characterView.metadataId}
           width={20}
         />
       );
