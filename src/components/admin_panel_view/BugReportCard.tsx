@@ -11,8 +11,8 @@ import React, { useState } from "react";
 import { BugReport, setBugReportResolved } from "../../features/helper";
 import DOMPurify from "dompurify";
 import { useDispatch } from "react-redux";
-import { useClipboard } from "use-clipboard-copy";
 import { RootState } from "../../app/store";
+import { useHistory } from "react-router-dom";
 
 interface BugReportCardProps {
   rootState: RootState;
@@ -27,11 +27,11 @@ export default function BugReportCard({
 }: BugReportCardProps) {
   const [checked, setChecked] = useState<boolean>(bugReport.resolved);
   const dispatch = useDispatch();
-  const clipboard = useClipboard();
+  const history = useHistory();
 
   const handleGameIdClick = () => {
     if (bugReport.gameId) {
-      clipboard.copy(bugReport.gameId);
+      history.push(`/game/${bugReport.gameId}`);
     }
   };
 
@@ -49,7 +49,7 @@ export default function BugReportCard({
         <Card variant="outlined">
           <CardContent>
             <Typography>{bugReport.creatorIdOpt ?? "Anonymous"}</Typography>
-            <Tooltip title="Click to copy Game ID" placement="top">
+            <Tooltip title="Go to the game" placement="top">
               <Typography
                 color="textSecondary"
                 style={{
