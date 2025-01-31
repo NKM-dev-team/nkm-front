@@ -9,7 +9,7 @@ services:
       - default
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.nkm-front.rule=Host(`nkm.krzysztofruczkowski.pl)`"
+      - "traefik.http.routers.nkm-front.rule=Host(`nkm.krzysztofruczkowski.pl`)"
       - "traefik.http.routers.nkm-front.tls=true"
       - "traefik.http.routers.nkm-front.tls.certresolver=myresolver"
       - "traefik.http.services.nkm-front.loadbalancer.server.port=80"
