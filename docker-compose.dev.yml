@@ -1,7 +1,6 @@
-version: "3.7"
 services:
   nkm-front-dev:
-    restart: always
+    restart: unless-stopped
     build: .
     ports:
       - "80:80"

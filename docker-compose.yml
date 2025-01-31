@@ -10,9 +10,7 @@ services:
       - default
     labels:
       - "traefik.enable=true"
-      - "traefik.http.middlewares.nkm-front-stripprefix.stripPrefix.prefixes=/nkm-front"
-      - "traefik.http.routers.nkm-front.rule=((Host(`krzysztofruczkowski.pl`) || Host(`www.krzysztofruczkowski.pl`)) && PathPrefix(`/nkm-front/`))"
-      - "traefik.http.routers.nkm-front.middlewares=nkm-front-stripprefix"
+      - "traefik.http.routers.nkm-front.rule=Host(`nkm.krzysztofruczkowski.pl)`"
       - "traefik.http.routers.nkm-front.tls=true"
       - "traefik.http.routers.nkm-front.tls.certresolver=myresolver"
       - "traefik.http.services.nkm-front.loadbalancer.server.port=80"
